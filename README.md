@@ -2,6 +2,8 @@
 
 A home for interactive character and animation studies designed to read on a round display.
 
+![The AI Avatars gallery listing Open Skeleton, Fragment, Third Eye and Dot flock](docs/screenshots/gallery.webp)
+
 ## Run the gallery
 
 ```sh
@@ -25,6 +27,16 @@ Open **http://127.0.0.1:4173**. Node.js 20 or newer is required. The gallery has
 - **[Oracle](characters/oracle/README.md):** a three-eyed white statue with 34 expression, assistant, and clock modes with a separate emotion layer. Shimmering stars change into hearts, crescents, diamonds, pulses, and orbiting lights. Includes artwork, a character manifest, and generation provenance.
 
 The procedural studies are original browser-rendered concepts based on supplied visual references. Open Skeleton preserves its generated keyframe clips and adds nine locally articulated activities using the original face artwork. Fragment and Third Eye include synthetic voice playback; their demo mouth motion follows audio amplitude and custom phrases use approximate speech timing. Shape companions animate their original artwork locally and preserve the original idle exports. Other studies simulate talking. The studies are not connected to a microphone, an agent, or physical hardware. Reduced-motion settings start the previews paused.
+
+## Screenshots
+
+![Dot flock and Red eye studio with character, activity, emotion and reaction controls](docs/screenshots/dot-flock.webp)
+
+Dot flock in the Dot flock & Red eye studio.
+
+![Open Skeleton animation gallery with activity and emotion selectors](docs/screenshots/open-skeleton.webp)
+
+Open Skeleton gallery, shown with reduced motion (still pose).
 
 ## Abstract character families
 
@@ -54,7 +66,7 @@ npx playwright install chromium
 npm test
 ```
 
-The smoke checks exercise gallery links, graphics initialization, state and emotion performances, animation playback, interruption and return, local preferences, reduced motion, narrow-screen layout, photographic pupil confinement, and explicit voice playback. `npm run check` verifies current portable generated previews.
+The smoke checks exercise gallery links, graphics initialization, state and emotion performances, animation playback, interruption and return, local preferences, reduced motion, narrow-screen layout, photographic pupil confinement, and explicit voice playback. `npm run check` verifies current portable generated previews. `npm run test:media` checks the Open Skeleton clip files and `npm run test:shape` checks the shape companion performances; both run without a browser.
 
 ## Add characters
 
