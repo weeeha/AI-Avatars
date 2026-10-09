@@ -1,0 +1,918 @@
+{
+  "coverage": [
+    {
+      "character": "triangle",
+      "state": "happy",
+      "first": "1c018a6d91ac30d35995632a748abfc3a744a3a453e5631e4e3088675b8c287b",
+      "second": "18204f606d4f80d182bc2e338a476964c954e4a8542e281176fdf56f63d8eb3c",
+      "visibleMotion": true
+    },
+    {
+      "character": "triangle",
+      "state": "curious",
+      "first": "a2f2dd76ae4999d0d645acca4f5d4505d8b6997c7a2e22c7d208ac5a35c6971a",
+      "second": "bf453a0829b145559d9aebde7bfac394a68a1ec132f261f0d92b103284d9129f",
+      "visibleMotion": true
+    },
+    {
+      "character": "triangle",
+      "state": "surprised",
+      "first": "abb21ea14a29182c07363bf1be0dc413398e4178cf09673424a260df87edcbc9",
+      "second": "49b4c3140eac96dcf9b59b6768679fa643d0648b076f120122bb43117453736a",
+      "visibleMotion": true
+    },
+    {
+      "character": "triangle",
+      "state": "confused",
+      "first": "59127405ce3458f190f520720f6dae821deceb902837e37d651f3d7cf75eb9b8",
+      "second": "c6477f3fcaa450ba8d7135692a8edf5fa09d648be811f4881563eb980e800bbd",
+      "visibleMotion": true
+    },
+    {
+      "character": "triangle",
+      "state": "concerned",
+      "first": "4f149302478ad1f33516f4768156930f96479feeca11bf082b2aaf1664e98c7b",
+      "second": "9349908b521998878dbb31ad1c435e8bf6211c62f83c79864c22c7dc79eddc17",
+      "visibleMotion": true
+    },
+    {
+      "character": "triangle",
+      "state": "playful",
+      "first": "090acda70203ab790d08e22a2e8c9025587e95c75db1cfa71b075c6eda2a5d07",
+      "second": "69c6f6e2d51035a3e65fc3ad62f54b73060a8a0eb85f63912dea98431e886982",
+      "visibleMotion": true
+    },
+    {
+      "character": "triangle",
+      "state": "idle",
+      "first": "303608d5b3ec82e7542391b86bfee67ede120f227360d50fbcd821336a0802d7",
+      "second": "d8314fcf92df53006822fedb634893d766f50425c28cce84a3330a7db3808774",
+      "visibleMotion": true
+    },
+    {
+      "character": "triangle",
+      "state": "listening",
+      "first": "a230dd82de1f081e2a9459d6089cf89b98194a094955da4773090c4da37b89a8",
+      "second": "820bb69697de89aecb765fdb1e3c2619bbcaa4fcc45c80e849fb9368de462314",
+      "visibleMotion": true
+    },
+    {
+      "character": "triangle",
+      "state": "thinking",
+      "first": "bd090286925d214a2c93ab36acbd8d195f27bf3c45ba180acc6e1ff97131938f",
+      "second": "edeaadca80bea62aed47d3136e990f1780bdac14e339250a9258a41d818933d4",
+      "visibleMotion": true
+    },
+    {
+      "character": "triangle",
+      "state": "researching",
+      "first": "8e42a5b09f09b28e53c6e7f18d0d4142dc87eeea723d3893a96e632c7d42aa3c",
+      "second": "b5290f1a786e68bd158d89a7a0533a0a7c09373ce6b8d12775d7d9e9b9e26f80",
+      "visibleMotion": true
+    },
+    {
+      "character": "triangle",
+      "state": "working",
+      "first": "2091e87a8ba31dfaf975fc776a7a7f521358c9fe426a959023f6fd1bd90b0a6c",
+      "second": "e52b86d9456fe22412e074e95a3fe218df374d405013730d568ddbd05933ae7a",
+      "visibleMotion": true
+    },
+    {
+      "character": "triangle",
+      "state": "answering",
+      "first": "55f032f6fd9e2672c43ca7c3acaaf5415c782aba6647eca29832713b6916bbb2",
+      "second": "d6e6b09d0c59f474291b19ed7661b1bac119b7fbd1bdd3caf8dc1946b47934f1",
+      "visibleMotion": true
+    },
+    {
+      "character": "triangle",
+      "state": "needs-input",
+      "first": "fd5bfe1d330de40a480c862cbfa2dd22f7c0e2f971fc78e12f269266302a699d",
+      "second": "fbc8cb1b2e5b3d816a85cacbb2a90986c84f5607bcdbf851486fbee9215e9c4b",
+      "visibleMotion": true
+    },
+    {
+      "character": "triangle",
+      "state": "complete",
+      "first": "ec2be92e8ec55ecf96c7ecd50be9b746268370de27a580ed9ea7623226432af7",
+      "second": "7e6e120db1219bb6df7eb259023be6de258b225877663da4bd9b654db32c676b",
+      "visibleMotion": true
+    },
+    {
+      "character": "triangle",
+      "state": "error",
+      "first": "c3bdfa76b32cc9ed67cc5c330a27fa5b88b26c42a156989b2ce8a982429f6d76",
+      "second": "11c8019d7578f49c0b9a60d7751892346fceed1cc1fa1596880fda50a572f31a",
+      "visibleMotion": true
+    },
+    {
+      "character": "triangle",
+      "state": "sleeping",
+      "first": "aab5fc37141fd06c4ed7d51681a873fc44c91d63c09c252099c03f7158cfcd75",
+      "second": "68aa10503ab050e1f59fb4d7ab906c12ad93b65ed2c617af3adbb7f744d39ca6",
+      "visibleMotion": true
+    },
+    {
+      "character": "circle",
+      "state": "happy",
+      "first": "596b64737af70ecc842d43b681dd6faa1c9e5ac82cc35eb2064697e36cdfd770",
+      "second": "552e4b0ade7e340aa1d1bc43bd71c85b4e0be5de35c1cd3556d96763b9bda635",
+      "visibleMotion": true
+    },
+    {
+      "character": "circle",
+      "state": "curious",
+      "first": "8c6e372d30f8fe33f6df2bb361209819af887056a41d9cd54874497801b3ba66",
+      "second": "0c68f6b66111105cabcc3de4525a707b8032c94088ba1209dafee0358afde48f",
+      "visibleMotion": true
+    },
+    {
+      "character": "circle",
+      "state": "surprised",
+      "first": "d61846f8602adfe46f8932bea3be2b41fd5cd4dcaaf442716286917b50d5b066",
+      "second": "22479ec716655c879131304838c0d7facdcabad9f78875da3240f8386b1eeb98",
+      "visibleMotion": true
+    },
+    {
+      "character": "circle",
+      "state": "confused",
+      "first": "65e7233a7f97ea42ef65af64107d5c73c19657b2a36c41f780782337f0d06c65",
+      "second": "398e7ab65025033ee92175aa7cd1810b8ab5d9d7d1f5a8a4242acaba18408dc2",
+      "visibleMotion": true
+    },
+    {
+      "character": "circle",
+      "state": "concerned",
+      "first": "250b86d4133adec840fbd019d0f0cd2ed383b9f2c4ad9825c1abc0b1c165f8ee",
+      "second": "d07196366dad702f7324b110e96d82fca8f41705cb7d3bdaaee7bc9438aeca89",
+      "visibleMotion": true
+    },
+    {
+      "character": "circle",
+      "state": "playful",
+      "first": "b0efbcd0c893763613249ef1759be421d31ec8903b067631cf36fd2bae374948",
+      "second": "ec2488d6cf1504c0ccb7aa36e2e146aa138fc2a997178029937e23a4ce4ac9c5",
+      "visibleMotion": true
+    },
+    {
+      "character": "circle",
+      "state": "idle",
+      "first": "2bc4258de0b967f55258408bcb4f54b7f801ede228dfd0a9ea6167b3b7baccce",
+      "second": "e863f85f0e5f57f280e8ea55645d381c42c055c157588d1db09108c0bc36374a",
+      "visibleMotion": true
+    },
+    {
+      "character": "circle",
+      "state": "listening",
+      "first": "5073da65d50359050f4e1d3877f85e7c46c2be4e1db2fc8176bdf09526729007",
+      "second": "d1034c178bef8b881b6822e6bd3b41c7fbad169b3202067cb148967aa88001d3",
+      "visibleMotion": true
+    },
+    {
+      "character": "circle",
+      "state": "thinking",
+      "first": "2d64616670b7f6f72ae436d544bbfcea7e0fef64e614472b2085c195d40fff70",
+      "second": "68de48cf23e9ad395947cb7930b1330e8c105c4b11926eb8f018f507583fb568",
+      "visibleMotion": true
+    },
+    {
+      "character": "circle",
+      "state": "researching",
+      "first": "dc4babebc46e851e1846f5d4c366bac3781157fa94194f3cc8c149d1f8a7c34d",
+      "second": "84445037acd1d6aaf1ffc9df4cecf71300746240b85f106528a9039b929599af",
+      "visibleMotion": true
+    },
+    {
+      "character": "circle",
+      "state": "working",
+      "first": "b02a975c803771fe198a15b1c1f6fa023250a8ee0b80b85fcf721dc488255088",
+      "second": "150e17189ff8bf8cfd92d77ad97b0ceeaa981421ba984b4ecf8ae2c97f706e25",
+      "visibleMotion": true
+    },
+    {
+      "character": "circle",
+      "state": "answering",
+      "first": "1a14fa8a34eb10bb36b362b95343306b393c84c72f2b12c52a0e80dd9909b41b",
+      "second": "c758fc5eedaa0f4e685ba51d14d5bde8bad7c9418e84776814d24a5749b9ac42",
+      "visibleMotion": true
+    },
+    {
+      "character": "circle",
+      "state": "needs-input",
+      "first": "ff905da726f5e8f093324487cc1f44ca30bab81add9fcee7fa9b9fd770d9d65a",
+      "second": "ca1470eb84f4395889e40e9e20152215333b8e7e95a735445600ef0aed3e71e2",
+      "visibleMotion": true
+    },
+    {
+      "character": "circle",
+      "state": "complete",
+      "first": "feedaff8352a116b19e4711a6e129d47697026575ef830a2ae163edc3d1616fb",
+      "second": "556b695b1c621f0234317a7f5a25eb7e196898685007197b6f122f7c3725981c",
+      "visibleMotion": true
+    },
+    {
+      "character": "circle",
+      "state": "error",
+      "first": "2d70c55c1fea3b66619e9786ca07ca2ddf039aa8a51cada9ce1b0280a2490141",
+      "second": "01d654b0eb636848c53059aef26ff8fb7869ab4b8c79158fb34b4eb16d0d85af",
+      "visibleMotion": true
+    },
+    {
+      "character": "circle",
+      "state": "sleeping",
+      "first": "d460e3f9b7567632cfd1af3de73bba1cecddc128b3c051b24bc75ac0fe4f9a6a",
+      "second": "7caeb5db83f2140647a4d468ad98dc6d2e8a9612c5a37065a73c8e2b1640ceae",
+      "visibleMotion": true
+    },
+    {
+      "character": "square",
+      "state": "happy",
+      "first": "e958b7869634cd52a89b1dadbb80dcef2f2f1ca6c6c252710e1d3ffbc3d29022",
+      "second": "fd152046dce94ec420218e0586b2355b4df4d101e52846bf37f59b817c1a36d3",
+      "visibleMotion": true
+    },
+    {
+      "character": "square",
+      "state": "curious",
+      "first": "072ebcb0dd10499fbb785b1795b3dda79e1e8e2078ca4a8e675f1e1f86c22cdd",
+      "second": "e0424b681390085ef2c7d74e039e61333809a0d4bdf2e97e69cd4dd95310c6e3",
+      "visibleMotion": true
+    },
+    {
+      "character": "square",
+      "state": "surprised",
+      "first": "2f648a9ae97297e7662863e5accd7c57789a0eb0c2a339a67a2cfd95c8785112",
+      "second": "bde90f10dd93444115c16e17b56f8090133664982be6ab55282c3fb91e1da39d",
+      "visibleMotion": true
+    },
+    {
+      "character": "square",
+      "state": "confused",
+      "first": "448a2e66b74ed12b204b47c35fc8ba86a4b9cf817ffac333a10c61189f992633",
+      "second": "ec2c8e8043a3d1e4265b18cc29e7513ecbb5b68578d4f7a974db35e290c34b54",
+      "visibleMotion": true
+    },
+    {
+      "character": "square",
+      "state": "concerned",
+      "first": "f0e896dba1c845418176801df59f0acfca635333314ea2d5c3bf420bcadfab0d",
+      "second": "5a3203b52cd69fa5a138150528e238a096867734a269e82023b14f51b5da89fb",
+      "visibleMotion": true
+    },
+    {
+      "character": "square",
+      "state": "playful",
+      "first": "0be799e77f0e42f933913e69af7aa2e7461d222c039aaff16a5d34ee40350717",
+      "second": "1fb7c0555c6ab7bb8b295936d64bca22119501ea13abb009ccce5ab91e15f2e0",
+      "visibleMotion": true
+    },
+    {
+      "character": "square",
+      "state": "idle",
+      "first": "4dfdf16fe5f0ae8ad71f7179fc6ec1df27a733f3bf072b7d5ad6ea0c00a14186",
+      "second": "6b2f202a71db70714838bdc243b31c6aaade82c6170af9d0b449b945fd341caa",
+      "visibleMotion": true
+    },
+    {
+      "character": "square",
+      "state": "listening",
+      "first": "f5d03150348dab7379c2adbb0eb392cb7c8c379a9eaa611a002a5a82a0ad703d",
+      "second": "23357834f1ad618024530549bc0838c273b64e78f0e31c8256eb8756f045e376",
+      "visibleMotion": true
+    },
+    {
+      "character": "square",
+      "state": "thinking",
+      "first": "82c20f0426836dfa17f5fdec811d12890ef9957ed309ff43824b2bf62fb54806",
+      "second": "f59a6aed20e5e0ee7073a2cb9c981d2ee719edbdbfa08ae7a78d44fa02c536b4",
+      "visibleMotion": true
+    },
+    {
+      "character": "square",
+      "state": "researching",
+      "first": "5971b4c096ea369688a8859eeeb654dfc29b144a5765e050223afe68e3abb0ac",
+      "second": "52ef12c78b6d05d3664f2ca9f5799955107fdb8b6012a7fe223c854eebba2ed2",
+      "visibleMotion": true
+    },
+    {
+      "character": "square",
+      "state": "working",
+      "first": "c1ce952ca69f7a3e7a905af9fb65eefd8ffa26fadeb353217b57e0e503783e83",
+      "second": "57160579c2b9ef4235c4be6fc9477129d3a51487f93672da8ab09128aeb5d757",
+      "visibleMotion": true
+    },
+    {
+      "character": "square",
+      "state": "answering",
+      "first": "1a4ea75f0305aabab76344b3c81c4dcc15db24215f41ef4cdf20b208f1e7bb2e",
+      "second": "e0117e83921f679908d4eed28986576e5504b0fb747a101a5af8af406ba8c590",
+      "visibleMotion": true
+    },
+    {
+      "character": "square",
+      "state": "needs-input",
+      "first": "86a4ba17900d1557423d6815cf3c87f930487ccb9774089cc1aa4e257036d0ad",
+      "second": "b1cc84a9d5dd212d19b0b192861e8e64a4cc09f1ffc1f4663bb426060de57f04",
+      "visibleMotion": true
+    },
+    {
+      "character": "square",
+      "state": "complete",
+      "first": "c7570b13a80714866c3bfac765d4c181a53a4b47edd0735e3047f384638ec951",
+      "second": "2f27399cc389411fecead6f9c22df370fd393fa4367a7f201684187e422b015f",
+      "visibleMotion": true
+    },
+    {
+      "character": "square",
+      "state": "error",
+      "first": "41605b7a4173e145ac9ccc1e73fa75e7639092323b3aa94b983da9ed88561157",
+      "second": "3054411880044b8562f97914bc04409fbb88ed6cf9b391151e60a077712a8176",
+      "visibleMotion": true
+    },
+    {
+      "character": "square",
+      "state": "sleeping",
+      "first": "2d566dca157867c9262c79e8bab20835a7e424e6acf5da102d9558500df3ecc9",
+      "second": "3e8b9e55318dc69d93be4e11d568aeb0c01d6ed1bcb5041b3b0e60d55543a70c",
+      "visibleMotion": true
+    },
+    {
+      "character": "star",
+      "state": "happy",
+      "first": "19f763591727e1d5d5234642bbbca8c761dd3c6adc97a89d7fca05f77098d05d",
+      "second": "fc96313d16b35b8b4245a5d33487f2bdb1d448e3537d0b63f566caaf6bc7d01c",
+      "visibleMotion": true
+    },
+    {
+      "character": "star",
+      "state": "curious",
+      "first": "f497d5e890cf33eef49c40c498e9c3f59c37f1a76ac71690ad017c6d6177a694",
+      "second": "a1ad1c1f1beb8dcc879f4cbb7b28607dc5cdbd6ea8fcb23735f70dc5bf789664",
+      "visibleMotion": true
+    },
+    {
+      "character": "star",
+      "state": "surprised",
+      "first": "1305596a951fb7e2b08a042e31d937bb4d1c666cad708178a454e43aee4afe08",
+      "second": "9eaf8431728e43dd6b26eaca894e2a80245b7667e591110f4fa1c9ce78d3470b",
+      "visibleMotion": true
+    },
+    {
+      "character": "star",
+      "state": "confused",
+      "first": "34cc1bd1bdeef1039793cfbe0fbb8d43fa4b9c09dee10bbb728b76798d8d2408",
+      "second": "75283bbc4b23db7b903189b053456a99c3712c9a88e159fa4e4f18b78c94a0d3",
+      "visibleMotion": true
+    },
+    {
+      "character": "star",
+      "state": "concerned",
+      "first": "5cc9cdd97702ff70c1b6e5cdaa463f253e22e7007532a67e389463909b7e6af5",
+      "second": "486abdbd0da9bac1f1b015bcae5fd2fcef051caa716f0035d7866a22c9dc6abe",
+      "visibleMotion": true
+    },
+    {
+      "character": "star",
+      "state": "playful",
+      "first": "e489f7a565cc344ac361b4edcb611b24e377d5f2d3b7fae6e99ef922f31e0428",
+      "second": "81f2ddd6f33cca4d3e3dc99bd862f6bfdaa7a20fe436908696fff92b4fd8171a",
+      "visibleMotion": true
+    },
+    {
+      "character": "star",
+      "state": "idle",
+      "first": "fa611a6cf1d3ff9c09ea2c1067459f91386f384801545665a3900eed9b763ff3",
+      "second": "b4d83d68a4615003182e6e5d742e8252e3b69a9304dd214eadd62442a1ca60f7",
+      "visibleMotion": true
+    },
+    {
+      "character": "star",
+      "state": "listening",
+      "first": "f4dfd4954577c21c29bea6f17a0b9bb7b0a4e84539743b6055137308899f8421",
+      "second": "acec58d049e64341f1b507a89f994efe5519792dddb1e83a232871714fdce253",
+      "visibleMotion": true
+    },
+    {
+      "character": "star",
+      "state": "thinking",
+      "first": "69cdaa7a9e2d6d0a90d683c2ba84388dc4f7380a901c17f0eb875f27a86d4f99",
+      "second": "991f64830cccf4f2369c57a7741495a1e327e3b740443d83a66685b59853d5ea",
+      "visibleMotion": true
+    },
+    {
+      "character": "star",
+      "state": "researching",
+      "first": "fdf296e7ec56b4d84788c2878b10226061a5eb88b660541258f0ee0e0946f550",
+      "second": "220775b06a4c49ee9a02ca682b6daf6317eb6cd1b01e91d74cca10f0d2c26a82",
+      "visibleMotion": true
+    },
+    {
+      "character": "star",
+      "state": "working",
+      "first": "5321264b5052b9ae18f12a21921dbc4b6c8943798a05e6c12a392d888c3d35b7",
+      "second": "f608aaa0805af00589769947b4ceacafffd3d50c15056b351087944aefa272c0",
+      "visibleMotion": true
+    },
+    {
+      "character": "star",
+      "state": "answering",
+      "first": "ecc341f9fc4655ca71c54f074edca8c9779998437d4776b719ba0f66ecbdb105",
+      "second": "92fe19508b0fdea347af580c67d648d857e896eee34d94258293d9bd1d2c2416",
+      "visibleMotion": true
+    },
+    {
+      "character": "star",
+      "state": "needs-input",
+      "first": "cbad251d16ca61cf07413cdde98f045cdb7aae671d337f0f57d6b88e34b0d128",
+      "second": "3f673cc62f3f466fc23220068491291a7affbf6ce276f0d445b78aa2d3030fe8",
+      "visibleMotion": true
+    },
+    {
+      "character": "star",
+      "state": "complete",
+      "first": "a7b50e3c76461126e85009f42a521a056e3d07835b427133ebb9eb64ebaa969a",
+      "second": "f2b5c320b0cec41355f2e5ba4eb64528b887e051dcaf360eb5101d17bdf43029",
+      "visibleMotion": true
+    },
+    {
+      "character": "star",
+      "state": "error",
+      "first": "588ee1949ad1fa30232b06b83979fc1379f64a34813258e830cc6a3449cd092e",
+      "second": "26aa917c3671b8e282aa4e46a57b0039db8ccb46c182fe01923125c9db4109f5",
+      "visibleMotion": true
+    },
+    {
+      "character": "star",
+      "state": "sleeping",
+      "first": "c08a8cc03acce050fc45d5fe800ff78b34b2479d429c7ad1a40cc796607532f7",
+      "second": "23aab27c5fd99acc781e8d2791892dd9ccfd036c452fd41e3e1b2483f4e2e75b",
+      "visibleMotion": true
+    },
+    {
+      "character": "crescent",
+      "state": "happy",
+      "first": "725e42242a3797c5ea99022adc1af1ad43517a6182b749b15c7f28286c05bf15",
+      "second": "3f5e3e2294ad8ebc51b860cad9ac7c7ffddce0c73351bef1cef1801a0abbb044",
+      "visibleMotion": true
+    },
+    {
+      "character": "crescent",
+      "state": "curious",
+      "first": "bf3e6ee9e5f39571792c58fade9c2a77f9a90ad90b7b3aaa200e10604c9daa32",
+      "second": "8ccee22833c70484ed84c3c0f0bde098316d44962ba5dda0576ee0517fdbad41",
+      "visibleMotion": true
+    },
+    {
+      "character": "crescent",
+      "state": "surprised",
+      "first": "a400c60611c766804318b0e1b0f8bca9a7c03a47532e55f1b86708a0573e67d7",
+      "second": "a8a722a6a4af46aa7e37bd8bde102f9042ce72c44ef6e5254cd12a84a85304ae",
+      "visibleMotion": true
+    },
+    {
+      "character": "crescent",
+      "state": "confused",
+      "first": "6b7a33ef524249f6bd32b5390627638f7d1cbc4efc7d1362e0bd3a978b6b1453",
+      "second": "f83da7ae4cbd6165acb03499d1d195dda85c0f1d7b927fc81add51bab0525b59",
+      "visibleMotion": true
+    },
+    {
+      "character": "crescent",
+      "state": "concerned",
+      "first": "6e04eef66d6b49ebda0c9899404457e345e10e91f279a7bffb1a892602674762",
+      "second": "69e3c481547180641f250d1d3557b2ec0326044f19d84ddd2dd9ba51179668af",
+      "visibleMotion": true
+    },
+    {
+      "character": "crescent",
+      "state": "playful",
+      "first": "2a334e84a62fa9dc3b43220f45e1b239d7935eca99cf7a5e2cd8f5e67794707c",
+      "second": "886a379abaa46a79dd6065dab05db3b16bfb4fbc9cfd00ca27733613f450079c",
+      "visibleMotion": true
+    },
+    {
+      "character": "crescent",
+      "state": "idle",
+      "first": "26dfc1c40f7d0dde6e6bf64de87b340f8b4eea92794fd4d2954f4b3da4838885",
+      "second": "e3840558dcb1855ec2c03b04d48fd78c1fdcbb223a6e4adf64587cbe5372123e",
+      "visibleMotion": true
+    },
+    {
+      "character": "crescent",
+      "state": "listening",
+      "first": "fdf800bb5b95f84ce84e655f5aafd7140fb9520f9eceda602d9f702d20dfde7f",
+      "second": "6bc50885ce3eeee0cf70f58f6c40fd6cdf1941daea2376e149233d1a5c29c73a",
+      "visibleMotion": true
+    },
+    {
+      "character": "crescent",
+      "state": "thinking",
+      "first": "31c7d8209bf6037e4e5658ba012510a1e2da9069a73214426e7d50d668ef973f",
+      "second": "e60e10563f05c59703054998b6577711ab74f8960fd2443570ba99fbcc04a240",
+      "visibleMotion": true
+    },
+    {
+      "character": "crescent",
+      "state": "researching",
+      "first": "3cbc4eeebab0ba530f1b5f6802116c92c633925a338a6aba57df66c94c854912",
+      "second": "35fa66c5160a280ae2e35cb650a843e131a26131753ab8edd57ab7da77b00427",
+      "visibleMotion": true
+    },
+    {
+      "character": "crescent",
+      "state": "working",
+      "first": "fbdca365f0d73811db5ce22e1207e2ae54a1136006209a2dd31518f64d49b558",
+      "second": "d64de44d89420a6cbf4bf451f73566e6d2d87300dcf44fef0a22adc5366a00cd",
+      "visibleMotion": true
+    },
+    {
+      "character": "crescent",
+      "state": "answering",
+      "first": "0caa48192f03e175475db9419f150be016952a8997c1ddb7351a393a04e944f7",
+      "second": "48ca4b49de0e5b591480b77e596e74dd1883939490ead31e25a49dd8e7a3547a",
+      "visibleMotion": true
+    },
+    {
+      "character": "crescent",
+      "state": "needs-input",
+      "first": "1419199f337c4925eb1ee728f16a8881e8f0c6c16eeea90f18f82950ef9c0e26",
+      "second": "a7482f6c3d94d8d9be4bea3dfb881dfa49e6bca2cde8f83cf8cbad6543e071eb",
+      "visibleMotion": true
+    },
+    {
+      "character": "crescent",
+      "state": "complete",
+      "first": "bc2263998b293333eaf9cdddb511485d5875e2de08cb912b74b9e1a9190b5b89",
+      "second": "d5d86cdb03ff5c77199d437597e9884625662206612ffc8839b8547506a68cba",
+      "visibleMotion": true
+    },
+    {
+      "character": "crescent",
+      "state": "error",
+      "first": "46a04af72e03e5c7d5e535892cb1263685c36164bde89cf88226e04b309b7f67",
+      "second": "e0ee2b5f2dc4ec542cf5106d25880770089af6db9b8ae5f629944ffdf9b12ded",
+      "visibleMotion": true
+    },
+    {
+      "character": "crescent",
+      "state": "sleeping",
+      "first": "e5124d9576983a081bf68d0452e6d69259d4adf754b13d32b9762dbbe9f1e843",
+      "second": "97185a46ecd8d8889ddade6f5350e95503c00bb084c7d6960c960cefb81331c6",
+      "visibleMotion": true
+    },
+    {
+      "character": "bean",
+      "state": "happy",
+      "first": "35d3fe2b706702c2a153655e0f6768adacfb9e07054cc43bb470a9442a6798c3",
+      "second": "b07e56013fefb30d4aa3963a49afda79e57ab386fad272dfe6a933fd42045171",
+      "visibleMotion": true
+    },
+    {
+      "character": "bean",
+      "state": "curious",
+      "first": "e14a62e02701acb7279ca866287f3f48619c5aec5c44c9458e3e0a1be2986149",
+      "second": "18ca6bf4aeb199904a92f0fb6f572dec9539e8435f64440acb2a684ad61a1cfc",
+      "visibleMotion": true
+    },
+    {
+      "character": "bean",
+      "state": "surprised",
+      "first": "85e324ca6ca65a185346be5d2d0857907d785a962168fd56ec81fa37353d322b",
+      "second": "8c2e9321cea2e4833048101f54004a1ac17834fce6238c6f336bac20640696bc",
+      "visibleMotion": true
+    },
+    {
+      "character": "bean",
+      "state": "confused",
+      "first": "1410b50e58df003b5bb32068370ab3d45eb66e89583525263bf936b50f480fb5",
+      "second": "0fb1a3c84df551431d6056828ebadb2b0cfc569be5ba98c7f8d1ad16cff4d962",
+      "visibleMotion": true
+    },
+    {
+      "character": "bean",
+      "state": "concerned",
+      "first": "a46c26381e03c12dfd3e8e759f4e42a762e2dd0662b0a824d3f24ebff5060666",
+      "second": "b83d9aea73ba71b6a56083ae8efec5f9280d680f9885d2eb4f1a2f59072580b2",
+      "visibleMotion": true
+    },
+    {
+      "character": "bean",
+      "state": "playful",
+      "first": "57b596e3088dc59718e86341e7ade9712d70ec85af2a36c2a6e853e3638e6a29",
+      "second": "4d104cbb9b2d26e19dc72975a5ccb8b0424f1327a791d3622970ed3bc6fe0d9d",
+      "visibleMotion": true
+    },
+    {
+      "character": "bean",
+      "state": "idle",
+      "first": "2d75d504a5c398e792227973ecfb6cb215229aedcc64d234e16f08dd732d0c02",
+      "second": "82b6c79ce99c8ddcad1a23991345d2b1fba1011a0aba9a88b286269a327a474b",
+      "visibleMotion": true
+    },
+    {
+      "character": "bean",
+      "state": "listening",
+      "first": "de82d4e333308bdafd5008ae1a13bc2836dcebddc8b04027dcaea105124e08de",
+      "second": "75cc3a1c94ff78df05c278de413b57db8c867179e5e771de2f7a10d95d25dd4b",
+      "visibleMotion": true
+    },
+    {
+      "character": "bean",
+      "state": "thinking",
+      "first": "1e612dc76be96e1f88ddc9050d178cf2407cac272a9bab4f2f4f061cb5e74df5",
+      "second": "0b6f417b239f16af123c863ad65e718d1ecc6401e9c7b7b0b6ff37825e4e8121",
+      "visibleMotion": true
+    },
+    {
+      "character": "bean",
+      "state": "researching",
+      "first": "10d395f959d3f6d072d5bb10d758ec631fb87da54c7c8f61aae679c5ef2f9a15",
+      "second": "078eea247d0adf58f08dd9404286adeb4c912b5758d18bfb9f0681c87d1f3393",
+      "visibleMotion": true
+    },
+    {
+      "character": "bean",
+      "state": "working",
+      "first": "e75576f09ee2ed78b8dfc9bf8ac2b70c9d247e7c1e0563b3c983ba5c7135b1d9",
+      "second": "6e8dae6c9955fb24a380ba735e5f4a8af56515f08856c1e3b754064c77c3dfcc",
+      "visibleMotion": true
+    },
+    {
+      "character": "bean",
+      "state": "answering",
+      "first": "75879b220d62fcc50c385439f5c6f7bac07a3b0b2cbb11959162f36547140f1d",
+      "second": "2d22c8b0d2bd94a39960cc6999507a84783959e3c436f9d90b9c27ca75d7e3ef",
+      "visibleMotion": true
+    },
+    {
+      "character": "bean",
+      "state": "needs-input",
+      "first": "8bbbc815559736504a817d973dfea8312b625a78986b936f61b8b309cf843e7c",
+      "second": "16002485ecadf8db252ef1e79a88068b5df991cccfb8044c90c406da212a8d2b",
+      "visibleMotion": true
+    },
+    {
+      "character": "bean",
+      "state": "complete",
+      "first": "ad258f62fe86185dd6dc75d7100593b765b3b1e8af4a09f0b3827ab4a28213a5",
+      "second": "2a9fd585727ca7749e3ce599c1192a5c4054cf0c61d3154242321f7f097a5bc3",
+      "visibleMotion": true
+    },
+    {
+      "character": "bean",
+      "state": "error",
+      "first": "4beeb6e753dcad3676230baf7fce5e00c7594f18a21c627cb20b1a5abec28d70",
+      "second": "abf8b15d19a9a3ad2eb13a20408b70f31a53071bc9cd579ce5c33d2b3bc746b5",
+      "visibleMotion": true
+    },
+    {
+      "character": "bean",
+      "state": "sleeping",
+      "first": "839903e0d91d8833678d18bd8457bcc4ddcdecc37d1f51d404b9ba9216288e6c",
+      "second": "0cc622c9ea9ab36e5945d3a4a64bc4781dff93ad5727d5b4db92e0baad4f3913",
+      "visibleMotion": true
+    },
+    {
+      "character": "heart",
+      "state": "happy",
+      "first": "eac2a3bf388b5c0eb71fcff5764e6a0ef664db1a8e4ead850aec6fca373f224a",
+      "second": "79a2e83326a457e675fb834cee27a3d8760cc73c8d395e6208ddcd6fcc202b0f",
+      "visibleMotion": true
+    },
+    {
+      "character": "heart",
+      "state": "curious",
+      "first": "cc6a2e419f272331b3f8e90004176ad22a9d0cd9947acfb83cf889c377e4f07a",
+      "second": "d7e119f196d276dc024baab51fe8de15f93448f221350a0627136c466ac6a488",
+      "visibleMotion": true
+    },
+    {
+      "character": "heart",
+      "state": "surprised",
+      "first": "9b8bcb42227de5bbc437ceff1c6e13ec9250d697017da9c9fde6c8bfe801b1fd",
+      "second": "e6ef0044632a6c81b133074817267fc73b4d0bd68627a3a49907ec7fd4ddb6c2",
+      "visibleMotion": true
+    },
+    {
+      "character": "heart",
+      "state": "confused",
+      "first": "4e6ffb11e202a85e794801f12322f66a606ec5f1c415347edfd20b22280232b2",
+      "second": "a1cfb03d048e1d26c5f79b852e833f42fa7e841d20fcdb9edf5557dad1bdaca5",
+      "visibleMotion": true
+    },
+    {
+      "character": "heart",
+      "state": "concerned",
+      "first": "b8dce32ce3a1cc0f9ea989ccccd2659160171484350c374e2dd002f9dfbf6c72",
+      "second": "3cc8196b2715cf9160e98e89da055dee866cad523c2a7d77d5902f05bcc57fc6",
+      "visibleMotion": true
+    },
+    {
+      "character": "heart",
+      "state": "playful",
+      "first": "45462e0e0ef3d5c34ba8974161886bf1f99664ce038e1baa1dd3e007ba0c4df3",
+      "second": "78fc516c061a0bca21d61b56cb7e7e1a79bc971b0110629107472aef98d02685",
+      "visibleMotion": true
+    },
+    {
+      "character": "heart",
+      "state": "idle",
+      "first": "aef651190ad813b54d30119e4ab18e510ecfbedb7c699765a9fc645c61d54e65",
+      "second": "5fd8da1aca41bdc889f8f1a66e05be64ed212f7b1dc6d16cbc01a2e5d35e92b1",
+      "visibleMotion": true
+    },
+    {
+      "character": "heart",
+      "state": "listening",
+      "first": "3b01ffe570544cfd889351d8782414b2a1a638e292940ddd5948bd57f1398375",
+      "second": "a8af84916c2288b0a7bb405ee4461370e0e6f5182f74b1769fb145c8d280691e",
+      "visibleMotion": true
+    },
+    {
+      "character": "heart",
+      "state": "thinking",
+      "first": "9b18d443ab14f5cabddca9bc5ca5ce1509cd7fb1963c4d3d7d52a83b7aa25fce",
+      "second": "2b42741d21f7dbe3045a4b2d0baedef4bb9047731bd70bba55a19b859e7503de",
+      "visibleMotion": true
+    },
+    {
+      "character": "heart",
+      "state": "researching",
+      "first": "6aa7c1654da336c1bed8c84bb99ff11b9d580aac61479ce02e71861955910694",
+      "second": "f4aeec25c921414e040e5d3dbc811168bb3c9bc190d3601322b8f6a37fe377d7",
+      "visibleMotion": true
+    },
+    {
+      "character": "heart",
+      "state": "working",
+      "first": "224dd685ea7ec6d971878932ddada397ee380229a76d9751c8facd70e58d7fcb",
+      "second": "b77cdf4dd7d00eb2d6ee83cdee8f4efb1dddea9f51e0a0237f9eb779fd89ac33",
+      "visibleMotion": true
+    },
+    {
+      "character": "heart",
+      "state": "answering",
+      "first": "9efd3419718a05db836afcd5bbf9a7ea410ded94b90f75640e88fde1f8b3a21a",
+      "second": "d209ba06395d68f7864e65f8dcc52d82d97e9f6f5abaec02150cdea25e4301df",
+      "visibleMotion": true
+    },
+    {
+      "character": "heart",
+      "state": "needs-input",
+      "first": "8fdb4fe34edee1ab8aa4bbfc6ddf00bf6f79a7322f0e5785a83b267d787a87bc",
+      "second": "3648297e29dd5666c738fa4df126b0794632f51dde48246d7c1f6d12f3ec871d",
+      "visibleMotion": true
+    },
+    {
+      "character": "heart",
+      "state": "complete",
+      "first": "5c8b926d391e343285bdc7c8615e9fc67f3729d3ffd642d2d257e65b8a944bb1",
+      "second": "dc54f3fbac2ffa9fb309d4425075046ac680c72fcb257e92f742d1cf3e163a93",
+      "visibleMotion": true
+    },
+    {
+      "character": "heart",
+      "state": "error",
+      "first": "13586fc7eb42e372f23e58778faf757a90d26c7e33e197db2f9e280b16912485",
+      "second": "b181fab23de39e7144055da52e9c5337406eb3eed990d4501dab08c3eb943dea",
+      "visibleMotion": true
+    },
+    {
+      "character": "heart",
+      "state": "sleeping",
+      "first": "90c1f68400111de2a7489c83dc09c2c6ad55474a9f52c6e2e726ad006d031cfe",
+      "second": "83570449a42fd58fcf9cdb0c83e005e92cc5fbc194a1a60a9c09de2ab440a45b",
+      "visibleMotion": true
+    },
+    {
+      "character": "diamond",
+      "state": "happy",
+      "first": "b4c2e169b96f4a41aedd7ec92695f17f24cae04a610a9c4c149517efcdd7c8a2",
+      "second": "d5f511b20b22f1342c4016512ee0f86a0f1477f9def0fcdf3db1b77d7df283d8",
+      "visibleMotion": true
+    },
+    {
+      "character": "diamond",
+      "state": "curious",
+      "first": "1c46ecd1dc539cceddbeffe05cbbf72b98baf181a74fdccdabcf8872cda4f98d",
+      "second": "9a58caf40c22c155107a2f78b64a0864f699fadf7b402fe4f3f55f0beec77dc9",
+      "visibleMotion": true
+    },
+    {
+      "character": "diamond",
+      "state": "surprised",
+      "first": "9aa2a741f5d6292118e8ecbaa2630918e759d2ba5d4c94e9a230d9388083e5e3",
+      "second": "42ece01092541a925de7bc45ba5a9db0d39e379b9b834519304a9c9efdcda601",
+      "visibleMotion": true
+    },
+    {
+      "character": "diamond",
+      "state": "confused",
+      "first": "325aa328ff20e32216fbad5dbe9017557eb5d98abd283ceb5653fa40045e8741",
+      "second": "5ab9696f97b0087e0f0edbb839b70d8dcbc4868bdb749bb8fc8dbfba335bade8",
+      "visibleMotion": true
+    },
+    {
+      "character": "diamond",
+      "state": "concerned",
+      "first": "7ccfe430a39578db47723ff37cf031a3aba03cccc7c10da6c45961ab8346f43f",
+      "second": "f32c5b4c970a7c446b6f6c5b83102c711aaa9e3a1e793d9665945fce41f5ce3e",
+      "visibleMotion": true
+    },
+    {
+      "character": "diamond",
+      "state": "playful",
+      "first": "e2627237251bc16dfbe1775474a7cd65506a372d23d8db27ab3f534813dc2f94",
+      "second": "e226a24c3c8a28894d385c33dae2772aa5e38e5470cbf0b19d415834cdc6d823",
+      "visibleMotion": true
+    },
+    {
+      "character": "diamond",
+      "state": "idle",
+      "first": "22b468488cea54aa50f8f868612c813ea56be2263c1bf864e7a99ba5043027e2",
+      "second": "f4c6cac0b94a4ed09d1bf8e50a9a5ecb9455d315bdfcdc74507673a259e185e9",
+      "visibleMotion": true
+    },
+    {
+      "character": "diamond",
+      "state": "listening",
+      "first": "5d54213b666cd3fa8738be61076c2c3218447abbb8d6d03843170018f0aabde2",
+      "second": "009052e5f66425f057f05fe3268e438f7f738231a737d218ec910eb79f2e701c",
+      "visibleMotion": true
+    },
+    {
+      "character": "diamond",
+      "state": "thinking",
+      "first": "f269c5e884ec71d8945144b176319c1f65fb79628b48ac76cc0b052c54477ea8",
+      "second": "5ee0c11cdbc372bac3cba28e790be6966d775fcd47fc6929d17aa0085bd18044",
+      "visibleMotion": true
+    },
+    {
+      "character": "diamond",
+      "state": "researching",
+      "first": "49911df52f9c2395a7bd3204c0ff27abb62846c92704adb5f7fb1f1f7b12a667",
+      "second": "4965c58d783506cc72b7a2fdfcfd375336d62314d4f66227a35043e9d8f77a26",
+      "visibleMotion": true
+    },
+    {
+      "character": "diamond",
+      "state": "working",
+      "first": "473799f0f19546fa1034856783e2ceea5f189700a67c2dc566e475a65587b2b5",
+      "second": "56c21cbe4ff0bde8d3f3736d3e8b594469cb09cd9abdb423949b79b69bc491b2",
+      "visibleMotion": true
+    },
+    {
+      "character": "diamond",
+      "state": "answering",
+      "first": "4efea02f976134ce6f3f927ef5b7c45164ebec0716db716e138726101b0bac6c",
+      "second": "aaf52ac6f9016ac20af3f4b4829f66056578129f6332f19140aab8ea052d1f09",
+      "visibleMotion": true
+    },
+    {
+      "character": "diamond",
+      "state": "needs-input",
+      "first": "6b71279d8af43d52bd3f1746cf44a67c161aa78dbf7289be85fc54b0b1aa4e07",
+      "second": "30146ff6facfdafbccbd3a00d1bd151087b142cf71a866ba1850b8b4022e44bc",
+      "visibleMotion": true
+    },
+    {
+      "character": "diamond",
+      "state": "complete",
+      "first": "01e5a0780fe6cac687967dbe1250869535d0f77855f29519e6d3a9f4c0905394",
+      "second": "780ee0654791d071b0929fd30b5f53aa6c9f7aa9c71fbdcf7a62c2698ed983e5",
+      "visibleMotion": true
+    },
+    {
+      "character": "diamond",
+      "state": "error",
+      "first": "c806fa77b41b4268e5d5a2241724c574d263a3b4e5b2d4cc7d598de7451c666b",
+      "second": "a7538ef060e477ef900c651e9475325d77cd6ff1db3fd6f2698001242638a7a5",
+      "visibleMotion": true
+    },
+    {
+      "character": "diamond",
+      "state": "sleeping",
+      "first": "f5925416c10a7d5171e6965a54894a640eae1bbc3efd786303622372684889d6",
+      "second": "8033b087f4e865ad5af8163f4afc18727dfbb1aeb15afe3f0c5f326daaa8adca",
+      "visibleMotion": true
+    }
+  ],
+  "checks": [
+    "8 original videos",
+    "128 visible state motions",
+    "8 complete blinks verified by rendered white-pixel reduction",
+    "128 distinct source poses",
+    "128 static concepts",
+    "current-activity reaction return",
+    "blocking interruption",
+    "one-shot completion",
+    "durable results",
+    "10 conditions",
+    "settled waiting and errors",
+    "live reduced-motion event",
+    "pending playback reduction",
+    "reduced-motion reload",
+    "explicit replay",
+    "320px round layout"
+  ]
+}

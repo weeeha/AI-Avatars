@@ -8,8 +8,13 @@
     "check": "node scripts/check.mjs",
     "start": "node scripts/serve.mjs",
     "test": "node tests/smoke.cjs",
-    "test:media": "node tests/media-files.mjs"
+    "test:media": "node tests/media-files.mjs",
+    "test:shape": "node tests/shape-performance-unit.cjs && node tests/shape-performance-files.cjs"
   },
-  "engines": { "node": ">=20" },
-  "devDependencies": { "playwright": "1.62.1" }
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
 }

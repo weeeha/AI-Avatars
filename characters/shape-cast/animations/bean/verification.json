@@ -1,0 +1,82 @@
+{
+  "character": "bean",
+  "status": "assembled",
+  "format": "generated-keyframe-animation",
+  "duration": 4,
+  "fps": 24,
+  "width": 512,
+  "height": 512,
+  "decodedFrames": 96,
+  "sourceFrames": 16,
+  "uniqueSourceFrames": 16,
+  "loopEndpointMeanPixelDifference": 0.7730369567871094,
+  "middleFrameMeanPixelDifference": 15.237303415934244,
+  "registrationOffsets": [
+    {
+      "x": -5,
+      "y": -16
+    },
+    {
+      "x": -1,
+      "y": -16
+    },
+    {
+      "x": -6,
+      "y": -16
+    },
+    {
+      "x": -7,
+      "y": -16
+    },
+    {
+      "x": -8,
+      "y": -18
+    },
+    {
+      "x": -6,
+      "y": -18
+    },
+    {
+      "x": 2,
+      "y": -18
+    },
+    {
+      "x": 5,
+      "y": -18
+    },
+    {
+      "x": -4,
+      "y": -17
+    },
+    {
+      "x": -1,
+      "y": -18
+    },
+    {
+      "x": -1,
+      "y": -17
+    },
+    {
+      "x": 1,
+      "y": -18
+    },
+    {
+      "x": -6,
+      "y": -13
+    },
+    {
+      "x": -4,
+      "y": -13
+    },
+    {
+      "x": -8,
+      "y": -13
+    },
+    {
+      "x": -5,
+      "y": -13
+    }
+  ],
+  "blinkFrames": "Original eyelid poses preserved for output frames 20-30 to avoid optical-flow ghosting",
+  "note": "Local pose-sequence animation with optical-flow interpolation; not a rigged 3D model."
+}

@@ -12,6 +12,7 @@ Open **http://127.0.0.1:4173**. Node.js 20 or newer is required. The gallery has
 
 ## Included studies
 
+- **Shape companions:** eight soft 3D-look characters, one main color each, white gloves and black boots. Each has 16 playable emotion/activity performances using local artwork deformation, plus the original four-second idle exports (MP4, GIF and WebP) and source concepts. [Animation and behavior guide](docs/shape-cast.md).
 - **Open Skeleton:** a round ivory mechanical face with 12 activities and nine emotional reactions. Includes 21 silent MP4/GIF clips, a local event simulator with interruption and reaction return, labelled system-condition fallbacks, original artwork, and local motion sources. [Character pack](characters/open-skeleton/README.md).
 - **Fragment & Third Eye:** photographic eyes with detailed iris texture, separate pupil targets, coordinated or independent gaze, eleven emotions, twenty-two statuses, and six reactions. Includes real synthetic demo speech and local browser voices for custom text. [Behavior guide](docs/fragment-faces.md).
 - **Dot flock:** a round sculpture of individually shaded blue dots, with clear gaps, curved eyelids, rounded irises, and dark pupils. Supports expressive motion, pointer disturbance, and scatter/reform.
@@ -21,7 +22,7 @@ Open **http://127.0.0.1:4173**. Node.js 20 or newer is required. The gallery has
 - **Six palettes:** prismatic, pink, cyan, lilac, amber, and mint, shared across both studies.
 - **[Oracle](characters/oracle/README.md):** a three-eyed white statue with 34 expression, assistant, and clock modes with a separate emotion layer. Shimmering stars change into hearts, crescents, diamonds, pulses, and orbiting lights. Includes artwork, a character manifest, and generation provenance.
 
-The procedural studies are original browser-rendered concepts based on supplied visual references. Open Skeleton preserves its generated keyframe clips and adds nine locally articulated activities using the original face artwork. Fragment and Third Eye include synthetic voice playback; their demo mouth motion follows audio amplitude and custom phrases use approximate speech timing. Other studies simulate talking. The studies are not connected to a microphone, an agent, or physical hardware. Reduced-motion settings start the previews paused.
+The procedural studies are original browser-rendered concepts based on supplied visual references. Open Skeleton preserves its generated keyframe clips and adds nine locally articulated activities using the original face artwork. Fragment and Third Eye include synthetic voice playback; their demo mouth motion follows audio amplitude and custom phrases use approximate speech timing. Shape companions animate their original artwork locally and preserve the original idle exports. Other studies simulate talking. The studies are not connected to a microphone, an agent, or physical hardware. Reduced-motion settings start the previews paused.
 
 ## Abstract character families
 
