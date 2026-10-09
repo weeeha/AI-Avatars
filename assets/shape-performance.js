@@ -20,7 +20,7 @@
       case 'listening':p.eyes=[0,.002,0,.002];p.body=[0,.009*k*pulse(cycle%4,.6,.8),.007*k];p.hands[2]=-.009*k*gesture;p.turn[1]=-.12*k*gesture;break;
       case 'thinking':p.eyes=[.007*k*side,-.009*k*gesture,.007*k*side,-.009*k*gesture];p.hands[2]=-.007*k*Math.sin(cycle*2);p.hands[3]=-.01*k*pulse(cycle%4,.1,1.5);p.turn[1]=.11*k*gesture;break;
       case 'researching':{const scan=((cycle%3.8)<2.8?Math.floor((cycle%3.8)/.7)/3:0)-.5;p.eyes=[scan*.02*k,.003*k,scan*.02*k,.003*k];p.hands[2]=scan*.014*k;p.body[2]=scan*.008*k;break;}
-      case 'working':{const work=cycle%3.8<2.7?Math.sin(cycle*8):0;p.eyes=[0,.007*k,0,.007*k];p.hands=[.004*k*work,.013*k*work,-.004*k*work,-.013*k*work];p.turn=[.05*k*work,-.05*k*work];break;}
+      case 'coding':case 'checking':case 'working':{const work=cycle%3.8<2.7?Math.sin(cycle*8):0;p.eyes=[0,.007*k,0,.007*k];p.hands=[.004*k*work,.013*k*work,-.004*k*work,-.013*k*work];p.turn=[.05*k*work,-.05*k*work];break;}
       case 'answering':{const explain=pulse(cycle%4,.2,1.8);p.eyes=[-.002*k,0,-.002*k,0];p.hands=[0,.002*k,.016*k*explain,-.01*k*explain];p.turn[1]=-.16*k*explain;break;}
       case 'needs-input':case 'awaiting-approval':case 'permission-denied':p.hands=[-.008*k*gesture,-.015*k*gesture,.008*k*gesture,-.015*k*gesture];p.eyes=[.005*k*gesture,-.001*k,.005*k*gesture,-.001*k];p.turn=[-.12*k*gesture,.12*k*gesture];break;
       case 'complete':p.hands[2]=.005*k*gesture;p.hands[3]=-.025*k*gesture;p.turn[1]=-.14*k*gesture;p.body[1]=-.007*k*gesture;p.blink=[.35*gesture,.35*gesture];break;

@@ -19,5 +19,6 @@ for(const c of data.characters){
     assert.deepEqual(a,b,`${state} settles without endless prompting`);
   }
 }
+for(const state of ['coding','checking'])assert.deepEqual(pose('triangle',state,.85),pose('triangle','working',.85),`${state} uses the working motion, not only its artwork`);
 for(const [state,d]of Object.entries(durations)){assert(!pose('triangle',state,d-.1).done);assert(pose('triangle',state,d).done);}
 console.log('PASS: 128 distinct motion profiles, feature/limb channels, reaction endings and settled conditions.');
