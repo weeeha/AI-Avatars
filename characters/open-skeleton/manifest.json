@@ -1,6 +1,6 @@
 {
   "title": "Open Skeleton",
-  "version": 2,
+  "version": 3,
   "clips": [
     {
       "id": "happy",
@@ -13,7 +13,8 @@
       "duration": 3.2,
       "peakTime": 1.08,
       "defaultLoop": false,
-      "status": "ready"
+      "status": "ready",
+      "reducedPoster": "emotions/frames/happy/03.png"
     },
     {
       "id": "curious",
@@ -26,7 +27,8 @@
       "duration": 3.6,
       "peakTime": 1.16,
       "defaultLoop": false,
-      "status": "ready"
+      "status": "ready",
+      "reducedPoster": "emotions/frames/curious/03.png"
     },
     {
       "id": "surprised",
@@ -39,7 +41,8 @@
       "duration": 3.0,
       "peakTime": 1.0,
       "defaultLoop": false,
-      "status": "ready"
+      "status": "ready",
+      "reducedPoster": "emotions/frames/surprised/03.png"
     },
     {
       "id": "confused",
@@ -52,7 +55,8 @@
       "duration": 3.6,
       "peakTime": 1.2,
       "defaultLoop": false,
-      "status": "ready"
+      "status": "ready",
+      "reducedPoster": "emotions/frames/confused/03.png"
     },
     {
       "id": "concerned",
@@ -65,7 +69,8 @@
       "duration": 3.8,
       "peakTime": 1.2,
       "defaultLoop": false,
-      "status": "ready"
+      "status": "ready",
+      "reducedPoster": "emotions/frames/concerned/03.png"
     },
     {
       "id": "frustrated",
@@ -78,7 +83,8 @@
       "duration": 3.4,
       "peakTime": 1.04,
       "defaultLoop": false,
-      "status": "ready"
+      "status": "ready",
+      "reducedPoster": "emotions/frames/frustrated/03.png"
     },
     {
       "id": "playful",
@@ -91,7 +97,8 @@
       "duration": 3.0,
       "peakTime": 0.96,
       "defaultLoop": false,
-      "status": "ready"
+      "status": "ready",
+      "reducedPoster": "emotions/frames/playful/03.png"
     },
     {
       "id": "proud",
@@ -104,7 +111,8 @@
       "duration": 3.6,
       "peakTime": 1.2,
       "defaultLoop": false,
-      "status": "ready"
+      "status": "ready",
+      "reducedPoster": "emotions/frames/proud/03.png"
     },
     {
       "id": "relieved",
@@ -117,7 +125,8 @@
       "duration": 4.0,
       "peakTime": 1.28,
       "defaultLoop": false,
-      "status": "ready"
+      "status": "ready",
+      "reducedPoster": "emotions/frames/relieved/03.png"
     },
     {
       "id": "idle",
@@ -157,6 +166,150 @@
       "peakTime": 0.5,
       "defaultLoop": true,
       "status": "ready"
+    },
+    {
+      "id": "starting",
+      "label": "Starting",
+      "description": "Eyelids lift in two stages; eyes focus forward; small ready nod.",
+      "group": "activity",
+      "file": "activities/starting.mp4",
+      "gif": "activities/starting.gif",
+      "poster": "activities/starting.png",
+      "restPoster": "activities/starting-rest.png",
+      "duration": 4,
+      "peakTime": 2.5,
+      "defaultLoop": false,
+      "onEnd": "idle",
+      "status": "ready",
+      "method": "local-articulation"
+    },
+    {
+      "id": "listening",
+      "label": "Listening",
+      "description": "Wider attentive eyes, small forward inclination and acknowledgment nod.",
+      "group": "activity",
+      "file": "activities/listening.mp4",
+      "gif": "activities/listening.gif",
+      "poster": "activities/listening.png",
+      "restPoster": "activities/listening-rest.png",
+      "duration": 4.8,
+      "peakTime": 1.9,
+      "defaultLoop": true,
+      "onEnd": "loop",
+      "status": "ready",
+      "method": "local-articulation"
+    },
+    {
+      "id": "researching",
+      "label": "Researching",
+      "description": "Measured horizontal reading sweeps with short pauses and downward resets.",
+      "group": "activity",
+      "file": "activities/researching.mp4",
+      "gif": "activities/researching.gif",
+      "poster": "activities/researching.png",
+      "restPoster": "activities/researching-rest.png",
+      "duration": 5.6,
+      "peakTime": 2.35,
+      "defaultLoop": true,
+      "onEnd": "loop",
+      "status": "ready",
+      "method": "local-articulation"
+    },
+    {
+      "id": "coding",
+      "label": "Coding",
+      "description": "Downward focus, short rapid eye movements, checking pauses and tiny decisive nod.",
+      "group": "activity",
+      "file": "activities/coding.mp4",
+      "gif": "activities/coding.gif",
+      "poster": "activities/coding.png",
+      "restPoster": "activities/coding-rest.png",
+      "duration": 4.8,
+      "peakTime": 1.55,
+      "defaultLoop": true,
+      "onEnd": "loop",
+      "status": "ready",
+      "method": "local-articulation"
+    },
+    {
+      "id": "waiting",
+      "label": "Waiting",
+      "description": "Patient side glance, slow blink and return to center.",
+      "group": "activity",
+      "file": "activities/waiting.mp4",
+      "gif": "activities/waiting.gif",
+      "poster": "activities/waiting.png",
+      "restPoster": "activities/waiting-rest.png",
+      "duration": 4.8,
+      "peakTime": 1.2,
+      "defaultLoop": false,
+      "onEnd": "hold",
+      "status": "ready",
+      "method": "local-articulation"
+    },
+    {
+      "id": "needs-input",
+      "label": "Needs input",
+      "description": "Direct questioning gaze, one raised lid and a small tilted-head hold.",
+      "group": "activity",
+      "file": "activities/needs-input.mp4",
+      "gif": "activities/needs-input.gif",
+      "poster": "activities/needs-input.png",
+      "restPoster": "activities/needs-input-rest.png",
+      "duration": 4.4,
+      "peakTime": 2,
+      "defaultLoop": false,
+      "onEnd": "hold",
+      "status": "ready",
+      "method": "local-articulation"
+    },
+    {
+      "id": "complete",
+      "label": "Complete",
+      "description": "A brief pleased expression and affirmative nod, then return to idle.",
+      "group": "activity",
+      "file": "activities/complete.mp4",
+      "gif": "activities/complete.gif",
+      "poster": "activities/complete.png",
+      "restPoster": "activities/complete-rest.png",
+      "duration": 4,
+      "peakTime": 1.7,
+      "defaultLoop": false,
+      "onEnd": "idle",
+      "status": "ready",
+      "method": "local-articulation"
+    },
+    {
+      "id": "error",
+      "label": "Error",
+      "description": "Short concerned surprise, brief hold, then attentive recovery pose.",
+      "group": "activity",
+      "file": "activities/error.mp4",
+      "gif": "activities/error.gif",
+      "poster": "activities/error.png",
+      "restPoster": "activities/error-rest.png",
+      "duration": 4.4,
+      "peakTime": 0.6,
+      "defaultLoop": false,
+      "onEnd": "hold",
+      "status": "ready",
+      "method": "local-articulation"
+    },
+    {
+      "id": "sleeping",
+      "label": "Sleeping",
+      "description": "Slowly close both eyelids and incline head; hold still until waking.",
+      "group": "activity",
+      "file": "activities/sleeping.mp4",
+      "gif": "activities/sleeping.gif",
+      "poster": "activities/sleeping.png",
+      "restPoster": "activities/sleeping-rest.png",
+      "duration": 4.8,
+      "peakTime": 3.4,
+      "defaultLoop": false,
+      "onEnd": "hold",
+      "status": "ready",
+      "method": "local-articulation"
     }
   ],
   "id": "open-skeleton",
@@ -171,65 +324,78 @@
     ],
     "physicalFit": "unverified"
   },
-  "format": "silent-keyframe-animation",
+  "format": "silent-keyframe-and-articulated-animation",
   "generation": {
     "artwork": "OpenAI built-in image generation",
-    "assembly": "Local ffmpeg keyframe sequencing"
+    "assembly": "Local ffmpeg keyframe sequencing",
+    "activities": "Local textured articulation of original neutral and closed-lid poses; no new generated artwork"
   },
-  "plannedActivities": [
-    {
-      "id": "starting",
-      "label": "Starting",
-      "status": "concept-only",
-      "motion": "Eyelids lift in two stages; eyes focus forward; small ready nod."
+  "semantics": {
+    "neutral": {
+      "clip": "idle",
+      "label": "Neutral / calm"
     },
-    {
-      "id": "listening",
-      "label": "Listening",
-      "status": "concept-only",
-      "motion": "Wider attentive eyes, small forward inclination and acknowledgment nod."
+    "calm": {
+      "clip": "idle",
+      "label": "Neutral / calm"
     },
-    {
-      "id": "researching",
-      "label": "Researching",
-      "status": "concept-only",
-      "motion": "Measured horizontal reading sweeps with short pauses and downward resets."
+    "waking": {
+      "clip": "starting",
+      "label": "Waking"
     },
-    {
-      "id": "coding",
-      "label": "Coding",
-      "status": "concept-only",
-      "motion": "Downward focus, short rapid eye movements, checking pauses and tiny decisive nod."
+    "searching": {
+      "clip": "researching",
+      "label": "Searching"
     },
-    {
-      "id": "waiting",
-      "label": "Waiting",
-      "status": "concept-only",
-      "motion": "Patient side glance, slow blink and return to center."
+    "working": {
+      "clip": "coding",
+      "label": "Working"
     },
-    {
-      "id": "needs-input",
-      "label": "Needs input",
-      "status": "concept-only",
-      "motion": "Direct questioning gaze, one raised lid and a small tilted-head hold."
+    "checking": {
+      "clip": "coding",
+      "label": "Checking"
     },
-    {
-      "id": "complete",
-      "label": "Complete",
-      "status": "concept-only",
-      "motion": "A brief pleased expression and affirmative nod, then return to idle."
+    "speaking": {
+      "clip": "answering",
+      "label": "Speaking \u00b7 silent preview"
     },
-    {
-      "id": "error",
-      "label": "Error",
-      "status": "concept-only",
-      "motion": "Short concerned surprise, brief hold, then attentive recovery pose."
+    "approval": {
+      "clip": "needs-input",
+      "label": "Approval required \u00b7 waiting for your decision"
     },
-    {
-      "id": "sleeping",
-      "label": "Sleeping",
-      "status": "concept-only",
-      "motion": "Slowly close both eyelids and incline head; hold still until waking."
+    "offline": {
+      "clip": "waiting",
+      "label": "Offline \u00b7 no connection",
+      "settle": true
+    },
+    "reconnecting": {
+      "clip": "waiting",
+      "label": "Reconnecting \u00b7 connection unconfirmed",
+      "settle": true
+    },
+    "permission-denied": {
+      "clip": "error",
+      "label": "Permission denied \u00b7 action did not run",
+      "settle": true
+    },
+    "paused": {
+      "clip": "waiting",
+      "label": "Paused \u00b7 work is stopped",
+      "settle": true
+    },
+    "cancelled": {
+      "clip": "waiting",
+      "label": "Cancelled \u00b7 work ended early",
+      "settle": true
+    },
+    "partial": {
+      "clip": "needs-input",
+      "label": "Partial result \u00b7 review what remains",
+      "settle": true
+    },
+    "success": {
+      "clip": "complete",
+      "label": "Complete"
     }
-  ]
+  }
 }

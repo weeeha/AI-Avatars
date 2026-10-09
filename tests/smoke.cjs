@@ -55,6 +55,7 @@ const origin=`http://127.0.0.1:${port}`;
     await require('./oracle-state-smoke.cjs')(page,origin);
     await require('./fragment-smoke.cjs')(page,origin);
     await require('./fragment-state-smoke.cjs')(page,origin);
+    await require('./skeleton-smoke.cjs')(page,origin);
     assert.deepEqual(errors,[]);console.log('PASS: combined character gallery and all imported checks.');
   }finally{await browser?.close();server.kill();}
 })().catch(e=>{console.error(e);process.exit(1);});
