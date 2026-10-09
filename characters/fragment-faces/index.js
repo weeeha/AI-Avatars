@@ -261,6 +261,7 @@ function eyeTarget({ time, character, eye, mode, status, emotion, pointer, base 
   function setPaused(value){
     paused=value;
     if(voiceSession){
+      voiceSession.pauseChanged=true;
       if(voiceSession.source==='demo'){
         const token=voiceSession.token;
         if(paused)demoAudio.pause();else demoAudio.play().catch(()=>finishVoice(token,'Audio could not resume. Press Talk to try again.'));
@@ -274,8 +275,8 @@ function eyeTarget({ time, character, eye, mode, status, emotion, pointer, base 
     if(!voiceSession||voiceSession.token!==token)return;
     const finished=voiceSession;voiceSession=null;voiceLevel=0;speech=0;
     clearTimeout(finished.watchdog);
-    if(mode==='speaking')mode=finished.previousMode==='speaking'?'idle':finished.previousMode;
-    paused=finished.previousPaused;
+    if(mode==='speaking'){mode=finished.previousMode==='speaking'?'idle':finished.previousMode;active=mode;stateSince=time-finished.previousAge;}
+    paused=reduce.matches||(finished.pauseChanged?paused:finished.previousPaused);
     voiceNote.textContent=message||'Synthetic voice · both faces speak together';
     sync();draw(1);save();
   }
@@ -298,7 +299,7 @@ function eyeTarget({ time, character, eye, mode, status, emotion, pointer, base 
       voiceNote.textContent='Custom speech is unavailable here. Demo phrase still has a voice.';return;
     }
     const token=++voiceToken;
-    voiceSession={token,source:isDemo?'demo':'system',previousMode:mode,previousPaused:paused,started:false,startedAt:0,wordAt:0,wordLength:0,text,utterance:null,watchdog:null};
+    voiceSession={token,source:isDemo?'demo':'system',previousMode:mode,previousPaused:paused,previousAge:time-stateSince,pauseChanged:false,started:false,startedAt:0,wordAt:0,wordLength:0,text,utterance:null,watchdog:null};
     reaction=null;mode='speaking';paused=false;voiceLevel=0;speech=0;
     voiceNote.textContent='Starting voice…';sync();draw(1);
     if(isDemo){

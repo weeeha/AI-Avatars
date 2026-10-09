@@ -35,9 +35,23 @@ module.exports=async function cinematicLifecycle(page,origin){
     await page.evaluate(()=>{cinematicPreview.setMode('success');cinematicPreview.seek(5);});
     assert.equal(await page.evaluate(()=>cinematicPreview.getState().pose.celebrate),0,'Success acknowledgement settles');
   }
+  await page.evaluate(()=>{cinematicPreview.setEmotion('calm');cinematicPreview.setMode('success');cinematicPreview.seek(10);});
+  await page.getByRole('button',{name:'Play conversation',exact:true}).click();
+  await page.waitForTimeout(350);
+  await page.getByRole('button',{name:'Stop conversation',exact:true}).click();
+  assert.equal(await page.evaluate(()=>cinematicPreview.getState().mode),'success');
+  assert.equal(await page.evaluate(()=>cinematicPreview.getState().pose.celebrate),0,'Stopping demo preserves a settled prior outcome');
   await page.evaluate(()=>{cinematicPreview.setMode('working');cinematicPreview.setPaused(false);});
   await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>!cinematicPreview.getState().playing);
   const frozen=await page.evaluate(()=>cinematicPreview.getState().time);await page.waitForTimeout(150);assert.equal(await page.evaluate(()=>cinematicPreview.getState().time),frozen);
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.waitForTimeout(80);
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.waitForTimeout(100);
+  await page.getByRole('button',{name:'Play motion',exact:true}).click();
+  await page.waitForTimeout(100);
+  assert.equal(await page.evaluate(()=>cinematicPreview.getState().playing),true,'Explicit Play works after changing preference while paused');
+  await page.evaluate(()=>cinematicPreview.setPaused(true));
   await page.setViewportSize({width:320,height:1000});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   console.log('PASS: both cinematic character lifecycles, distinct activity performances, independent emotion, reaction interruption, settling and reduced motion.');
 };

@@ -288,12 +288,12 @@ const characters = Object.freeze([
     if(persistChoice)persist();request();
   }
   function startConversation(){
-    demoSaved={mode,emotion};demoStart=time;wake=1;playing=true;reaction=null;
+    demoSaved={mode,emotion,age:time-stateSince};demoStart=time;wake=1;playing=true;reaction=null;
     emotion='curious';setMode('waking');persist();request();
   }
   function stopConversation(){
     demoStart=null;reaction=null;
-    if(demoSaved){mode=demoSaved.mode;emotion=demoSaved.emotion;}else mode='idle';
+    if(demoSaved){mode=demoSaved.mode;emotion=demoSaved.emotion;stateSince=time-demoSaved.age;}else{mode='idle';stateSince=time;}
     demoSaved=null;sync();persist();draw();
   }
   stateSelect.addEventListener('change',()=>{demoStart=null;demoSaved=null;reaction=null;setMode(stateSelect.value);previewSelection();});
@@ -730,7 +730,7 @@ const characters = Object.freeze([
   function request(){if(!raf&&playing&&visible)raf=requestAnimationFrame(frame);else if(!playing||!visible)previous=0;}
   if('IntersectionObserver' in window)new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;previous=0;request();},{threshold:.01}).observe(root);
   document.addEventListener('visibilitychange',()=>{visible=!document.hidden;previous=0;request();});
-  reduce.addEventListener('change',e=>{if(e.matches){playing=false;demoStart=null;reaction=null;sync();}});
+  reduce.addEventListener('change',e=>{previousReduce=e.matches;if(e.matches){playing=false;demoStart=null;reaction=null;sync();}});
   try{restore(JSON.parse(localStorage.getItem(storageKey)));}catch{/* Ignore incompatible saved state. */}
   const requestedCharacter=new URLSearchParams(location.search).get('character');
   if(characters.some(c=>c.id===requestedCharacter))activeCharacter=requestedCharacter;
