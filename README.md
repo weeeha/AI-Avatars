@@ -12,13 +12,14 @@ Open **http://127.0.0.1:4173**. Node.js 20 or newer is required. The gallery has
 
 ## Included studies
 
+- **Fragment & Third Eye:** photographic eyes with detailed iris texture, separate pupil targets, coordinated or independent gaze, ten emotions, ten statuses, and six reactions. Includes real synthetic demo speech and local browser voices for custom text. [Behavior guide](docs/fragment-faces.md).
 - **Dot flock:** a round sculpture of individually shaded blue dots, with clear gaps, curved eyelids, rounded irises, and dark pupils. Supports expressive motion, pointer disturbance, and scatter/reform.
 - **Red eye:** a red glass lens with blue reflections and an expressive luminous aperture. Both cinematic faces combine 10 activities, 10 emotions, and 6 temporary reactions. [Behavior guide](docs/cinematic-faces.md).
 - **Prismatic lenses — character states:** idle, listening, talking, thinking, writing code, and complete. Includes a demo sequence, playback speed, pause, and round/square display views.
 - **Ten motion ideas:** liquid core, twin moons, ribbon knot, hourglass, fireflies, radar sweep, helix, tide, bloom, and curious eyes.
 - **Six palettes:** prismatic, pink, cyan, lilac, amber, and mint, shared across both studies.
 
-These are original browser-rendered concepts based on supplied visual references. Talking uses simulated timing; the studies are not connected to live speech, a microphone, an agent, or physical hardware. Reduced-motion settings start the previews paused.
+These are original browser-rendered concepts based on supplied visual references. Fragment and Third Eye include synthetic voice playback; their demo mouth motion follows audio amplitude and custom phrases use approximate speech timing. Other studies simulate talking. The studies are not connected to a microphone, an agent, or physical hardware. Reduced-motion settings start the previews paused.
 
 ## Edit
 
@@ -39,7 +40,7 @@ npx playwright install chromium
 npm test
 ```
 
-The smoke check loads both standalone studies, checks graphics initialization, state/palette switching, animation playback, local preference persistence, reduced motion, and narrow-screen layout. `npm run check` also confirms that generated files are current and have no machine-specific paths or conversation-host API calls.
+The smoke check loads the standalone studies and checks graphics initialization, state/palette switching, animation playback, local preference persistence, reduced motion, and narrow-screen layout. It also verifies all five photographic pupils, independent gaze, speech playback, and restoration of the selected status after speech. `npm run check` also confirms that generated files are current and have no machine-specific paths or conversation-host API calls.
 
 ## Add characters
 

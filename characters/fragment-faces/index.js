@@ -1,0 +1,464 @@
+const vertex = "attribute vec2 position; varying vec2 uv; void main(){uv=vec2(position.x*.5+.5,.5-position.y*.5); gl_Position=vec4(position,0.,1.);}";
+
+const fragment = `precision highp float;
+    varying vec2 uv;
+    uniform sampler2D photo;
+    uniform sampler2D irisPhoto;
+    uniform vec2 origin;
+    uniform float variant;
+    uniform vec3 blinks;
+    uniform vec2 gazeLeft;
+    uniform vec2 gazeRight;
+    uniform vec2 gazeThird;
+    uniform float opening;
+    uniform float listening;
+    uniform vec3 expression;
+    uniform vec3 pose;
+    uniform float dim;
+    uniform float t;
+    vec2 blinkWarp(vec2 p,vec2 center,vec2 radius,float blink){
+      if(abs(blink)<.0001)return p;
+      float nx=abs(p.x-center.x)/radius.x;
+      if(nx>1.25)return p;
+      float weight=1.-smoothstep(.7,1.22,nx);
+      float seam=center.y+6.*nx*nx;
+      float dy=p.y-seam;
+      float range=radius.y*1.55;
+      if(abs(dy)>range)return p;
+      float lo=0.,hi=range;
+      for(int i=0;i<11;i++){
+        float mid=(lo+hi)*.5;
+        float mapped=mid*(1.-.9995*blink*weight*pow(max(0.,1.-pow(mid/range,2.)),2.));
+        if(mapped<abs(dy))lo=mid;else hi=mid;
+      }
+      return vec2(p.x,seam+sign(dy)*(lo+hi)*.5);
+    }
+    vec3 read(vec2 p){return texture2D(photo,p/vec2(1774.,887.)).rgb;}
+    vec3 layeredEye(vec3 skin,vec2 eyePoint,vec2 lidPoint,vec2 center,vec4 aperture,float slope,float irisRadius,vec3 hue,vec2 look,float blink){
+      float nx=(lidPoint.x-center.x)/aperture.x;
+      if(abs(nx)>1.02)return skin;
+      float curve=pow(max(0.,1.-nx*nx),.68);
+      float seam=center.y+aperture.w*nx*nx+slope*nx;
+      float top=seam-aperture.y*curve;
+      float bottom=seam+aperture.z*curve;
+      float mask=smoothstep(-.8,.9,lidPoint.y-top)*(1.-smoothstep(-.9,.8,lidPoint.y-bottom));
+      mask*=1.-smoothstep(.985,1.,blink);
+      if(mask<.001)return skin;
+      // Retain the photographed whites, veins, tear line and lashes. Reconstruct only
+      // the old iris region from the adjacent sclera, before placing the moving iris.
+      vec2 originalEye=lidPoint-center;
+      float oldIris=1.-smoothstep(irisRadius*.87,irisRadius*1.26,length(originalEye*vec2(1.,.96)));
+      float patchY=clamp(originalEye.y*.62,-13.,14.);
+      float patchX=irisRadius+12.+abs(originalEye.x)*.12;
+      vec3 whiteLeft=read(center+vec2(-patchX,patchY));
+      vec3 whiteRight=read(center+vec2(patchX,patchY));
+      vec3 whiteRepair=mix(whiteLeft,whiteRight,smoothstep(-irisRadius,irisRadius,originalEye.x));
+      float grain=sin(eyePoint.x*2.31+sin(eyePoint.y*1.71))*sin(eyePoint.y*2.17)*.006;
+      whiteRepair+=grain;
+      float veinPath=sin(originalEye.x*.039+1.2)*9.+sin(originalEye.x*.11)*2.;
+      float vein=exp(-pow((originalEye.y-veinPath)/.65,2.))*.025;
+      whiteRepair=mix(whiteRepair,vec3(.40,.20,.31),vein);
+      whiteRepair*=.78+.22*smoothstep(0.,22.,lidPoint.y-top);
+      vec3 sclera=mix(skin,whiteRepair,oldIris);
+      vec2 travel=clamp(look,vec2(-irisRadius*.66,-irisRadius*.43),vec2(irisRadius*.66,irisRadius*.43));
+      vec2 irisPoint=(eyePoint-center-travel)/irisRadius;
+      irisPoint.x/=1.-abs(travel.x)/irisRadius*.12;
+      float radius=length(irisPoint);
+      float pupilRadius=.215+.014*sin(t*.55+center.x*.1);
+      float sampleRadius=radius<pupilRadius?radius*.30/pupilRadius:.30+(radius-pupilRadius)*.70/(1.-pupilRadius);
+      float turn=center.x*.013;
+      vec2 texturePoint=mat2(cos(turn),-sin(turn),sin(turn),cos(turn))*irisPoint*(sampleRadius/max(.001,radius));
+      vec3 iris=texture2D(irisPhoto,vec2(.5)+texturePoint*.45).rgb;
+      float luminance=dot(iris,vec3(.299,.587,.114));
+      iris=mix(vec3(luminance),iris,.5)*hue;
+      iris*=.42+.58*smoothstep(0.,26.,lidPoint.y-top);
+      iris=mix(iris,vec3(.003,.004,.008),1.-smoothstep(pupilRadius-.012,pupilRadius+.006,radius));
+      // Corneal reflections sit above the iris and travel more slowly than its tissue.
+      vec2 cornea=(eyePoint-center-travel*.82)/irisRadius;
+      vec2 glint=(cornea-vec2(-.11,-.28))/vec2(.070,.092);
+      iris+=vec3(.82,.87,.98)*exp(-dot(glint,glint)*1.6);
+      vec2 softbox=(cornea-vec2(-.30,-.12))/vec2(.10,.17);
+      iris+=vec3(.07,.09,.17)*exp(-dot(softbox,softbox)*1.3);
+      vec2 sparkle=(cornea-vec2(-.10,-.40))/vec2(.035,.035);
+      iris+=vec3(.52,.60,.72)*exp(-dot(sparkle,sparkle)*1.4);
+      vec3 eye=mix(sclera,iris,1.-smoothstep(.975,1.025,radius));
+      // Preserve fine lashes at the photographed aperture boundary.
+      mask*=smoothstep(0.,2.5,min(lidPoint.y-top,bottom-lidPoint.y));
+      return mix(skin,eye,mask);
+    }
+    void main(){
+      vec2 original=origin+uv*574.;
+      vec2 p=original;
+      float features=(1.-smoothstep(.77,.98,length((uv-.5)*2.)))*(1.-smoothstep(579.,610.,p.y));
+      vec2 offset=p-(origin+vec2(287.,240.));
+      p+=vec2(-pose.x+offset.y*pose.z,-pose.y-offset.x*pose.z)*features;
+      vec2 eyePoint=p;
+      if(variant<.5){
+        p=blinkWarp(p,vec2(201.,307.),vec2(87.,43.),blinks.x);
+        p=blinkWarp(p,vec2(433.,353.),vec2(86.,42.),blinks.y);
+      }else{
+        p=blinkWarp(p,vec2(884.,248.),vec2(98.,57.),blinks.z);
+        p=blinkWarp(p,vec2(740.,384.),vec2(89.,47.),blinks.x);
+        p=blinkWarp(p,vec2(1039.,389.),vec2(88.,47.),blinks.y);
+      }
+      vec2 mouthCenter=variant<.5?vec2(312.,510.):vec2(886.,536.);
+      float mouthWidth=variant<.5?115.:116.;
+      vec2 mq=p-mouthCenter;
+      float mouthMask=(1.-smoothstep(98.,146.,abs(mq.x)))*(1.-smoothstep(36.,68.,abs(mq.y)));
+      p.x=mouthCenter.x+mq.x*(1.+(1./expression.y-1.)*mouthMask);
+      float corner=min(1.4,pow(abs(mq.x)/100.,1.7));
+      p.y+=(expression.x*17.*corner+expression.z*13.*mq.x/115.)*mouthMask;
+      float dx=(p.x-mouthCenter.x)/mouthWidth;
+      float cavity=0.;
+      if(abs(dx)<1.){
+        float shape=pow(max(0.,1.-dx*dx),1.65);
+        float seam=mouthCenter.y+(variant<.5?1.5*dx:5.*dx+2.*cos(dx*3.14));
+        float dy=p.y-seam;
+        float gap=opening*shape;
+        float up=gap*.32,down=gap*.68;
+        float range=variant<.5?61.:70.;
+        if(variant>.5 && abs(dy)<range){
+          float amount=(opening-8.)/19.*shape;
+          float lo=0.,hi=range;
+          for(int i=0;i<11;i++){
+            float mid=(lo+hi)*.5;
+            float falloff=pow(max(0.,1.-pow(mid/range,2.)),2.);
+            float mapped=mid*(1.+amount*falloff);
+            if(mapped<abs(dy))lo=mid;else hi=mid;
+          }
+          p.y=seam+sign(dy)*(lo+hi)*.5;
+        }else if(variant<.5 && abs(dy)<range){
+          if(dy>down)p.y=seam+(dy-down)*range/(range-down);
+          else if(dy< -up)p.y=seam+(dy+up)*range/(range-up);
+          else{p.y=seam;cavity=1.;}
+          cavity=smoothstep(-up-.7,-up+.7,dy)*(1.-smoothstep(down-.7,down+.7,dy))*step(.1,gap);
+        }
+      }
+      vec3 color=read(p);
+      if(variant<.5){
+        color=layeredEye(color,eyePoint,p,vec2(200.,307.),vec4(84.,25.,22.,3.),-8.,34.,vec3(.62,.43,.39),gazeLeft,blinks.x);
+        color=layeredEye(color,eyePoint,p,vec2(424.,349.),vec4(74.,20.,26.,5.),3.,32.,vec3(.60,.43,.39),gazeRight,blinks.y);
+      }else{
+        color=layeredEye(color,eyePoint,p,vec2(890.,239.),vec4(89.,30.,37.,16.),3.,41.,vec3(.78,.68,1.06),gazeThird,blinks.z);
+        color=layeredEye(color,eyePoint,p,vec2(740.,378.),vec4(83.,25.,35.,8.),4.,35.,vec3(.72,.84,1.12),gazeLeft,blinks.x);
+        color=layeredEye(color,eyePoint,p,vec2(1039.,383.),vec4(79.,23.,34.,10.),2.,35.,vec3(.70,.83,.79),gazeRight,blinks.y);
+      }
+      color=mix(color,vec3(.012,.005,.018),cavity);
+      color*=dim;
+      float timeMask=(1.-smoothstep(80.,92.,abs(original.x-(origin.x+287.))))*smoothstep(612.,619.,original.y)*(1.-smoothstep(662.,669.,original.y));
+      color=mix(color,vec3(.003,.003,.004),timeMask);
+      float r=length((uv-.5)*2.);
+      gl_FragColor=vec4(color,1.-smoothstep(.988,1.,r));
+    }`;
+
+const audioEnvelope = {"step":0.02,"duration":6.893125,"values":[0,0.147,0.456,0.85,0.851,0.848,0.832,0.831,0.837,0.83,0.894,0.877,0.845,0.818,0.783,0.757,0.717,0.652,0.677,0.582,0.525,0.476,0.385,0.277,0.199,0,0,0,0,0,0,0,0,0,0,0,0,0.577,0.761,0.83,0.872,0.827,0.871,0.868,0.855,0.865,0.861,0.853,0.836,1,1,0.991,0.91,0.908,0.89,0.819,0.803,0.544,0.321,0.268,0.227,0.221,0.443,0.976,0.991,0.971,0.96,0.805,0.384,0.172,0,0.146,0.747,0.829,0.86,0.785,0.531,0.206,0,0.137,0.192,0.21,0.187,0.617,0.858,0.842,0.891,0.862,0.829,0.796,0.832,0.689,0.657,0.657,0.537,0.445,0.228,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.611,0.823,0.883,0.812,0.882,0.83,0.561,0.232,0,0.228,0.362,0.901,0.907,0.882,0.89,0.949,1,0.986,0.9,0.883,0.859,0.921,0.948,0.893,0.908,0.701,0.448,0.277,0.232,0.231,0.202,0.64,0.826,0.748,0.695,0.706,0.685,0.611,0.507,0.361,0.184,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.186,0.886,0.868,0.878,0.82,0.805,0.75,0.691,0.689,0.663,0.594,0.517,0.314,0,0,0,0,0,0,0,0,0,0,0,0,0,0.353,0.815,0.879,0.938,1,1,1,1,1,1,0.941,0.864,0.893,0.844,0.824,0.81,0.758,0.818,0.711,0.748,0.627,0.569,0.483,0.311,0.207,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.109,0.328,0.315,0.341,0.764,0.935,0.91,0.829,0.898,0.831,0.813,0.761,0.658,0.679,0.544,0.413,0.174,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.599,0.865,0.926,0.931,0.928,0.804,0.464,0.202,0.186,0.428,0.732,0.918,0.962,0.868,0.61,0.437,0.353,0.756,1,1,0.982,0.952,0.812,0.853,0.876,0.883,0.914,0.892,0.851,0.83,0.589,0.241,0,0,0.161,0.373,0.421,0.952,0.776,0.529,0.392,0.195,0.494,0.958,1,1,1,0.997,1,1,1,1,0.935,0.884,0.804,0.855,0.82,0.713,0.658,0.664,0.518,0.386,0.163,0,0,0,0.185,0.293,0.281,0.234,0.223,0.175,0,0,0,0,0,0]};
+
+/** Eye/lip geometry for these atlas crops lives in shaders.js. */
+const characters = Object.freeze([
+  { id: 'fragment', name: 'Fragment', eyeCount: 2, cropOrigin: [24, 123], cropSize: 574 },
+  { id: 'third-eye', name: 'Third Eye', eyeCount: 3, cropOrigin: [598, 123], cropSize: 574 },
+]);
+
+const clamp = (value, limit) => Math.max(-limit, Math.min(limit, value));
+const hash = value => { const n = Math.sin(value * 127.1 + 311.7) * 43758.5453; return (n - Math.floor(n)) * 2 - 1; };
+const smooth = value => { const t = Math.max(0, Math.min(1, value)); return t * t * (3 - 2 * t); };
+
+/** Independent fixations with short saccades and longer holds, rather than constant circling. */
+function eyeTarget({ time, character, eye, mode, status, emotion, pointer, base }) {
+  const id = character * 3 + eye;
+  let amount = mode === 'independent' ? 1 : mode === 'together' ? 0
+    : ['thinking', 'searching'].includes(status) ? .95
+    : ['playful', 'confused'].includes(emotion) ? .85 : emotion === 'skeptical' ? .45 : 0;
+  if (status === 'sleeping') amount = 0;
+  // Pointer focus reunites automatic gaze; explicit Independent keeps each eye curious.
+  if (pointer && mode === 'auto') amount = 0;
+  const beat = time / (1.55 + id * .17) + id * .63;
+  const step = Math.floor(beat), blend = smooth((beat - step) / .12);
+  const target = axis => {
+    const seed = id * 31.73 + axis * 71.2;
+    return hash(step - 1 + seed) * (1 - blend) + hash(step + seed) * blend;
+  };
+  const independent = { x: target(1) * 21, y: target(2) * 11 };
+  if (status === 'thinking' && eye === 2) independent.y = -10 + target(2) * 3;
+  const x = pointer ? base.x + independent.x * amount * .55 : base.x * (1 - amount) + independent.x * amount;
+  const y = pointer ? base.y + independent.y * amount * .55 : base.y * (1 - amount) + independent.y * amount;
+  return { x: clamp(x, 23), y: clamp(y, 14) };
+}
+
+
+(()=>{
+  const root=document.getElementById('fragment-faces-alive');
+  const modeSelect=root.querySelector('#fragment-mode');
+  const emotionSelect=root.querySelector('#fragment-emotion');
+  const gazeSelect=root.querySelector('#fragment-gaze');
+  const pauseButton=root.querySelector('#fragment-pause');
+  const talkButton=root.querySelector('#fragment-talk');
+  const stopButton=root.querySelector('#fragment-stop');
+  const demoButton=root.querySelector('#fragment-demo');
+  const sayInput=root.querySelector('#fragment-say');
+  const voiceNote=root.querySelector('#fragment-voice-note');
+  const status=root.querySelector('#fragment-status');
+  const error=root.querySelector('#fragment-error');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)');
+  const statusInfo={
+    idle:['Idle','neutral'],listening:['Listening','curious'],thinking:['Thinking','focused'],
+    searching:['Searching','curious'],speaking:['Speaking','neutral'],done:['Done','happy'],
+    alert:['Reminder','surprised'],error:['Error','confused'],offline:['Offline','sad'],sleeping:['Sleeping','sleepy']
+  };
+  const expressions={
+    neutral:{l:0,r:0,f:0,smile:0,width:1,asym:0,open:0,gx:0,gy:0,roll:0},
+    happy:{l:.30,r:.30,f:.12,smile:1.25,width:1.07,asym:0,open:4,gx:0,gy:0,roll:0},
+    curious:{l:-.22,r:.16,f:-.3,smile:.18,width:.97,asym:.3,open:1,gx:-2,gy:-2,roll:.025},
+    playful:{l:.2,r:.4,f:.05,smile:1,width:1.04,asym:.75,open:3,gx:4,gy:-1,roll:-.03},
+    skeptical:{l:.66,r:-.2,f:.32,smile:-.1,width:.92,asym:-.95,open:0,gx:7,gy:0,roll:.025},
+    confused:{l:-.12,r:.47,f:.2,smile:-.35,width:.92,asym:.5,open:1,gx:0,gy:0,roll:-.035},
+    sad:{l:.47,r:.5,f:.48,smile:-1.25,width:.96,asym:0,open:0,gx:0,gy:4,roll:0},
+    surprised:{l:-.27,r:-.27,f:-.3,smile:0,width:.73,asym:0,open:28,gx:0,gy:0,roll:0},
+    sleepy:{l:.78,r:.82,f:.72,smile:-.15,width:.96,asym:0,open:0,gx:0,gy:4,roll:.02},
+    focused:{l:.36,r:.36,f:.08,smile:-.1,width:.93,asym:0,open:0,gx:0,gy:0,roll:0}
+  };
+  const allowed=['demo',...Object.keys(statusInfo)];
+  const emotionNames=['auto',...Object.keys(expressions)];
+  const reactionInfo={wink:['Wink',1.7],'got-it':['Got it',2],no:['No',1.8],startled:['Surprise',2.2],laugh:['Laugh',2.8],blink:['Blink',.7]};
+  const demo=[['idle','neutral'],['listening','curious'],['thinking','focused'],['searching','curious'],['speaking','happy'],['done','happy'],['idle','playful'],['idle','skeptical'],['error','confused'],['offline','sad'],['alert','surprised'],['sleeping','sleepy']];
+  const saved=window.avatarState?.widgetState;
+
+  const demoText=sayInput.value;
+  const demoAudio=new Audio('../../assets/fragment-faces/hello.mp3');
+  demoAudio.preload='auto';
+  const synth=window.speechSynthesis;
+  let voiceSession=null,voiceToken=0,voiceLevel=0,lastMouth=0;
+  let mode=allowed.includes(saved?.modelContent?.mode)?saved.modelContent.mode:'demo';
+  let emotion=emotionNames.includes(saved?.modelContent?.emotion)?saved.modelContent.emotion:'auto';
+  const gazeModes=['auto','together','independent'];
+  let gazeMode=gazeModes.includes(saved?.modelContent?.gazeMode)?saved.modelContent.gazeMode:'auto';
+  let paused=reduce.matches||saved?.privateContent?.paused===true;
+  let time=0,last=0,loaded=false,active='idle',displayEmotion='neutral',stateSince=0,reaction=null;
+  let speech=0,attention=0,pointer={x:0,y:0,active:false};
+  const eyeAims=characters.map(character=>Array.from({length:character.eyeCount},()=>({x:0,y:0})));
+  const current={...expressions.neutral,dim:1};
+  const motion={intensity:1,speed:1};
+  const renderers=[];
+  const textureImage=new Image();
+  const irisImage=new Image();
+  function fail(message){error.hidden=false;error.textContent=message;}
+  function save(){
+    window.avatarState?.setWidgetState?.({modelContent:{mode,emotion,gazeMode,faces:['Fragment','Third Eye']},privateContent:{paused}})?.catch(()=>{});
+  }
+  function sync(){gazeSelect.value=gazeMode;modeSelect.value=mode;emotionSelect.value=emotion;pauseButton.textContent=paused?'Play':'Pause';pauseButton.setAttribute('aria-pressed',String(paused));stopButton.disabled=!voiceSession;talkButton.textContent=voiceSession?'Restart speech':'Talk';}
+  modeSelect.onchange=()=>{const next=modeSelect.value;stopTalking();mode=next;stateSince=time;draw(paused?1:.04);save();};
+  emotionSelect.onchange=()=>{emotion=emotionSelect.value;draw(paused?1:.04);save();};
+  gazeSelect.onchange=()=>{gazeMode=gazeSelect.value;draw(paused?1:.04);save();};
+  function setPaused(value){
+    paused=value;
+    if(voiceSession){
+      if(voiceSession.source==='demo'){
+        const token=voiceSession.token;
+        if(paused)demoAudio.pause();else demoAudio.play().catch(()=>finishVoice(token,'Audio could not resume. Press Talk to try again.'));
+      }else if(paused)synth?.pause();else synth?.resume();
+    }
+    if(voiceSession&&paused){voiceLevel=0;speech=0;draw(1);}
+    sync();save();
+  }
+  pauseButton.onclick=()=>setPaused(!paused);
+  function finishVoice(token,message){
+    if(!voiceSession||voiceSession.token!==token)return;
+    const finished=voiceSession;voiceSession=null;voiceLevel=0;speech=0;
+    clearTimeout(finished.watchdog);
+    if(mode==='speaking')mode=finished.previousMode==='speaking'?'idle':finished.previousMode;
+    paused=finished.previousPaused;
+    voiceNote.textContent=message||'Synthetic voice · both faces speak together';
+    sync();draw(1);save();
+  }
+  function stopTalking(){
+    if(!voiceSession)return;
+    const token=voiceSession.token,source=voiceSession.source;
+    finishVoice(token);
+    demoAudio.pause();demoAudio.currentTime=0;
+    if(source==='system')synth?.cancel();
+  }
+  function localVoices(){return synth?synth.getVoices().filter(voice=>voice.localService):[];}
+  function startTalking(forceDemo=false){
+    const text=forceDemo?demoText:sayInput.value.trim();
+    if(!text){voiceNote.textContent='Enter a short phrase first.';sayInput.focus();return;}
+    stopTalking();
+    if(forceDemo)sayInput.value=demoText;
+    const isDemo=text===demoText;
+    const voices=localVoices();
+    if(!isDemo&&(!synth||!window.SpeechSynthesisUtterance||!voices.length)){
+      voiceNote.textContent='Custom speech is unavailable here. Demo phrase still has a voice.';return;
+    }
+    const token=++voiceToken;
+    voiceSession={token,source:isDemo?'demo':'system',previousMode:mode,previousPaused:paused,started:false,startedAt:0,wordAt:0,wordLength:0,text,utterance:null,watchdog:null};
+    reaction=null;mode='speaking';paused=false;voiceLevel=0;speech=0;
+    voiceNote.textContent='Starting voice…';sync();draw(1);
+    if(isDemo){
+      demoAudio.currentTime=0;
+      demoAudio.onplaying=()=>{if(voiceSession?.token===token){voiceSession.started=true;voiceNote.textContent='Synthetic voice · lips follow the audio';}};
+      demoAudio.onended=()=>finishVoice(token);
+      demoAudio.onerror=()=>finishVoice(token,'The demo voice could not load. Press Talk to retry.');
+      demoAudio.play().catch(()=>finishVoice(token,'Audio was blocked. Press Talk again to enable sound.'));
+    }else{
+      const utterance=new SpeechSynthesisUtterance(text);
+      utterance.voice=voices.find(v=>v.name==='Samantha')||voices.find(v=>v.lang==='en-US')||voices.find(v=>v.lang.startsWith('en'))||voices[0];
+      utterance.lang=utterance.voice.lang;utterance.rate=.95;utterance.pitch=1;utterance.volume=1;
+      voiceSession.utterance=utterance;
+      utterance.onstart=()=>{if(voiceSession?.token!==token)return;voiceSession.started=true;voiceSession.startedAt=performance.now()/1000;voiceNote.textContent='Synthetic voice · approximate speech timing';clearTimeout(voiceSession.watchdog);};
+      utterance.onboundary=event=>{if(voiceSession?.token!==token)return;const word=text.slice(event.charIndex).match(/^\S+/)?.[0]||'';voiceSession.wordAt=performance.now()/1000;voiceSession.wordLength=word.length;};
+      utterance.onend=()=>finishVoice(token);
+      utterance.onerror=()=>finishVoice(token,'That voice could not speak. Use Demo phrase to hear the clock.');
+      voiceSession.watchdog=setTimeout(()=>{if(voiceSession?.token===token&&!voiceSession.started){finishVoice(token,'That voice did not start. Use Demo phrase instead.');synth.cancel();}},6000);
+      synth.speak(utterance);
+    }
+  }
+  function getVoiceLevel(){
+    if(!voiceSession||!voiceSession.started||paused)return 0;
+    if(voiceSession.source==='demo'){
+      if(demoAudio.paused||demoAudio.ended)return 0;
+      const index=demoAudio.currentTime/audioEnvelope.step;
+      const a=audioEnvelope.values[Math.floor(index)]||0,b=audioEnvelope.values[Math.floor(index)+1]||0;
+      return a+(b-a)*(index%1);
+    }
+    const now=performance.now()/1000,elapsed=now-voiceSession.startedAt;
+    const age=now-voiceSession.wordAt;
+    const gate=voiceSession.wordAt>0?Math.max(0,1-age/Math.max(.22,voiceSession.wordLength*.065)):.75;
+    return gate*(.2+.8*Math.pow(.5+.5*Math.sin(elapsed*18),2));
+  }
+  talkButton.onclick=()=>startTalking();stopButton.onclick=stopTalking;demoButton.onclick=()=>startTalking(true);
+  sayInput.oninput=sync;
+  addEventListener('pagehide',stopTalking);
+  function react(kind){if(!reactionInfo[kind])return;reaction={kind,start:time};setPaused(false);}
+  root.querySelectorAll('[data-reaction]').forEach(button=>button.onclick=()=>react(button.dataset.reaction));
+  root.querySelectorAll('.fragment-face').forEach(face=>{
+    const follow=event=>{const r=face.getBoundingClientRect();pointer={x:(event.clientX-r.left)/r.width*2-1,y:(event.clientY-r.top)/r.height*2-1,active:true};if(paused)draw(.15);};
+    face.addEventListener('pointermove',follow);
+    face.addEventListener('pointerdown',follow);
+    face.addEventListener('pointerleave',()=>{pointer.active=false;});
+  });
+  function setup(canvas,index){
+    const gl=canvas.getContext('webgl',{alpha:true,antialias:false,premultipliedAlpha:false,preserveDrawingBuffer:true});
+    if(!gl)throw Error('This motion preview needs browser graphics support.');
+    function compile(type,source){const shader=gl.createShader(type);gl.shaderSource(shader,source);gl.compileShader(shader);if(!gl.getShaderParameter(shader,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(shader));return shader;}
+    const program=gl.createProgram();gl.attachShader(program,compile(gl.VERTEX_SHADER,vertex));gl.attachShader(program,compile(gl.FRAGMENT_SHADER,fragment));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));gl.useProgram(program);
+    const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+    const pos=gl.getAttribLocation(program,'position');gl.enableVertexAttribArray(pos);gl.vertexAttribPointer(pos,2,gl.FLOAT,false,0,0);
+    const locations={};for(const name of ['photo','irisPhoto','origin','variant','blinks','gazeLeft','gazeRight','gazeThird','opening','listening','expression','pose','dim','t'])locations[name]=gl.getUniformLocation(program,name);
+    gl.activeTexture(gl.TEXTURE0);
+    const texture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,texture);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+    gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,textureImage);
+    gl.activeTexture(gl.TEXTURE1);
+    const irisTexture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,irisTexture);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+    gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,irisImage);
+    gl.generateMipmap(gl.TEXTURE_2D);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);
+    gl.uniform1i(locations.irisPhoto,1);
+    gl.uniform1i(locations.photo,0);gl.uniform2f(locations.origin,...characters[index].cropOrigin);gl.uniform1f(locations.variant,index);
+    return {canvas,gl,locations,index};
+  }
+  function blinkPulse(elapsed,duration=.30){if(elapsed<0||elapsed>duration)return 0;const p=elapsed/duration;return p<.38?Math.sin(p/.38*Math.PI*.5):Math.cos((p-.38)/.62*Math.PI*.5);}
+  function draw(dt){
+    if(!loaded)return;
+    const demoState=demo[Math.floor(time/4.5)%demo.length];
+    const nextActive=mode==='demo'?demoState[0]:mode;
+    if(nextActive!==active){active=nextActive;stateSince=time;}
+    displayEmotion=emotion==='auto'?(mode==='demo'?demoState[1]:statusInfo[active][1]):emotion;
+    if(reaction && time-reaction.start>reactionInfo[reaction.kind][1])reaction=null;
+    const age=time-stateSince;
+    const target={...expressions[displayEmotion],dim:1};
+    if(active==='listening'){target.l-=.1;target.r-=.1;target.f-=.12;}
+    if(active==='offline'){target.dim=.73;target.gy+=3;}
+    if(active==='sleeping'){target.l=1;target.r=1;target.f=1;target.open=0;target.smile=0;target.dim=.57;}
+    const reactAge=reaction?time-reaction.start:0;
+    const reactDuration=reaction?reactionInfo[reaction.kind][1]:1;
+    const envelope=reaction?Math.pow(Math.max(0,Math.sin(Math.PI*reactAge/reactDuration)),.65):0;
+    let rx=0,ry=0,rr=0,wink=0,manual=0,thirdManual=0;
+    if(reaction){
+      if(active==='sleeping'){target.l=0;target.r=0;target.f=0;target.dim=1;}
+      if(reaction.kind==='wink'){
+        wink=blinkPulse(reactAge-.15,1.05);target.smile+=.7*envelope;target.asym+=.55*envelope;
+      }else if(reaction.kind==='got-it'){
+        ry=Math.sin(reactAge*Math.PI*3)*9*envelope;target.smile+=.6*envelope;target.l+=.15*envelope;target.r+=.15*envelope;
+      }else if(reaction.kind==='no'){
+        rx=Math.sin(reactAge*Math.PI*4.2)*11*envelope;rr=Math.sin(reactAge*Math.PI*4.2)*.022*envelope;target.smile-=.6*envelope;
+      }else if(reaction.kind==='startled'){
+        const jump=Math.min(1,reactAge/.10)*Math.min(1,(reactDuration-reactAge)/.8);
+        target.l=-.34*jump;target.r=-.34*jump;target.f=-.36*jump;target.width=1-.3*jump;target.open=35*jump;target.smile=0;ry=-8*jump;
+      }else if(reaction.kind==='laugh'){
+        target.smile=1.4;target.l=.52;target.r=.52;target.f=.3;target.width=1.08;
+        target.open=(9+23*Math.pow(.5+.5*Math.sin(reactAge*14),2))*envelope;
+        ry=Math.sin(reactAge*14)*3*envelope;rr=Math.sin(reactAge*7)*.018*envelope;
+      }else if(reaction.kind==='blink'){
+        manual=blinkPulse(reactAge-.02,.38);thirdManual=blinkPulse(reactAge-.15,.44);
+      }
+    }
+    const easing=1.-Math.exp(-dt*9);
+    for(const key of Object.keys(current))current[key]+=(target[key]-current[key])*easing;
+    speech+=(Number(active==='speaking'&&!voiceSession)-speech)*easing;
+    voiceLevel+=(getVoiceLevel()-voiceLevel)*(1.-Math.exp(-dt*30));
+    attention+=(Number(active==='listening')-attention)*easing;
+    const phrase=Math.pow(.5+.5*Math.sin(time*1.8),.65);
+    const syllable=.13+.52*Math.pow(.5+.5*Math.sin(time*11.),2)+.35*Math.pow(.5+.5*Math.sin(time*17.1+.6),2);
+    const mouthSignal=voiceSession?voiceLevel*34:speech*(2.+29.*phrase*syllable);
+    const mouth=Math.min(38,((voiceSession?current.open*.2:current.open)+mouthSignal)*motion.intensity);
+    lastMouth=mouth;
+    let gx=(Math.sin(time*.57)+.4*Math.sin(time*1.4))*2.7;
+    let gy=Math.sin(time*.63+1.2)*1.6;
+    if(active==='thinking'){gx=-5+Math.sin(time*1.7)*1.8;gy=-4;}
+    if(active==='searching'){gx=Math.tanh(Math.sin(time*1.5)*5)*8;gy=Math.sin(time*.8)*2;}
+    if(active==='offline'){gx=0;gy=3;}
+    if(active==='sleeping'){gx=0;gy=0;ry+=Math.sin(time*1.25)*1.4;}
+    if(active==='done' && age<2){ry+=Math.sin(age*6)*4*Math.sin(age/2*Math.PI);}
+    if(active==='error' && age<2){rx+=Math.sin(age*9)*5*Math.sin(age/2*Math.PI);}
+    if(displayEmotion==='confused'){gx+=Math.sin(time*2.1)*4;rr+=Math.sin(time*1.4)*.025;}
+    if(displayEmotion==='sleepy')ry+=2+Math.sin(time*.8)*2;
+    gx*=1.-.76*attention;gy*=1.-.76*attention;
+    gx=(gx+current.gx)*2.2;gy=(gy+current.gy)*2.;
+    if(pointer.active && active!=='sleeping'){gx=pointer.x*24;gy=pointer.y*15;}
+    const gazeEase=1.-Math.exp(-dt*18);
+    eyeAims.forEach((eyes,character)=>eyes.forEach((aim,eye)=>{
+      const target=eyeTarget({time,character,eye,mode:gazeMode,status:active,emotion:displayEmotion,pointer:pointer.active&&active!=='sleeping',base:{x:gx,y:gy}});
+      aim.x+=(target.x-aim.x)*gazeEase;aim.y+=(target.y-aim.y)*gazeEase;
+    }));
+    for(const {canvas,gl,locations,index} of renderers){
+      const period=displayEmotion==='focused'?11.3:displayEmotion==='happy'?6.7:7.9;
+      const slow=displayEmotion==='sleepy'?2.5:1;
+      const cycle=(time+index*.31)%period;
+      const leftBlink=Math.max(manual,wink,blinkPulse(cycle-1.4,.32*slow),blinkPulse(cycle-5.6,.28*slow));
+      const rightBlink=Math.max(manual,blinkPulse(cycle-1.445,.34*slow),blinkPulse(cycle-5.64,.3*slow));
+      const thirdBlink=Math.max(thirdManual,blinkPulse(cycle-3.55,active==='thinking'?.28:.47*slow));
+      const lid=(base,blink)=>Math.max(-.65,Math.min(1,base*motion.intensity+(1-base*motion.intensity)*blink));
+      const left=lid(current.l,leftBlink),right=lid(current.r,rightBlink),third=lid(current.f,thirdBlink);
+      gl.viewport(0,0,640,640);
+      gl.uniform3f(locations.blinks,left,right,third);
+      ['gazeLeft','gazeRight','gazeThird'].forEach((name,eye)=>{
+        const aim=eyeAims[index][eye]||eyeAims[index][0];
+        gl.uniform2f(locations[name],aim.x*motion.intensity,aim.y*motion.intensity);
+      });
+      gl.uniform1f(locations.opening,mouth*(index===0?1:.80));
+      gl.uniform1f(locations.listening,attention);
+      gl.uniform3f(locations.expression,current.smile*motion.intensity,current.width*(voiceSession?1.-voiceLevel*.12:1.),current.asym*motion.intensity);
+      gl.uniform3f(locations.pose,rx*motion.intensity,ry*motion.intensity,(rr+current.roll)*motion.intensity);
+      gl.uniform1f(locations.dim,current.dim);
+      gl.uniform1f(locations.t,time);gl.drawArrays(gl.TRIANGLES,0,6);
+      canvas.dataset.ready='true';canvas.dataset.state=active;canvas.dataset.time=time.toFixed(3);
+      canvas.dataset.emotion=displayEmotion;
+    }
+    const value=new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',hour12:false});
+    root.querySelectorAll('.fragment-time').forEach(el=>{if(el.textContent!==value)el.textContent=value;});
+    const emotionLabel=displayEmotion[0].toUpperCase()+displayEmotion.slice(1);
+    const label=[statusInfo[active][0],emotionLabel,reaction?reactionInfo[reaction.kind][0]:voiceSession?(paused?'Voice paused':voiceSession.started?'With voice':'Starting voice'):active==='speaking'?'Motion only · press Talk for voice':null].filter(Boolean).join(' · ');
+    if(status.textContent!==label)status.textContent=label;
+  }
+  function frame(now){const dt=Math.min((now-last)/1000||0,.05);last=now;if(!paused&&!document.hidden)time+=dt*motion.speed;draw(paused?0:dt);requestAnimationFrame(frame);}
+  function loadArtwork(){if(loaded||!textureImage.naturalWidth||!irisImage.naturalWidth)return;try{root.querySelectorAll('canvas').forEach((canvas,index)=>renderers.push(setup(canvas,index)));loaded=true;draw(1);requestAnimationFrame(frame);}catch(e){fail(e.message);}}
+  textureImage.onload=loadArtwork;irisImage.onload=loadArtwork;
+  textureImage.onerror=irisImage.onerror=()=>fail('The eye or face artwork could not load.');
+  irisImage.src='../../assets/fragment-faces/iris-detail-v1.jpg';
+  textureImage.src='../../assets/fragment-faces/face-atlas.jpg';
+  window.avatarPreview={seek(seconds){time=seconds;draw(1);},setMode(next){if(allowed.includes(next)){stopTalking();mode=next;stateSince=time;sync();draw(1);}},setEmotion(next){if(emotionNames.includes(next)){emotion=next;sync();draw(1);}},setGazeMode(next){if(gazeModes.includes(next)){gazeMode=next;sync();draw(1);save();}},react,setPaused,startTalking,stopTalking,getState(){return {ready:loaded,mode,emotion,gazeMode,eyeGazes:eyeAims.map(eyes=>eyes.map(eye=>({...eye}))),displayEmotion,paused,time,active,speech,attention,reaction:reaction?.kind||null,expression:{...current},voice:voiceSession?{source:voiceSession.source,started:voiceSession.started,playing:voiceSession.source==='demo'?!demoAudio.paused&&!demoAudio.ended:synth.speaking&&!synth.paused,level:voiceLevel,mouth:lastMouth,audioTime:demoAudio.currentTime,duration:demoAudio.duration}:null,localVoices:localVoices().length};},capture(){return renderers.map(r=>r.canvas.toDataURL('image/png'));}};
+  window.fragmentPreview=window.avatarPreview;
+  addEventListener('avatar:set_globals',event=>{const state=event.detail?.globals?.widgetState;if(allowed.includes(state?.modelContent?.mode))mode=state.modelContent.mode;if(emotionNames.includes(state?.modelContent?.emotion))emotion=state.modelContent.emotion;if(gazeModes.includes(state?.modelContent?.gazeMode))gazeMode=state.modelContent.gazeMode;if(typeof state?.privateContent?.paused==='boolean')paused=state.privateContent.paused;sync();draw(.25);});
+  reduce.addEventListener('change',event=>{if(event.matches)setPaused(true);});
+  sync();
+})();
