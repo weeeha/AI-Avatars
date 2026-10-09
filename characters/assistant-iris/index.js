@@ -1,0 +1,143 @@
+(() => {
+const root=document.getElementById('assistant-rings'),canvas=root.querySelector('canvas'),stage=root.querySelector('.abstract-stage');let pose={},api;
+  const palettes = {
+    violet:{name:'Violet', rgb:[0.19,0.12,1.0]},
+    cyan:{name:'Cyan', rgb:[0.015,0.62,1.0]},
+    emerald:{name:'Emerald', rgb:[0.015,0.92,0.26]},
+    amber:{name:'Amber', rgb:[1.0,0.38,0.028]},
+    coral:{name:'Coral', rgb:[1.0,0.075,0.045]},
+    pink:{name:'Pink', rgb:[1.0,0.06,0.50]},
+    aurora:{name:'Aurora', rgb:[0.22,0.3,1.0]}
+  };
+  const state={palette:'violet',mode:'idle',glow:1};
+  const modeKeys=['idle','listening','thinking','speaking','success','error'];
+  const gl = canvas.getContext('webgl', {alpha:false, antialias:false, depth:false, stencil:false, powerPreference:'low-power'});
+  function error(message) { const el = root.querySelector('[data-error]'); el.textContent=message; el.hidden=false;  }
+  if (!gl) { error('This preview needs WebGL. Open it in a browser with graphics acceleration enabled.'); return; }
+  const vertex = `attribute vec2 position; varying vec2 uv; void main(){ uv=position*.5+.5; gl_Position=vec4(position,0.,1.); }`;
+  const sceneFragment = `
+    precision highp float;
+    varying vec2 uv;
+    uniform vec2 resolution;
+    uniform float time;
+    uniform vec3 tint;
+    uniform float aurora;
+    uniform vec3 activity;
+    uniform vec3 outcome;
+    uniform float age;
+    uniform float flowTime;
+    uniform vec4 poseA;
+    uniform vec4 poseB;
+    uniform float luminance;
+    float hash(vec3 p){p=fract(p*.3183099+vec3(.17,.13,.23));p*=17.;return fract(p.x*p.y*p.z*(p.x+p.y+p.z));}
+    float noise(vec3 p){
+      vec3 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
+      return mix(mix(mix(hash(i),hash(i+vec3(1,0,0)),f.x),mix(hash(i+vec3(0,1,0)),hash(i+vec3(1,1,0)),f.x),f.y),mix(mix(hash(i+vec3(0,0,1)),hash(i+vec3(1,0,1)),f.x),mix(hash(i+vec3(0,1,1)),hash(i+vec3(1,1,1)),f.x),f.y),f.z);
+    }
+    float fbm(vec3 p){float n=0.,a=.53;for(int i=0;i<4;i++){n+=a*noise(p);p=p*2.03+vec3(8.1,3.7,5.2);a*=.49;}return n;}
+    void main(){
+      vec2 p=(uv-.5)*resolution/min(resolution.x,resolution.y)*2.9;
+      p-=poseA.xy;
+      float co=cos(poseB.x),si=sin(poseB.x);p=mat2(co,-si,si,co)*p;p/=poseA.zw;
+      p.y-=.09;
+      float idle=outcome.x,listen=activity.x,think=activity.y,speak=activity.z,success=outcome.y,fail=outcome.z;
+      p.x+=fail*.015*sin(age*28.)*exp(-age*3.);
+      float r=length(p),a=atan(p.y,p.x),t=flowTime;
+      float voice=(.5+.5*sin(time*4.1))*(.6+.4*sin(time*10.3+2.1));
+      float inputLevel=.5+.3*sin(time*3.4)+.2*sin(time*7.2);
+      float breath=.021*sin(time*1.05)*idle;
+      float vocalShape=speak*voice*(.035*sin(a*5.+time*1.3)+.02*cos(a*3.-time*1.4));
+      float listenShape=listen*.008*sin(a*7.-time*2.);
+      float thinkingShape=think*.012*cos(a*3.-time*1.5);
+      float successPulse=success*.035*sin(3.14159*clamp(age/1.8,0.,1.));
+      float rr=r-vocalShape-listenShape-thinkingShape-successPulse-poseB.z*.12*sin(a*3.);
+      vec2 dir=p/max(r,.0001);
+      float pupil=.405*poseB.y+breath-listen*.045*inputLevel+speak*.035*voice-success*.025;
+      float edgeNoise=fbm(vec3(dir*18.,t*.12));
+      float pupilEdge=pupil+(edgeNoise-.5)*.055;
+      float outerEdge=.965+(fbm(vec3(dir*11.,t*.13))-.5)*.09;
+      float u=clamp((rr-pupil)/(.965-pupil),0.,1.);
+      float inner=smoothstep(pupilEdge-.012,pupilEdge+.045,rr);
+      float outer=1.-smoothstep(outerEdge-.035,outerEdge+.018,rr);
+      float envelope=pow(max(sin(u*3.14159),0.),.34)*inner*outer;
+
+      // Radially stretched, branching layers span the full iris thickness.
+      float radialFlow=u*8.-t*.38+listen*t*1.6;
+      float folds=fbm(vec3(dir*9.,u*3.-t*.16));
+      float theta=a+t*.012+.028*sin(u*9.+a*8.-t*.16)+(folds-.5)*.11;
+      vec2 fibreDir=vec2(cos(theta),sin(theta));
+      vec3 q=vec3(fibreDir*52.,radialFlow);
+      vec3 warp=vec3(fbm(q*.29+vec3(0,0,t*.11)),fbm(q*.31+8.3),fbm(q*.24-7.4));
+      float filament=fbm(q+warp*3.2);
+      float branches=pow(max(0.,1.-abs(filament-.49)*2.2),13.);
+      float longFibres=pow(noise(vec3(fibreDir*128.,u*4.-t*.17)),3.8)*3.2;
+      float fine=pow(max(0.,1.-abs(noise(vec3(fibreDir*245.,u*18.-t*.7))-.5)*2.),18.);
+      float broken=fbm(vec3(fibreDir*23.,u*16.-t*.24)+warp*2.);
+      float knots=pow(max(broken-.33,0.)*3.0,3.0);
+      float darkChannels=smoothstep(.28,.63,noise(vec3(fibreDir*67.,u*2.5+folds*2.)));
+      float cluster=.25+pow(noise(vec3(fibreDir*12.,u*8.-t*.14)),2.)*2.7;
+      float light=(branches*(.42+knots*.9)+longFibres*.42+fine*.16)*cluster;
+      light*=.35+darkChannels*.95;
+      light*=envelope*2.0;
+      float outerThreads=exp(-pow((rr-outerEdge+.034)/.034,2.));
+      light+=outerThreads*(.15+branches*.5+knots*.65)*outer;
+      float innerThreads=exp(-pow((rr-pupilEdge-.025)/.04,2.))*longFibres*.22;
+      light+=innerThreads*inner;
+
+      // A broad crown of hot knots gives the iris an uneven luminous surface.
+      float crown=pow(max(dot(dir,normalize(vec2(-.13,1.))),0.),24.);
+      light+=crown*exp(-pow((u-.77)/.25,2.))*envelope*(.8+knots*1.5);
+      float orbit=pow(.5+.5*cos(3.*(a-time*.8)),10.);
+      light*=idle*(1.05+.06*sin(time*1.05))+listen*(1.1+.22*inputLevel)+think*(.75+orbit*.8)+speak*(1.03+voice*.42)+success*1.15+fail*.85;
+      float errorGap=smoothstep(.12,.3,abs(sin(a-.32)));
+      light*=mix(1.,errorGap,fail);
+      float phase=fract(time*.55);
+      float inward=exp(-pow((u-(1.-phase))/.065,2.))*sin(phase*3.14159)*.24*listen*envelope;
+      float outPhase=fract(time*.7);
+      float outward=exp(-pow((u-outPhase)/.075,2.))*sin(outPhase*3.14159)*.3*speak*voice*envelope;
+      float completeProgress=clamp(age/1.8,0.,1.);
+      float completeRipple=exp(-pow((r-(.44+completeProgress*.65))/.022,2.))*sin(completeProgress*3.14159)*.65*success;
+      light+=inward+outward+completeRipple;
+      float sparks=pow(noise(vec3(fibreDir*170.,u*31.-t*.9)),20.)*envelope;
+      light+=sparks*.75;
+      vec3 rainbow=mix(vec3(.10,.025,.8),vec3(.015,.9,.7),.5+.5*sin(theta+t*.2));
+      vec3 hue=mix(tint,rainbow,aurora);
+      float haze=exp(-pow((r-.76)/.32,2.))*.018*inner;
+      vec3 col=hue*(light*1.8+haze)+vec3(1.)*pow(light,2.3)*.82;
+      col=1.-exp(-col*1.1);
+      // Alpha is a pupil mask for the bloom pass, preserving its dark center.
+      float pupilMask=smoothstep(pupilEdge-.025,pupilEdge+.04,rr);
+      gl_FragColor=vec4(col*luminance,pupilMask);
+    }
+  `;
+  const blurFragment = `precision mediump float; varying vec2 uv; uniform sampler2D source; uniform vec2 stepSize;
+    void main(){vec3 c=texture2D(source,uv).rgb*.227027;c+=texture2D(source,uv+stepSize*1.384615).rgb*.316216;c+=texture2D(source,uv-stepSize*1.384615).rgb*.316216;c+=texture2D(source,uv+stepSize*3.230769).rgb*.070270;c+=texture2D(source,uv-stepSize*3.230769).rgb*.070270;gl_FragColor=vec4(c,1.);}`;
+  const combineFragment = `precision mediump float; varying vec2 uv; uniform sampler2D source; uniform sampler2D bloom; uniform float glow;
+    void main(){vec4 original=texture2D(source,uv);vec3 b=texture2D(bloom,uv).rgb;vec3 c=original.rgb+b*glow*.8*original.a;c=pow(clamp(c,0.,1.),vec3(1.06));gl_FragColor=vec4(c,1.);}`;
+  function shader(type, source) { const s=gl.createShader(type); gl.shaderSource(s,source); gl.compileShader(s); if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(s)); return s; }
+  function program(fragment) { const p=gl.createProgram(); const v=shader(gl.VERTEX_SHADER,vertex),f=shader(gl.FRAGMENT_SHADER,fragment); gl.attachShader(p,v);gl.attachShader(p,f);gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(p));gl.deleteShader(v);gl.deleteShader(f);return p; }
+  let scene,blur,combine;
+  try { scene=program(sceneFragment);blur=program(blurFragment);combine=program(combineFragment); }
+  catch(e) {error('The animation could not start on this graphics device.');console.error(e);return;}
+  const buffer=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+  const uniforms=new Map();
+  function uniform(p,name){let m=uniforms.get(p);if(!m){m=new Map();uniforms.set(p,m);}if(!m.has(name))m.set(name,gl.getUniformLocation(p,name));return m.get(name);}
+  function use(p){gl.useProgram(p); const a=gl.getAttribLocation(p,'position');gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.enableVertexAttribArray(a);gl.vertexAttribPointer(a,2,gl.FLOAT,false,0,0);}
+  function target(width,height){const texture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,texture);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,width,height,0,gl.RGBA,gl.UNSIGNED_BYTE,null);const fb=gl.createFramebuffer();gl.bindFramebuffer(gl.FRAMEBUFFER,fb);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,texture,0);if(gl.checkFramebufferStatus(gl.FRAMEBUFFER)!==gl.FRAMEBUFFER_COMPLETE)throw new Error('Framebuffer incomplete');return {texture,fb,width,height};}
+  let targets=[],elapsed=7,flow=7,stateAge=0;
+  const weights=modeKeys.map(key=>key===state.mode?1:0);
+  let currentTint=[...palettes[state.palette].rgb],currentAurora=state.palette==='aurora'?1:0;
+  function resize(){const width=Math.max(1,stage.clientWidth),height=Math.max(1,stage.clientHeight);const scale=Math.min(devicePixelRatio||1,2,1440/width);const w=Math.round(width*scale),h=Math.round(height*scale);if(canvas.width===w&&canvas.height===h&&targets.length)return;canvas.width=w;canvas.height=h;for(const x of targets){gl.deleteTexture(x.texture);gl.deleteFramebuffer(x.fb);}targets=[target(w,h),target(Math.max(1,Math.round(w/4)),Math.max(1,Math.round(h/4))),target(Math.max(1,Math.round(w/4)),Math.max(1,Math.round(h/4)))];}
+  function destination(x){gl.bindFramebuffer(gl.FRAMEBUFFER,x?x.fb:null);gl.viewport(0,0,x?x.width:canvas.width,x?x.height:canvas.height);}
+  function texture(x,unit){gl.activeTexture(gl.TEXTURE0+unit);gl.bindTexture(gl.TEXTURE_2D,x.texture);}
+  function draw(){if(!targets.length||gl.isContextLost())return;const [base,b1,b2]=targets;destination(base);use(scene);gl.uniform2f(uniform(scene,'resolution'),base.width,base.height);gl.uniform1f(uniform(scene,'time'),elapsed);gl.uniform1f(uniform(scene,'flowTime'),flow);gl.uniform1f(uniform(scene,'age'),stateAge);gl.uniform3f(uniform(scene,'activity'),weights[1],weights[2],weights[3]);gl.uniform3f(uniform(scene,'outcome'),weights[0],weights[4],weights[5]);gl.uniform4f(uniform(scene,'poseA'),pose.x*2,pose.y*2,pose.sx,pose.sy);gl.uniform4f(uniform(scene,'poseB'),pose.turn,pose.aperture,pose.fold,pose.scan);gl.uniform1f(uniform(scene,'luminance'),pose.brightness);gl.uniform3fv(uniform(scene,'tint'),currentTint);gl.uniform1f(uniform(scene,'aurora'),currentAurora);gl.drawArrays(gl.TRIANGLES,0,6);
+    destination(b1);use(blur);texture(base,0);gl.uniform1i(uniform(blur,'source'),0);gl.uniform2f(uniform(blur,'stepSize'),1.15/b1.width,0);gl.drawArrays(gl.TRIANGLES,0,6);
+    destination(b2);texture(b1,0);gl.uniform2f(uniform(blur,'stepSize'),0,1.15/b2.height);gl.drawArrays(gl.TRIANGLES,0,6);
+    destination(null);use(combine);texture(base,0);texture(b2,1);gl.uniform1i(uniform(combine,'source'),0);gl.uniform1i(uniform(combine,'bloom'),1);gl.uniform1f(uniform(combine,'glow'),state.glow);gl.drawArrays(gl.TRIANGLES,0,6);
+  }
+
+  const variants=[{"id": "assistant-iris", "name": "Assistant iris"}];
+  api=AbstractPerformance.mount({root,variants,extraControls:'<label>Color <select data-palette aria-label="Ring color">'+Object.entries(palettes).map(([k,p])=>`<option value="${k}">${p.name}</option>`).join('')+'</select></label>',render(frame){pose=frame.pose;elapsed=frame.time;flow=elapsed*.7;stateAge=frame.age;state.palette=frame.extra.palette;currentTint=palettes[state.palette].rgb;currentAurora=state.palette==='aurora'?1:0;weights[1]=pose.listen;weights[2]=pose.think+pose.focus*.7;weights[3]=pose.speak;weights[4]=pose.success;weights[5]=pose.fail;weights[0]=Math.max(.1,1-Math.max(...weights.slice(1)));resize();draw();}});
+new ResizeObserver(()=>{resize();api.redraw();}).observe(stage);
+canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();api.setPaused(true);error('Graphics paused. Reload this preview to restart it.');});
+})();

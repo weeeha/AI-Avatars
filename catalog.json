@@ -65,5 +65,145 @@
         "name": "Third Eye"
       }
     ]
+  },
+  {
+    "id": "luminous-faces",
+    "title": "Seven luminous faces",
+    "source": "studies/luminous-faces.fragment.html",
+    "output": "characters/luminous-faces/index",
+    "rootId": "superclock-luminous-faces",
+    "api": "abstractPreview",
+    "characters": [
+      {
+        "id": "constellation",
+        "name": "Constellation"
+      },
+      {
+        "id": "halo",
+        "name": "Halo"
+      },
+      {
+        "id": "prism",
+        "name": "Prism"
+      },
+      {
+        "id": "knot",
+        "name": "Knot"
+      },
+      {
+        "id": "portal",
+        "name": "Portal"
+      },
+      {
+        "id": "sun",
+        "name": "Sun"
+      },
+      {
+        "id": "pulse",
+        "name": "Pulse"
+      }
+    ]
+  },
+  {
+    "id": "core-eyes",
+    "title": "Sixteen core eyes",
+    "source": "studies/core-eyes.fragment.html",
+    "output": "characters/core-eyes/index",
+    "rootId": "superclock-core-eyes",
+    "api": "abstractPreview",
+    "characters": [
+      {
+        "id": "wheatley",
+        "name": "Wheatley"
+      },
+      {
+        "id": "space",
+        "name": "Space"
+      },
+      {
+        "id": "rick",
+        "name": "Rick"
+      },
+      {
+        "id": "fact",
+        "name": "Fact"
+      },
+      {
+        "id": "morality",
+        "name": "Morality"
+      },
+      {
+        "id": "curiosity",
+        "name": "Curiosity"
+      },
+      {
+        "id": "intelligence",
+        "name": "Intelligence"
+      },
+      {
+        "id": "anger",
+        "name": "Anger"
+      },
+      {
+        "id": "paranoia",
+        "name": "Paranoia"
+      },
+      {
+        "id": "optimism",
+        "name": "Optimism"
+      },
+      {
+        "id": "nihilism",
+        "name": "Nihilism"
+      },
+      {
+        "id": "priority",
+        "name": "Priority"
+      },
+      {
+        "id": "orbit",
+        "name": "Orbit"
+      },
+      {
+        "id": "signal",
+        "name": "Signal"
+      },
+      {
+        "id": "gear",
+        "name": "Gear"
+      },
+      {
+        "id": "aperture",
+        "name": "Aperture"
+      }
+    ]
+  },
+  {
+    "id": "assistant-iris",
+    "title": "Assistant iris ring",
+    "source": "studies/assistant-iris.fragment.html",
+    "output": "characters/assistant-iris/index",
+    "rootId": "assistant-rings",
+    "api": "abstractPreview",
+    "characters": [
+      {
+        "id": "assistant-iris",
+        "name": "Assistant iris"
+      }
+    ]
+  },
+  {
+    "id": "fractal-presence",
+    "title": "Procedural fractal presence",
+    "source": "studies/fractal-presence.fragment.html",
+    "output": "characters/fractal-presence/index",
+    "rootId": "code-fractal-presence",
+    "api": "abstractPreview",
+    "characters": [
+      {
+        "id": "fractal-presence",
+        "name": "Fractal presence"
+      }
+    ]
   }
 ]

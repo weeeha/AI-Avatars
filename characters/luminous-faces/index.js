@@ -1,0 +1,258 @@
+(() => {
+  const root=document.getElementById('superclock-luminous-faces');
+  const options={glow:1.2};const TAU=Math.PI*2;
+  const faceSettings={constellation:{color:'#ff1425'},halo:{color:'#6dff36'},prism:{color:'#ffb521'},knot:{color:'#61ff34'},portal:{color:'#1679ff'},sun:{color:'#ffdd37'},pulse:{color:'#e334ff'}};
+  let elapsed=0,phase=0,reaction=0,mode='idle',pose={};const blend={idle:1,listening:0,thinking:0,speaking:0};
+  const views=[...root.querySelectorAll('canvas')].map(canvas=>{const emission=document.createElement('canvas');emission.width=emission.height=720;return {canvas,ctx:emission.getContext('2d'),emission,output:canvas.getContext('2d'),face:canvas.dataset.variant};});
+  function rgba(hex, a) {
+    const value = parseInt(hex.slice(1), 16);
+    return 'rgba(' + ((value >> 16) & 255) + ',' + ((value >> 8) & 255) + ',' + (value & 255) + ',' + a + ')';
+  }
+  function hotColor(hex, amount) {
+    const value = parseInt(hex.slice(1), 16);
+    const mix = channel => Math.round(channel + (255-channel)*amount);
+    return '#' + [mix((value>>16)&255),mix((value>>8)&255),mix(value&255)]
+      .map(channel=>channel.toString(16).padStart(2,'0')).join('');
+  }
+  function stroke(ctx, pts, color, width, alpha, close) {
+    if (!pts.length) return;
+    const drawPath = () => {
+      ctx.beginPath();
+      ctx.moveTo(pts[0][0], pts[0][1]);
+      for (let i=1; i<pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+      if (close) ctx.closePath();
+    };
+    ctx.save(); ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    ctx.globalCompositeOperation = 'lighter';
+    drawPath();
+    ctx.shadowBlur = 0;
+    ctx.lineWidth = width * 3.8;
+    ctx.strokeStyle = rgba(color, Math.min(1,alpha*1.3)); ctx.stroke();
+    ctx.lineWidth = width * 1.35;
+    ctx.strokeStyle = rgba(hotColor(color,0.55),alpha*0.68); ctx.stroke();
+    ctx.restore();
+  }
+  function light(ctx, x, y, radius, color, intensity) {
+    const r = Math.max(1, radius);
+    const haze = ctx.createRadialGradient(x, y, 0, x, y, r * 5);
+    haze.addColorStop(0, rgba(color, Math.min(1, intensity * 0.6)));
+    haze.addColorStop(0.22, rgba(color, intensity * 0.3));
+    haze.addColorStop(0.58, rgba(color, intensity * 0.075));
+    haze.addColorStop(1, rgba(color, 0));
+    ctx.save(); ctx.globalCompositeOperation = 'lighter';
+    ctx.fillStyle = haze; ctx.fillRect(x-r*5, y-r*5, r*10, r*10);
+    const core = ctx.createRadialGradient(x-r*0.18,y-r*0.18,0,x,y,r);
+    core.addColorStop(0, rgba(hotColor(color,0.72),intensity));
+    core.addColorStop(0.35, rgba(hotColor(color,0.38),intensity));
+    core.addColorStop(0.7, rgba(color, intensity));
+    core.addColorStop(1, rgba(color, 0));
+    ctx.fillStyle = core; ctx.beginPath(); ctx.arc(x,y,r,0,TAU); ctx.fill(); ctx.restore();
+  }
+  function polygon(count, radius, rotation, squeeze) {
+    const points = [];
+    for (let i=0; i<count; i++) {
+      const a = rotation + TAU*i/count;
+      points.push([Math.cos(a)*radius*squeeze, Math.sin(a)*radius]);
+    }
+    return points;
+  }
+  function redEye(ctx,x,y,width,height,openness,gazeX,gazeY,tilt,intensity) {
+    const h=Math.max(1.2,height*openness);
+    ctx.save();ctx.translate(x,y);ctx.rotate(tilt);
+    ctx.globalCompositeOperation='source-over';
+    ctx.beginPath();ctx.moveTo(-width,0);
+    ctx.bezierCurveTo(-width*0.5,-h*1.4,width*0.48,-h*1.4,width,0);
+    ctx.bezierCurveTo(width*0.48,h*1.15,-width*0.5,h*1.15,-width,0);
+    const red=ctx.createRadialGradient(gazeX,gazeY,0,0,0,width*1.15);
+    red.addColorStop(0,'#ff1425');red.addColorStop(0.56,'#f9081b');red.addColorStop(1,'#960514');
+    ctx.fillStyle=red;ctx.globalAlpha=intensity;ctx.fill();ctx.clip();
+    ctx.fillStyle='#160003';ctx.globalAlpha=0.96;
+    ctx.beginPath();ctx.ellipse(gazeX,gazeY,width*0.18,Math.max(2,height*0.64),0,0,TAU);ctx.fill();
+    ctx.restore();
+  }
+  function speechEnvelope(t) {
+    const cycle=((t%5.8)+5.8)%5.8;
+    const syllables=[[0.22,0.45],[0.55,0.85],[0.84,0.55],[1.1,0.92],[1.6,0.55],[1.92,1],
+      [2.22,0.62],[3.02,0.7],[3.3,1],[3.62,0.42],[4.04,0.75],[4.35,0.95],[4.66,0.65],[5.12,0.45]];
+    return Math.min(1,syllables.reduce((sum,item)=>sum+item[1]*Math.exp(-Math.pow((cycle-item[0])/0.13,2)),0));
+  }
+  function reactivePolygon(count,radius,rotation,squeeze,amount,t) {
+    const vertices=polygon(count,radius,rotation,squeeze), result=[];
+    for(let edge=0;edge<count;edge++) {
+      const a=vertices[edge],b=vertices[(edge+1)%count];
+      for(let i=0;i<24;i++) {
+        const u=i/24, x=a[0]+(b[0]-a[0])*u, y=a[1]+(b[1]-a[1])*u;
+        const length=Math.hypot(x,y)||1;
+        const shift=Math.sin(u*Math.PI)*amount*(0.75+0.25*Math.sin(t*8+edge));
+        result.push([x+x/length*shift,y+y/length*shift]);
+      }
+    }
+    return result;
+  }
+  function draw(view) {
+    const ctx = view.ctx;
+    if (!ctx) return;
+    ctx.setTransform(720/512,0,0,720/512,0,0);
+    ctx.globalAlpha=1; ctx.globalCompositeOperation='source-over'; ctx.shadowBlur=0;
+    ctx.clearRect(0,0,512,512);
+    ctx.translate(256+pose.x*220,256+pose.y*220);
+    ctx.rotate(pose.turn);ctx.scale(pose.sx,pose.sy);ctx.globalAlpha=pose.brightness;
+    const t=elapsed, p=phase;
+    const listen=blend.listening, think=blend.thinking, speak=blend.speaking;
+    const breath=0.5+0.5*Math.sin(t*1.15);
+    const voice=speechEnvelope(t);
+    const input=speechEnvelope(t*0.74+1.2);
+    const syllable=0.5+0.5*Math.sin(t*13.6+Math.sin(t*3.8));
+    const energy=0.15+listen*input*0.48+think*0.35+speak*voice*(0.7+syllable*0.3);
+    const color=faceSettings[view.face].color;
+    const expand=view.face==='constellation'
+      ?1+0.008*Math.sin(t*1.15)+listen*0.02+speak*voice*0.015+reaction*0.025
+      :1+0.022*Math.sin(t*1.15)+listen*(0.055+input*0.08)+speak*voice*0.15+reaction*0.12;
+    ctx.scale(expand*1.12,expand*1.12);
+    if (view.face === 'halo') {
+      for(let k=0;k<6;k++) {
+        const pts=[];
+        for(let i=0;i<=192;i++) {
+          const a=i/192*TAU;
+          const r=94+pose.fold*24*Math.sin(a*2+k)+Math.sin(a*3+p*0.6+k*0.7)*(2.8+energy*14)+Math.sin(a*7-t*4+k*0.65)*(2.1+speak*voice*8)+k*1.15;
+          pts.push([r*Math.cos(a),r*Math.sin(a)]);
+        }
+        stroke(ctx,pts,color,k===3?1.7:0.95,0.28+k*0.055,true);
+      }
+      const angle=p*0.5;
+      light(ctx,Math.cos(angle)*99,Math.sin(angle)*99,2.8,color,0.75);
+      if(think>0.02) {
+        for(let j=0;j<3;j++) {
+          const arc=[];
+          for(let i=0;i<=24;i++) {const a=p*1.1+j*TAU/3+i/24*0.72;arc.push([Math.cos(a)*113,Math.sin(a)*113]);}
+          stroke(ctx,arc,color,1.6,think*0.65,false);
+        }
+      }
+    } else if(view.face === 'constellation') {
+      const base=[[-44,-78],[39,-96],[97,-29],[3,-10],[-82,37],[64,62],[-21,105]];
+      base.forEach((xy,i)=>{
+        const blinkPhase=((t+i*0.055)%5.6)-4.8;
+        const blink=1-0.97*Math.exp(-Math.pow(blinkPhase/0.095,2));
+        const aperture=(0.9+listen*0.22-think*0.25+speak*voice*0.07+reaction*0.12)*blink*pose.aperture;
+        const gazeX=Math.sin(t*0.58)*2.1+think*3.8+pose.scan*6+pose.x*14;
+        const gazeY=Math.sin(t*0.35)*1.2-think*3+listen*0.8;
+        const width=21+(i%3)*2;
+        const height=12.5+(i%2)*1.8;
+        const tilt=[-0.12,0.12,0.16,0,-0.1,0.09,-0.03][i];
+        redEye(ctx,xy[0],xy[1]+Math.sin(t*0.6)*1.2,width,height,aperture,gazeX,gazeY,tilt,0.9+speak*voice*0.08);
+      });
+    } else if(view.face === 'prism') {
+      ctx.rotate(Math.sin(p*0.24)*0.12+think*p*0.11);
+      const radius=118+breath*2;
+      const squash=0.94+0.06*Math.sin(p*0.45)+pose.fold;
+      for(let k=3;k>=0;k--) {
+        const pts=reactivePolygon(3,radius-k*2.2,-Math.PI/2+k*0.012,squash,speak*voice*24,t);
+        stroke(ctx,pts,color,k===0?2.4:0.9,k===0?0.9:0.17,true);
+      }
+      const vertices=polygon(3,radius,-Math.PI/2,squash);
+      const position=((p*0.13)%1+1)%1*3;
+      const edge=Math.floor(position), fraction=position-edge;
+      const a=vertices[edge], b=vertices[(edge+1)%3];
+      light(ctx,a[0]+(b[0]-a[0])*fraction,a[1]+(b[1]-a[1])*fraction,3.3,color,0.9);
+    } else if(view.face === 'knot') {
+      const yaw=p*0.18+pose.scan*.4, tilt=0.5+Math.sin(p*0.19)*0.22+pose.fold;
+      const paths=[];
+      for(let strand=0;strand<5;strand++) {
+        const points=[];
+        for(let i=0;i<=320;i++) {
+          const a=i/320*TAU;
+          const offset=strand*0.62;
+          const r=69+27*Math.cos(3*a+offset)+speak*voice*Math.sin(5*a+t*2+strand)*12;
+          const x=r*Math.cos(2*a+offset);
+          const y=r*Math.sin(2*a+offset*0.8);
+          const z=38*Math.sin(3*a+offset*1.3);
+          const rx=x*Math.cos(yaw)+z*Math.sin(yaw);
+          const rz=-x*Math.sin(yaw)+z*Math.cos(yaw);
+          const ry=y*Math.cos(tilt)-rz*Math.sin(tilt);
+          const depth=y*Math.sin(tilt)+rz*Math.cos(tilt);
+          const projection=420/(420-depth);
+          points.push([rx*projection,ry*projection,depth]);
+        }
+        paths.push(points);
+      }
+      paths.forEach((points,k)=>{
+        stroke(ctx,points,color,k===1?1.25:0.7,k===1?0.64:0.29,true);
+        for(let i=0;i<points.length-10;i+=10) {
+          const segment=points.slice(i,i+11);
+          if(segment[0][2]>0) stroke(ctx,segment,color,0.9,0.18,false);
+        }
+      });
+    } else if(view.face === 'portal') {
+      for(let k=4;k>=0;k--) {
+        const radius=107-k*10+speak*voice*(4-k)*3;
+        const rotation=Math.PI/4+Math.sin(p*0.21-k*0.18)*0.095+think*p*0.07;
+        const squish=0.96+0.04*Math.sin(p*0.3-k*0.18)+pose.fold*Math.sin(k);
+        const pts=reactivePolygon(4,radius,rotation,squish,speak*voice*9,t+k);
+        stroke(ctx,pts,color,k===1?3.2:1.3,k===1?0.85:0.24+(4-k)*0.035,true);
+      }
+    } else if(view.face === 'sun') {
+      const radius=40*pose.aperture+breath*4+listen*input*9+speak*voice*21+think*3;
+      light(ctx,0,0,radius*1.25,color,0.58);
+      for(let k=0;k<5;k++) {
+        const a=p*0.18+k*TAU/5;
+        light(ctx,Math.cos(a)*(9+k),Math.sin(a)*(8+k),radius*(0.79+k*0.065),'#ffb913',0.16);
+      }
+      const core=ctx.createRadialGradient(-4,-5,0,0,0,radius*1.3);
+      core.addColorStop(0,'#fffde4'); core.addColorStop(0.26,'#fffbb5');
+      core.addColorStop(0.5,'#fff357'); core.addColorStop(0.73,rgba(color,0.43));
+      core.addColorStop(1,rgba(color,0));
+      ctx.globalCompositeOperation='lighter'; ctx.fillStyle=core;
+      ctx.beginPath();ctx.arc(0,0,radius*1.3,0,TAU);ctx.fill();ctx.globalCompositeOperation='source-over';
+      for(let k=0;k<4;k++) {
+        const pts=[];
+        for(let i=0;i<=140;i++) {
+          const a=i/140*TAU;
+          const r=radius*1.2+k*4+Math.sin(3*a-p*0.6+k)*2+Math.sin(5*a+p*0.7)*2;
+          pts.push([Math.cos(a)*r,Math.sin(a)*r*0.97]);
+        }
+        stroke(ctx,pts,color,0.6,0.11,true);
+      }
+    } else if(view.face === 'pulse') {
+      const amp=35*pose.aperture+pose.fold*50+breath*9+listen*input*38+speak*voice*83+think*16;
+      for(let k=0;k<9;k++) {
+        const pts=[];
+        for(let i=0;i<=220;i++) {
+          const x=-134+i/220*268;
+          const envelope=Math.exp(-Math.pow(x/68,2));
+          const carrier=Math.sin(x*(0.070+k*0.0018)-p*(1.0+k*0.018));
+          const harmonic=Math.sin(x*0.14+p*0.7+k*0.24)*0.23;
+          const y=(carrier+harmonic)*amp*envelope+(k-4)*1.1;
+          pts.push([x,y]);
+        }
+        stroke(ctx,pts,color,k===4?1.65:0.8,k===4?0.8:0.21,false);
+      }
+    }
+    if(reaction>0.015 && view.face!=='constellation') {
+      const ripple=[];
+      const radius=122+(1-reaction)*62;
+      for(let i=0;i<=100;i++){const a=i/100*TAU;ripple.push([Math.cos(a)*radius,Math.sin(a)*radius]);}
+      stroke(ctx,ripple,color,1.1,reaction*0.55,true);
+    }
+    ctx.setTransform(1,0,0,1,0,0);
+    const output=view.output;
+    output.setTransform(1,0,0,1,0,0);
+    output.globalAlpha=1; output.globalCompositeOperation='source-over'; output.filter='none';
+    output.fillStyle='#000'; output.fillRect(0,0,720,720);
+    output.globalCompositeOperation='lighter';
+    const bloomLayers=view.face==='constellation'?[[15,0.18],[5,0.24]]:[[52,0.8],[24,0.85],[9,0.68]];
+    for(const layer of bloomLayers) {
+      output.filter='blur('+layer[0]+'px)';
+      output.globalAlpha=Math.min(1,layer[1]*options.glow*(1+speak*voice*0.3+listen*input*0.15));
+      output.drawImage(view.emission,0,0);
+    }
+    output.filter='none'; output.globalAlpha=1;
+    if(view.face==='constellation') output.globalCompositeOperation='source-over';
+    output.drawImage(view.emission,0,0);
+    output.globalCompositeOperation='source-over';
+    view.canvas.dataset.renderedState=mode;
+    view.canvas.dataset.frame=String(Math.round(elapsed*1000));
+  }
+
+  const variants=[{"id": "constellation", "name": "Constellation"}, {"id": "halo", "name": "Halo"}, {"id": "prism", "name": "Prism"}, {"id": "knot", "name": "Knot"}, {"id": "portal", "name": "Portal"}, {"id": "sun", "name": "Sun"}, {"id": "pulse", "name": "Pulse"}];
+  AbstractPerformance.mount({root,variants,render(frame){pose=frame.pose;elapsed=frame.time;phase=elapsed*(.75+pose.think*1.8+pose.focus*.9);mode=frame.state;blend.listening=pose.listen;blend.thinking=pose.think+pose.focus*.6;blend.speaking=pose.speak;reaction=pose.success*Math.max(0,1-frame.age/2.4)**2;views.forEach((v,i)=>v.canvas.hidden=i!==frame.index);draw(views[frame.index]);}});
+})();

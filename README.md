@@ -23,6 +23,15 @@ Open **http://127.0.0.1:4173**. Node.js 20 or newer is required. The gallery has
 
 The procedural studies are original browser-rendered concepts based on supplied visual references. Open Skeleton preserves its generated keyframe clips and adds nine locally articulated activities using the original face artwork. Fragment and Third Eye include synthetic voice playback; their demo mouth motion follows audio amplitude and custom phrases use approximate speech timing. Other studies simulate talking. The studies are not connected to a microphone, an agent, or physical hardware. Reduced-motion settings start the previews paused.
 
+## Abstract character families
+
+- **Seven luminous faces:** Constellation, Halo, Prism, Knot, Portal, Sun, and Pulse.
+- **Sixteen core eyes:** Wheatley through Aperture, with their original iris motifs, optional housing, and clock time.
+- **Assistant iris ring:** detailed branching fibres, dark pupil, and seven palettes.
+- **Procedural fractal presence:** dense recursive red, blue, and white plumes.
+
+Every one of these 25 designs combines 12 activities with seven independent expressions. Waiting, input, error, completion, waking and sleep have entry/hold/exit behavior. Controls include a simulated demo, interruption, recovery, temporary acknowledgment, live reduced-motion support, and labeled operational fallbacks. [Behavior and individual design guide](docs/abstract-characters.md).
+
 ## Edit
 
 The editable sources are listed in `catalog.json` under `studies/`. Each includes its markup, styling, and animation logic. `studies/cinematic-faces.fragment.html` contains Dot flock and Red eye; the lens studies include their WebGL shaders. Oracle's editable source is `studies/oracle.fragment.html`, with character assets and documentation in `characters/oracle/`.
