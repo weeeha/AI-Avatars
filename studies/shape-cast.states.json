@@ -1,9 +1,9 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "id": "shape-cast",
   "title": "Shape companions",
-  "assetType": "idle-animation-and-static-state-concepts",
-  "animationStatus": "eight-idle-loops-generated",
+  "assetType": "procedural-artwork-performances-and-original-idle-exports",
+  "animationStatus": "128-browser-performances-ready",
   "runtimeIntegration": "not-connected",
   "sourceReference": "../characters/shape-cast/concepts/cast.png",
   "artDirection": {
@@ -12,7 +12,7 @@
     "gloves": "White",
     "boots": "Black",
     "background": "Near-black",
-    "format": "Sixteen static poses per character in a 4×4 contact sheet; not a registered sprite atlas"
+    "format": "Original unmodified 4x4 source sheets plus locally registered performance atlases. Feature anchors drive eye, glove and posture deformation."
   },
   "characters": [
     {
@@ -23,13 +23,19 @@
       "shape": "soft inflated rounded triangular prism, upper tip and two lower corners, reference top-left",
       "personality": "Jaunty and enterprising. Snappy asymmetrical brows, small forward leans and brisk compact gestures; never angry or bossy.",
       "sheet": "../characters/shape-cast/states/triangle.png",
-      "performanceStatus": "Idle animation generated; other state poses are static concepts",
+      "performanceStatus": "All ten activities and six emotions have browser performances; original idle video/GIF/WebP exports preserved",
       "animation": {
         "mp4": "../characters/shape-cast/animations/triangle/idle.mp4",
         "gif": "../characters/shape-cast/animations/triangle/idle.gif",
         "webp": "../characters/shape-cast/animations/triangle/idle.webp"
       },
-      "poster": "../characters/shape-cast/animations/triangle/poster.png"
+      "poster": "../characters/shape-cast/animations/triangle/poster.png",
+      "performance": {
+        "atlas": "../characters/shape-cast/performances/triangle/atlas.webp",
+        "rig": "../characters/shape-cast/performances/triangle/rig.json",
+        "method": "local source-art feature deformation",
+        "editableSource": "../assets/shape-performance.js"
+      }
     },
     {
       "id": "circle",
@@ -39,13 +45,19 @@
       "shape": "plump round sphere with a clean circular silhouette, reference top row second",
       "personality": "Warm and buoyant. Rounded gestures, gentle bounces and open facial expressions.",
       "sheet": "../characters/shape-cast/states/circle.png",
-      "performanceStatus": "Idle animation generated; other state poses are static concepts",
+      "performanceStatus": "All ten activities and six emotions have browser performances; original idle video/GIF/WebP exports preserved",
       "animation": {
         "mp4": "../characters/shape-cast/animations/circle/idle.mp4",
         "gif": "../characters/shape-cast/animations/circle/idle.gif",
         "webp": "../characters/shape-cast/animations/circle/idle.webp"
       },
-      "poster": "../characters/shape-cast/animations/circle/poster.png"
+      "poster": "../characters/shape-cast/animations/circle/poster.png",
+      "performance": {
+        "atlas": "../characters/shape-cast/performances/circle/atlas.webp",
+        "rig": "../characters/shape-cast/performances/circle/rig.json",
+        "method": "local source-art feature deformation",
+        "editableSource": "../assets/shape-performance.js"
+      }
     },
     {
       "id": "square",
@@ -55,13 +67,19 @@
       "shape": "softly rounded cube with broad flat face and visible rounded side depth, reference top row third",
       "personality": "Calm and dependable. Small measured gestures, balanced stance and restrained expressive changes; visibly awake when active.",
       "sheet": "../characters/shape-cast/states/square.png",
-      "performanceStatus": "Idle animation generated; other state poses are static concepts",
+      "performanceStatus": "All ten activities and six emotions have browser performances; original idle video/GIF/WebP exports preserved",
       "animation": {
         "mp4": "../characters/shape-cast/animations/square/idle.mp4",
         "gif": "../characters/shape-cast/animations/square/idle.gif",
         "webp": "../characters/shape-cast/animations/square/idle.webp"
       },
-      "poster": "../characters/shape-cast/animations/square/poster.png"
+      "poster": "../characters/shape-cast/animations/square/poster.png",
+      "performance": {
+        "atlas": "../characters/shape-cast/performances/square/atlas.webp",
+        "rig": "../characters/shape-cast/performances/square/rig.json",
+        "method": "local source-art feature deformation",
+        "editableSource": "../assets/shape-performance.js"
+      }
     },
     {
       "id": "star",
@@ -71,13 +89,19 @@
       "shape": "thick inflated five-point star with soft rounded tips, reference top-right",
       "personality": "Playful and enthusiastic. Broad but controlled arm poses and energetic eye expression, without changing the five-point silhouette.",
       "sheet": "../characters/shape-cast/states/star.png",
-      "performanceStatus": "Idle animation generated; other state poses are static concepts",
+      "performanceStatus": "All ten activities and six emotions have browser performances; original idle video/GIF/WebP exports preserved",
       "animation": {
         "mp4": "../characters/shape-cast/animations/star/idle.mp4",
         "gif": "../characters/shape-cast/animations/star/idle.gif",
         "webp": "../characters/shape-cast/animations/star/idle.webp"
       },
-      "poster": "../characters/shape-cast/animations/star/poster.png"
+      "poster": "../characters/shape-cast/animations/star/poster.png",
+      "performance": {
+        "atlas": "../characters/shape-cast/performances/star/atlas.webp",
+        "rig": "../characters/shape-cast/performances/star/rig.json",
+        "method": "local source-art feature deformation",
+        "editableSource": "../assets/shape-performance.js"
+      }
     },
     {
       "id": "crescent",
@@ -87,13 +111,19 @@
       "shape": "thick soft crescent moon with a clear inward concave edge on screen-right, reference bottom-left",
       "personality": "Gentle and unhurried. Graceful lean, slow nod and relaxed hands. Open attentive eyes for listening and work; fully closed eyes for blinks and sleeping.",
       "sheet": "../characters/shape-cast/states/crescent.png",
-      "performanceStatus": "Idle animation generated; other state poses are static concepts",
+      "performanceStatus": "All ten activities and six emotions have browser performances; original idle video/GIF/WebP exports preserved",
       "animation": {
         "mp4": "../characters/shape-cast/animations/crescent/idle.mp4",
         "gif": "../characters/shape-cast/animations/crescent/idle.gif",
         "webp": "../characters/shape-cast/animations/crescent/idle.webp"
       },
-      "poster": "../characters/shape-cast/animations/crescent/poster.png"
+      "poster": "../characters/shape-cast/animations/crescent/poster.png",
+      "performance": {
+        "atlas": "../characters/shape-cast/performances/crescent/atlas.webp",
+        "rig": "../characters/shape-cast/performances/crescent/rig.json",
+        "method": "local source-art feature deformation",
+        "editableSource": "../assets/shape-performance.js"
+      }
     },
     {
       "id": "bean",
@@ -103,13 +133,19 @@
       "shape": "plump asymmetrical kidney bean with a clear side indentation, reference bottom row second",
       "personality": "Inquisitive and slightly quirky. Small alternating tilts, asymmetrical brows and thoughtful glove-to-cheek gestures.",
       "sheet": "../characters/shape-cast/states/bean.png",
-      "performanceStatus": "Idle animation generated; other state poses are static concepts",
+      "performanceStatus": "All ten activities and six emotions have browser performances; original idle video/GIF/WebP exports preserved",
       "animation": {
         "mp4": "../characters/shape-cast/animations/bean/idle.mp4",
         "gif": "../characters/shape-cast/animations/bean/idle.gif",
         "webp": "../characters/shape-cast/animations/bean/idle.webp"
       },
-      "poster": "../characters/shape-cast/animations/bean/poster.png"
+      "poster": "../characters/shape-cast/animations/bean/poster.png",
+      "performance": {
+        "atlas": "../characters/shape-cast/performances/bean/atlas.webp",
+        "rig": "../characters/shape-cast/performances/bean/rig.json",
+        "method": "local source-art feature deformation",
+        "editableSource": "../assets/shape-performance.js"
+      }
     },
     {
       "id": "heart",
@@ -119,13 +155,19 @@
       "shape": "thick softly inflated heart with two rounded upper lobes and a rounded lower point, reference bottom row third",
       "personality": "Kind and encouraging. Open palms, soft direct gaze and small reassuring nods; concern is supportive, not distressed.",
       "sheet": "../characters/shape-cast/states/heart.png",
-      "performanceStatus": "Idle animation generated; other state poses are static concepts",
+      "performanceStatus": "All ten activities and six emotions have browser performances; original idle video/GIF/WebP exports preserved",
       "animation": {
         "mp4": "../characters/shape-cast/animations/heart/idle.mp4",
         "gif": "../characters/shape-cast/animations/heart/idle.gif",
         "webp": "../characters/shape-cast/animations/heart/idle.webp"
       },
-      "poster": "../characters/shape-cast/animations/heart/poster.png"
+      "poster": "../characters/shape-cast/animations/heart/poster.png",
+      "performance": {
+        "atlas": "../characters/shape-cast/performances/heart/atlas.webp",
+        "rig": "../characters/shape-cast/performances/heart/rig.json",
+        "method": "local source-art feature deformation",
+        "editableSource": "../assets/shape-performance.js"
+      }
     },
     {
       "id": "diamond",
@@ -135,13 +177,19 @@
       "shape": "softly inflated tall rhombus with four rounded corners, not a faceted gemstone, reference bottom-right",
       "personality": "Poised and precise. Compact deliberate gestures, mild confident smile and controlled tilts.",
       "sheet": "../characters/shape-cast/states/diamond.png",
-      "performanceStatus": "Idle animation generated; other state poses are static concepts",
+      "performanceStatus": "All ten activities and six emotions have browser performances; original idle video/GIF/WebP exports preserved",
       "animation": {
         "mp4": "../characters/shape-cast/animations/diamond/idle.mp4",
         "gif": "../characters/shape-cast/animations/diamond/idle.gif",
         "webp": "../characters/shape-cast/animations/diamond/idle.webp"
       },
-      "poster": "../characters/shape-cast/animations/diamond/poster.png"
+      "poster": "../characters/shape-cast/animations/diamond/poster.png",
+      "performance": {
+        "atlas": "../characters/shape-cast/performances/diamond/atlas.webp",
+        "rig": "../characters/shape-cast/performances/diamond/rig.json",
+        "method": "local source-art feature deformation",
+        "editableSource": "../assets/shape-performance.js"
+      }
     }
   ],
   "states": [
@@ -152,11 +200,13 @@
       "pose": "Genuine cheerful eye-crinkle and big smile, arms relaxed slightly open, tiny pleased body lift. Distinct from the thumbs-up completion pose.",
       "row": 0,
       "column": 0,
-      "status": "static-concept",
+      "status": "animated-browser-performance",
       "trigger": "A positive conversational moment; never used alone as proof that work completed.",
       "motion": "Brief eye-crinkle and small bounce, then return to the current activity.",
-      "timing": "2–3 seconds; one shot.",
-      "exitAndControls": "Continue current activity."
+      "timing": "2\u20133 seconds; one shot.",
+      "exitAndControls": "Continue current activity.",
+      "entrySeconds": 0.24,
+      "delivery": "Local source-art deformation in the standalone viewer"
     },
     {
       "id": "curious",
@@ -165,11 +215,13 @@
       "pose": "One eyebrow raised, small body tilt, one white glove lightly at cheek, attentive small smile.",
       "row": 0,
       "column": 1,
-      "status": "static-concept",
+      "status": "animated-browser-performance",
       "trigger": "A new topic or user-invited exploration.",
       "motion": "Raise one brow, tilt and glance toward the topic, then settle.",
-      "timing": "2–3 seconds; one shot.",
-      "exitAndControls": "Continue current activity."
+      "timing": "2\u20133 seconds; one shot.",
+      "exitAndControls": "Continue current activity.",
+      "entrySeconds": 0.24,
+      "delivery": "Local source-art deformation in the standalone viewer"
     },
     {
       "id": "surprised",
@@ -178,11 +230,13 @@
       "pose": "Eyes noticeably wide, small round O mouth, both palms briefly held outward at chest level; surprise without fear.",
       "row": 0,
       "column": 2,
-      "status": "static-concept",
+      "status": "animated-browser-performance",
       "trigger": "An unexpected but noncritical event.",
       "motion": "Quick widened eyes and tiny recoil, then recover.",
-      "timing": "0.8–1.5 seconds; one shot.",
-      "exitAndControls": "Continue current activity; do not replay repeatedly."
+      "timing": "0.8\u20131.5 seconds; one shot.",
+      "exitAndControls": "Continue current activity; do not replay repeatedly.",
+      "entrySeconds": 0.24,
+      "delivery": "Local source-art deformation in the standalone viewer"
     },
     {
       "id": "confused",
@@ -191,11 +245,13 @@
       "pose": "Uneven brows, uncertain crooked closed mouth, clear small tilted pose, one glove near the top side as if scratching head.",
       "row": 0,
       "column": 3,
-      "status": "static-concept",
+      "status": "animated-browser-performance",
       "trigger": "The assistant cannot interpret a request with enough confidence.",
       "motion": "Small uneven brow and tilt, followed by a clear clarification question.",
-      "timing": "1–2 seconds; one shot.",
-      "exitAndControls": "Switch to needs-input if clarification blocks progress."
+      "timing": "1\u20132 seconds; one shot.",
+      "exitAndControls": "Switch to needs-input if clarification blocks progress.",
+      "entrySeconds": 0.24,
+      "delivery": "Local source-art deformation in the standalone viewer"
     },
     {
       "id": "concerned",
@@ -204,11 +260,13 @@
       "pose": "Inner brows gently raised, soft direct eye contact, small sympathetic closed mouth, one open hand reaching slightly forward; not crying.",
       "row": 1,
       "column": 0,
-      "status": "static-concept",
+      "status": "animated-browser-performance",
       "trigger": "A supportive conversational response or a recoverable problem.",
       "motion": "Soft gaze, gentle open palm, one small reassuring nod.",
-      "timing": "2–3 seconds; one shot.",
-      "exitAndControls": "Continue the appropriate activity; do not infer the user's emotion from appearance."
+      "timing": "2\u20133 seconds; one shot.",
+      "exitAndControls": "Continue the appropriate activity; do not infer the user's emotion from appearance.",
+      "entrySeconds": 0.24,
+      "delivery": "Local source-art deformation in the standalone viewer"
     },
     {
       "id": "playful",
@@ -217,11 +275,13 @@
       "pose": "One clear wink, jaunty smile, slight sideways lean, one hand making a playful small wave.",
       "row": 1,
       "column": 1,
-      "status": "static-concept",
+      "status": "animated-browser-performance",
       "trigger": "User chooses a playful tone or initiates play.",
       "motion": "One wink and a tiny jaunty wave.",
-      "timing": "1.5–2.5 seconds; one shot.",
-      "exitAndControls": "Return to current activity; suppress during errors and pending approvals."
+      "timing": "1.5\u20132.5 seconds; one shot.",
+      "exitAndControls": "Return to current activity; suppress during errors and pending approvals.",
+      "entrySeconds": 0.24,
+      "delivery": "Local source-art deformation in the standalone viewer"
     },
     {
       "id": "idle",
@@ -230,11 +290,13 @@
       "pose": "Relaxed neutral eyes and small closed smile, both hands resting by sides, feet planted; clear reference/rest pose.",
       "row": 1,
       "column": 2,
-      "status": "static-concept",
+      "status": "animated-browser-performance",
       "trigger": "The assistant is available and no task is executing.",
       "motion": "Small breathing motion and occasional complete blink.",
-      "timing": "4–6 second subtle loop; blinks vary.",
-      "exitAndControls": "Accept text input; enter listening only when audio capture actually begins."
+      "timing": "4\u20136 second subtle loop; blinks vary.",
+      "exitAndControls": "Accept text input; enter listening only when audio capture actually begins.",
+      "entrySeconds": 0.24,
+      "delivery": "Local source-art deformation in the standalone viewer"
     },
     {
       "id": "listening",
@@ -243,11 +305,13 @@
       "pose": "Wide attentive forward gaze, mouth closed, slight forward lean, one cupped white glove beside the body as if listening.",
       "row": 1,
       "column": 3,
-      "status": "static-concept",
+      "status": "animated-browser-performance",
       "trigger": "Microphone permission is granted and audio capture is actively receiving user input.",
       "motion": "Attentive forward lean and a restrained acknowledgment nod.",
       "timing": "Quiet hold with sparse motion; no simulated mouth speech.",
-      "exitAndControls": "Stop listening ends capture; show a persistent mic indicator outside the artwork."
+      "exitAndControls": "Stop listening ends capture; show a persistent mic indicator outside the artwork.",
+      "entrySeconds": 0.24,
+      "delivery": "Local source-art deformation in the standalone viewer"
     },
     {
       "id": "thinking",
@@ -256,11 +320,13 @@
       "pose": "Eyes look up and to one side, a white glove under the mouth/chin, gently furrowed brows, other arm relaxed.",
       "row": 2,
       "column": 0,
-      "status": "static-concept",
+      "status": "animated-browser-performance",
       "trigger": "The assistant is processing/planning and is not currently running a tool.",
       "motion": "Look up briefly, glove at chin, return gaze to center.",
-      "timing": "3–4 second subtle loop while actual processing continues.",
-      "exitAndControls": "Switch to researching, working, answering or needs-input according to real events; Stop remains available."
+      "timing": "3\u20134 second subtle loop while actual processing continues.",
+      "exitAndControls": "Switch to researching, working, answering or needs-input according to real events; Stop remains available.",
+      "entrySeconds": 0.24,
+      "delivery": "Local source-art deformation in the standalone viewer"
     },
     {
       "id": "researching",
@@ -269,11 +335,13 @@
       "pose": "Eyes deliberately scan toward screen-right, upright alert pose, one white glove lightly above the eyes in a looking-out gesture, other hand low; no magnifying glass.",
       "row": 2,
       "column": 1,
-      "status": "static-concept",
+      "status": "animated-browser-performance",
       "trigger": "Retrieval, browsing or source inspection is actively running.",
       "motion": "Small reading sweeps with pauses, then a downward reset.",
-      "timing": "3–5 second subtle loop.",
-      "exitAndControls": "Show the current source/task label; waiting on a remote service uses waiting, not fake reading."
+      "timing": "3\u20135 second subtle loop.",
+      "exitAndControls": "Show the current source/task label; waiting on a remote service uses waiting, not fake reading.",
+      "entrySeconds": 0.24,
+      "delivery": "Local source-art deformation in the standalone viewer"
     },
     {
       "id": "working",
@@ -282,11 +350,13 @@
       "pose": "Focused eyes directed slightly down, mouth closed, both gloves in front at waist height making small precise task gestures, steady stance.",
       "row": 2,
       "column": 2,
-      "status": "static-concept",
+      "status": "animated-browser-performance",
       "trigger": "An action such as writing, coding, generating or testing is executing.",
       "motion": "Steady downward focus, small precise glove movements, occasional checking pause.",
-      "timing": "3–4 second subtle loop.",
-      "exitAndControls": "Show the actual action, progress only when measurable, and Stop/Pause if supported."
+      "timing": "3\u20134 second subtle loop.",
+      "exitAndControls": "Show the actual action, progress only when measurable, and Stop/Pause if supported.",
+      "entrySeconds": 0.24,
+      "delivery": "Local source-art deformation in the standalone viewer"
     },
     {
       "id": "answering",
@@ -295,11 +365,13 @@
       "pose": "Friendly engaged forward gaze, open speaking mouth, one hand open in an explanatory presenting gesture, the other lower.",
       "row": 2,
       "column": 3,
-      "status": "static-concept",
+      "status": "animated-browser-performance",
       "trigger": "A response is being delivered as text or audio.",
       "motion": "Open-palm explaining gesture with soft eye contact.",
       "timing": "Gesture once per thought; natural quiet pauses.",
-      "exitAndControls": "Mouth motion follows actual audio if speaking; text-only responses use a quiet mouth; interruption returns to listening or idle."
+      "exitAndControls": "Mouth motion follows actual audio if speaking; text-only responses use a quiet mouth; interruption returns to listening or idle.",
+      "entrySeconds": 0.24,
+      "delivery": "Local source-art deformation in the standalone viewer"
     },
     {
       "id": "needs-input",
@@ -308,11 +380,13 @@
       "pose": "Patient questioning eye contact, one brow raised, both open palms clearly facing upward in a balanced shrug, mouth small and closed.",
       "row": 3,
       "column": 0,
-      "status": "static-concept",
+      "status": "animated-browser-performance",
       "trigger": "Execution is blocked on a user answer or explicit approval.",
       "motion": "Patient questioning glance and one open-palm invitation, then rest.",
       "timing": "One entry gesture, then mostly still.",
-      "exitAndControls": "Ask one clear question; show Answer or Approve/Decline as appropriate; never auto-approve."
+      "exitAndControls": "Ask one clear question; show Answer or Approve/Decline as appropriate; never auto-approve.",
+      "entrySeconds": 0.24,
+      "delivery": "Local source-art deformation in the standalone viewer"
     },
     {
       "id": "complete",
@@ -321,11 +395,13 @@
       "pose": "Pleased smile, decisive clearly visible thumbs-up with one white glove, tiny celebratory heel lift, other hand relaxed.",
       "row": 3,
       "column": 1,
-      "status": "static-concept",
+      "status": "animated-browser-performance",
       "trigger": "All requested work is confirmed successful.",
       "motion": "One thumbs-up, small pleased lift, then settle.",
-      "timing": "1–2 second one-shot transition to idle.",
-      "exitAndControls": "Keep a durable result link/message after the pose ends; partial results do not trigger full success."
+      "timing": "1\u20132 second one-shot transition to idle.",
+      "exitAndControls": "Keep a durable result link/message after the pose ends; partial results do not trigger full success.",
+      "entrySeconds": 0.24,
+      "delivery": "Local source-art deformation in the standalone viewer"
     },
     {
       "id": "error",
@@ -334,11 +410,13 @@
       "pose": "Brief concerned asymmetric brow and small uneasy mouth, one open palm turned outward in a gentle pause signal, both feet planted; recoverable problem, not rage or panic.",
       "row": 3,
       "column": 2,
-      "status": "static-concept",
+      "status": "animated-browser-performance",
       "trigger": "A task or tool action failed and cannot continue without recovery.",
       "motion": "One concerned pause signal, then attentive neutral stance.",
-      "timing": "0.8–1.5 second entry gesture, then hold calmly.",
-      "exitAndControls": "Show what failed and Retry, Edit request or Dismiss; preserve any completed output."
+      "timing": "0.8\u20131.5 second entry gesture, then hold calmly.",
+      "exitAndControls": "Show what failed and Retry, Edit request or Dismiss; preserve any completed output.",
+      "entrySeconds": 0.24,
+      "delivery": "Local source-art deformation in the standalone viewer"
     },
     {
       "id": "sleeping",
@@ -347,18 +425,20 @@
       "pose": "Both eyelids fully closed, relaxed small smile, hands resting loosely, body inclined slightly to one side, both boots supported. No bed, no Z letters.",
       "row": 3,
       "column": 3,
-      "status": "static-concept",
+      "status": "animated-browser-performance",
       "trigger": "The assistant is explicitly resting and no foreground or background task requires a visible status.",
       "motion": "Slow eye closure and a gentle lowered posture.",
-      "timing": "2–3 second transition, then still; optional minimal breathing.",
-      "exitAndControls": "Wake on explicit user interaction; do not imply ongoing work is finished or hide active microphone capture."
+      "timing": "2\u20133 second transition, then still; optional minimal breathing.",
+      "exitAndControls": "Wake on explicit user interaction; do not imply ongoing work is finished or hide active microphone capture.",
+      "entrySeconds": 0.24,
+      "delivery": "Local source-art deformation in the standalone viewer"
     }
   ],
   "systemVariants": [
     {
       "id": "starting",
       "pose": "idle",
-      "label": "Starting…",
+      "label": "Starting\u2026",
       "trigger": "Initialization is running.",
       "controls": "Cancel if startup can be interrupted.",
       "exit": "Idle when ready; error if startup fails."
@@ -366,7 +446,7 @@
     {
       "id": "waiting",
       "pose": "idle",
-      "label": "Waiting for a result…",
+      "label": "Waiting for a result\u2026",
       "trigger": "An external tool or queue has not returned; no active local work.",
       "controls": "Stop; show elapsed time when useful, not invented completion percentages.",
       "exit": "Resume the task when the result arrives; error on timeout."
@@ -374,7 +454,7 @@
     {
       "id": "coding",
       "pose": "working",
-      "label": "Writing code…",
+      "label": "Writing code\u2026",
       "trigger": "Code generation or editing is actually running.",
       "controls": "Stop.",
       "exit": "Checking or answering according to actual workflow."
@@ -382,7 +462,7 @@
     {
       "id": "checking",
       "pose": "working",
-      "label": "Checking…",
+      "label": "Checking\u2026",
       "trigger": "A real verification step is running.",
       "controls": "Stop where supported.",
       "exit": "Complete only on successful verification, otherwise error or partial result."
@@ -445,7 +525,7 @@
     "Character hue is identity and never changes to signal task status.",
     "Listening is shown only during actual audio capture; listening pose alone is not a microphone permission indicator.",
     "Eyes and limbs may move; preserve the shape silhouette, glove/boot colors and overall visual mass.",
-    "No animations or assistant integrations are included in this concept package."
+    "128 browser performances are included. No live assistant, microphone, speech synchronization, production 3D rig or new state video exports are claimed."
   ],
   "animations": {
     "state": "idle",
@@ -462,6 +542,49 @@
     ],
     "background": "black",
     "method": "Generated sequential poses, boot registration, timed holds and optical-flow interpolation. Not a rigged 3D model. Original eyelid poses are retained through each blink.",
-    "remainingStates": "Static concepts only"
+    "remainingStates": "All fifteen other states per character are implemented as local browser artwork performances."
+  },
+  "performances": {
+    "count": 128,
+    "activitiesPerCharacter": 10,
+    "expressionsPerCharacter": 6,
+    "formats": [
+      "browser-WebGL"
+    ],
+    "source": "../assets/shape-performance.js",
+    "preparation": "../scripts/prepare-shape-performances.py",
+    "method": "Registered original art with independent eye, glove and posture deformation; short crossfades between source poses. No external generation or uploads.",
+    "oneShots": [
+      "happy",
+      "curious",
+      "surprised",
+      "confused",
+      "concerned",
+      "playful",
+      "complete"
+    ],
+    "settlingStates": [
+      "needs-input",
+      "error",
+      "sleeping",
+      "waiting",
+      "awaiting-approval",
+      "permission-denied",
+      "paused",
+      "cancelled",
+      "offline",
+      "partial"
+    ],
+    "aliases": {
+      "neutral": "idle",
+      "calm": "idle",
+      "waking": "starting",
+      "searching": "researching",
+      "speaking": "answering",
+      "success": "complete",
+      "recovery": "error",
+      "reconnecting": "offline"
+    },
+    "reducedMotion": "Still artwork by default; live preference changes pause video and procedural playback; explicit Play opts into a preview."
   }
 }

@@ -12,7 +12,7 @@ Open **http://127.0.0.1:4173**. Node.js 20 or newer is required. The gallery has
 
 ## Included studies
 
-- **Shape companions:** eight soft 3D-look characters, one main color each, white gloves and black boots. Each has a playable four-second idle loop (MP4, GIF and WebP) and 16 static emotion/activity concepts. [Animation and behavior guide](docs/shape-cast.md).
+- **Shape companions:** eight soft 3D-look characters, one main color each, white gloves and black boots. Each has 16 playable emotion/activity performances using local artwork deformation, plus the original four-second idle exports (MP4, GIF and WebP) and source concepts. [Animation and behavior guide](docs/shape-cast.md).
 
 - **Open Skeleton:** a round ivory mechanical face with nine emotional reactions plus idle, thinking, and answering. Includes 12 silent MP4/GIF clips, generated source artwork, and prompts. [Character pack](characters/open-skeleton/README.md).
 

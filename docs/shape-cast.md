@@ -1,14 +1,14 @@
 # Shape companions: emotion and activity states
 
-Eight characters each have a **playable four-second idle animation** and share six expressions and ten activity poses: **128 static pose concepts**. The state sheets are not registered sprite atlases or rigged 3D models. Only idle has an animation export.
+Eight characters each have **16 playable browser performances**: ten activities and six emotional reactions, for **128 performances**. They animate the existing matte artwork locally through eye, glove and posture deformation. Each character also retains its original four-second idle video/GIF/WebP. The original drawings and generated idle exports are unchanged. This is an artwork animation study, not a 3D rig or connected assistant.
 
 ## Review
 
-Open [the character viewer](../characters/shape-cast/index.html). Choose a character to play its idle loop. Switch to State concepts to browse poses or open the complete sheet. The canonical machine-readable definition is [shape-cast.states.json](../studies/shape-cast.states.json).
+Open [the character viewer](../characters/shape-cast/index.html). Choose a character and an Activity in Performances. The six emotion buttons play one-shot reactions and return to the current activity. Original idle plays the preserved video export; State concepts shows the source drawings. The canonical machine-readable definition is [shape-cast.states.json](../studies/shape-cast.states.json).
 
 ## Character identity
 
-All bodies retain one main hue, white gloves and black boots. Emotion never recolors a character. The following performance directions guide each idle loop and the planned state animations.
+All bodies retain one main hue, white gloves and black boots. Emotion never recolors a character. The following performance directions guide the individual motion range and timing of every performance.
 
 | Character | Main color | Acting direction |
 | --- | --- | --- |
@@ -68,7 +68,7 @@ These are distinct real states that reuse an existing pose, with an explicit lab
 
 ## Interaction rules
 
-The runtime should store activity and expression separately: `activity`, optional `expression`, `blockedReason`, `micActive`, `audioPlaying`, and `taskId`. These fields are a proposed contract, not an implemented assistant.
+The preview stores `activity` and optional `expression` separately. Reactions return to the current activity and blocking events interrupt them. `blockedReason`, `micActive`, `audioPlaying`, and `taskId` remain a proposed integration contract; no live assistant, microphone, tool runner or audio playback is connected.
 
 1. Set activity from real events. A user request may move idle → thinking → researching or working → answering → complete → idle. Skip phases that did not happen.
 2. A brief emotional reaction temporarily changes the pose, then returns to the **current** activity. A new error, permission request, input request, pause or offline event interrupts the reaction immediately.
@@ -83,7 +83,7 @@ The runtime should store activity and expression separately: `activity`, optiona
 
 - Default pose blend target: 180–280 ms, soft easing. These are design targets to tune in animation.
 - Expressions: 0.8–3 seconds, generally once per relevant event. Do not repeatedly express sadness or impatience to demand attention.
-- Idle: very small body motion; occasional full blink. The viewer plays the idle loop; other activities remain still concepts.
+- Idle: very small body motion; occasional full blink. The viewer has an idle performance plus the original idle video; each other activity has a separate performance.
 - Motion scale by character: square and diamond compact; circle and star broader; crescent and heart gentle; triangle brisk; bean asymmetrical.
 - Boots keep a believable contact plane for grounded poses; lifted-foot poses need a stable center of mass.
 - Blinks close both eyelids cleanly. Keep pupils inside sclera; eyes track together unless intentionally surprised.
@@ -92,26 +92,34 @@ The runtime should store activity and expression separately: `activity`, optiona
 
 ## Accessibility and display
 
-- Every activity has a persistent text label and explicit recovery action. Color and expression are supplementary.
+- Every activity has a persistent text label and clear recovery guidance for a connected application. Color and expression are supplementary.
 - Character selection and state controls have visible labels, keyboard operation and visible focus. Screen readers receive a concise update for an intentional state change; do not announce every blink.
-- Offer reduced motion: still poses with a short fade or instant transition; suppress bounce, sway and looping. The viewer starts paused when the browser requests reduced motion and provides Play/Pause and Restart controls.
+- Offer reduced motion: still poses with a short fade or instant transition; suppress bounce, sway and looping. The viewer starts paused when the browser requests reduced motion. Live changes stop both the procedural clock and original video, including pending play requests. Play explicitly opts into motion; turning the preference off does not silently resume it.
 - Announce critical errors immediately; other status text can use polite announcements. Do not use a blinking avatar as the sole alert.
 - On small or round displays, place the full silhouette inside a circular safe area with roughly 12% inset. Put labels outside the artwork when space allows. Verify crops, gloves, boots and contrast at the actual device resolution before use.
 - Preserve the character's accessible name independent of color: “Triangle, thinking,” rather than “yellow.”
-- On narrow screens, controls stack above the pose. The full sheet remains available as a zoomable image link.
+- On narrow screens, controls stack below the pose. The full sheet remains available as a zoomable image link.
 
-## Production handoff
+## Delivered browser performances
 
-- Each sheet uses the same 4 × 4 order. JSON row/column coordinates identify static concept cells only.
-- For the remaining state animations, approve acting range and create consistently registered isolated poses or an editable rig. The generated contact sheets have small scale/position differences and are not drop-in sprite atlases.
-- Idle is delivered as generated-keyframe animation. Generate or rig listening, thinking, working, answering, needs-input, complete and error next. Add researching and sleeping, then short emotional overlays.
-- Export clips with stable framing and a common rest pose, plus transparent assets if the chosen runtime supports them. This task includes opaque idle videos, GIFs and WebPs; transparent cutouts, editable rigs and installable pet packages are not included.
-- Keep the microphone, permission and task-event implementation outside the character artwork.
+The editable motion source is [`assets/shape-performance.js`](../assets/shape-performance.js); viewer transitions and controls live in [`studies/shape-cast.fragment.html`](../studies/shape-cast.fragment.html). [`scripts/prepare-shape-performances.py`](../scripts/prepare-shape-performances.py) deterministically extracts artwork rows, removes source labels, registers the boots and detects eye/glove/mouth anchors. It produces 16-cell textures and anchor JSON for each character under `performances/`. The unmodified source sheets have uneven row spacing and must not be sampled as equally spaced animation frames.
 
-## Open decisions
+- Each pose is rendered through a fine WebGL mesh. Eye closure/gaze, individual glove displacement/rotation, and upper-body posture are independent channels. Boots stay anchored. The same acting vocabulary uses different range, tempo and asymmetry for each character.
+- Listening nods and adjusts a glove; thinking glances upward with chin-hand motion; researching scans in reading steps; working alternates precise glove movements with checking pauses; answering presents an open palm with a quiet mouth sampled from the idle artwork. No fake speech is generated.
+- Needs-input, error and the blocked/system conditions have one entry gesture and settle. Sleeping lowers into its closed-eye source pose. Complete plays once and returns to idle while a durable result message remains. Cancelled and partial outcomes have distinct durable copy.
+- Six emotional reactions have individual 1.2–2.6 second entry/hold/exit performances. A short pose crossfade accompanies the feature motion; this is not relabelled idle playback. A reaction returns to the activity current at its end. Error, permission/input, waiting, paused/offline, cancelled, partial and sleeping states interrupt it and suppress new reactions.
+- Neutral/calm use idle. Waking uses starting; searching uses researching; coding/checking use working; speaking uses the quiet answering preview; success uses complete; recovery uses error; reconnecting uses offline. The UI names each system condition explicitly and explains the appropriate controls. Real capture, speech synchronization and tool-event bindings require integration outside the artwork.
+- Reduced motion uses still poses. Live preference changes are reconciled in the media event, the render loop and video play entry. Explicit Play previews motion even with reduced motion enabled; a subsequent change to reduced motion pauses again.
 
-Target runtime and physical display are not yet specified. The preview exports use four-second loops, 512 × 512 H.264 MP4 at 24 fps, plus 384 × 384 GIF and WebP. Production rig versus sprite delivery, transparency, audio synchronization, and final state timing remain to be chosen. The core state meanings, color identities and accessory rules are defined.
+## Verification and limitations
 
+`npm run build`, `npm run check`, `npm run test:shape`, `npm run test:media` and `npm test` cover generated-source consistency, local texture/anchor coverage, decoding all eight original idle videos, 128 distinct motion profiles and rendered frame changes, full eyelid closure for all eight characters, activity/reaction transitions, interrupted reactions, one-shot completion, durable outcomes, settled conditions, original video playback/downloads, live reduced motion, pending-play races, explicit replay and a 320 px round preview. Rendered contact sheets and the runtime report are in [`tests/evidence/shape-cast/`](../tests/evidence/shape-cast/).
+
+The initial reduced-motion regression was reproduced as an immediate assertion before Chromium dispatched its media-change event; this run observed the original listener pause within about 33 ms. An earlier audit also recorded a longer missed notification that was not reproduced here. The runtime now independently reconciles the authoritative preference during rendering and video play, and the regression checks actual stopped time after a bounded preference change, rather than ignoring the preference or relying on reload.
+
+Browser performances require WebGL; the source drawings and original idle downloads remain available if it is unavailable. New activity/emotion MP4/GIF/WebP exports, transparent cutouts, editable 3D rigs, installable pet packages and audio synchronization are not included. The full source artwork is preserved; local texture deformation can stretch shading slightly around moving features. Physical display legibility and connected-assistant behavior have not been tested.
+
+Target runtime and physical display are not yet specified. All new states are playable in the standalone local browser preview without API keys or external services. The original idle exports remain 512 × 512 H.264 MP4 at 24 fps, plus 384 × 384 GIF and WebP, on an opaque background.
 
 ## Delivered idle animations
 
@@ -121,6 +129,6 @@ Each character has 16 generated sequential poses, including a full blink and a s
 - GIF and WebP: 384 × 384, indefinitely looping. GIF delays are quantized by the format.
 - Background: opaque black. No transparency is claimed.
 - Pose vocabulary: triangle wave; circle buoyant greeting; square measured wave; star two-hand greeting; crescent gentle lean and wave; bean curious cheek touch; heart welcoming open palms; diamond compact greeting.
-- Checks: each clip is decoded to confirm frame count, measurable motion and matching loop endpoints. Reports live alongside each clip. The included browser smoke test covers actual playback, pause/restart, switching, static states, mobile layout and reduced motion. Browser execution was blocked by an unavailable admin-policy security check during this handoff; the smoke test has not been run. Physical-display and assistant integration have not been tested.
+- Checks: each clip is decoded to confirm frame count, measurable motion and matching loop endpoints. Reports live alongside each clip. The expanded browser smoke test covers actual playback, pause/restart, switching, all 128 animated and static states, mobile layout and live reduced motion; it has been run successfully during this completion pass. Physical-display and assistant integration have not been tested.
 
 Rebuild with `python3 scripts/assemble-shape-loops.py triangle circle square star crescent bean heart diamond`. This requires Python, Pillow, NumPy and ffmpeg. Generated artwork uses built-in image generation; assembly is local.
