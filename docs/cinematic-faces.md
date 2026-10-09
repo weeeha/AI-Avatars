@@ -59,6 +59,6 @@ Working uses short downward fixations, coding reads across short lines, and chec
 
 Offline, reconnecting, permission-denied, paused, cancelled, and partial have explicit captions. These conditions are manually previewed, never inferred from a decorative loop. Concerned is an alias for worried, and neutral for calm. The activity aliases starting/waking, researching/searching, answering/speaking, and complete/success support the shared vocabulary.
 
-`window.cinematicPreview` exposes `setMode`, `setEmotion`, `setPaused`, `react`, `seek`, `getState`, and `capture`. Selecting a new activity interrupts a reaction; finishing a reaction returns to the selected activity. Reduced-motion changes pause ongoing animation, with explicit Play available.
+`window.cinematicPreview` exposes `setMode`, `setEmotion`, `setPaused`, `react`, `seek`, `getState`, and `capture`. Stopping the conversation demo preserves the prior activity age, so settled outcomes stay settled. Selecting a new activity interrupts a reaction; finishing a reaction returns to the selected activity. Reduced-motion changes pause ongoing animation, with explicit Play available.
 
 `tests/cinematic-state-smoke.cjs` verifies both renderers' full lifecycle, changing frames, emotion overlays, interruption/return, settled completion, condition captions, live reduced motion, and mobile layout.
