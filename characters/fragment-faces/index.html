@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><title>Fragment &amp; Third Eye · AI Avatars</title><link rel="stylesheet" href="../../assets/preview.css"><link rel="stylesheet" href="index.css"></head>
+<body><main class="page"><nav class="page-nav" aria-label="Gallery navigation"><a href="../../index.html">← AI Avatars</a><span class="page-title">Fragment &amp; Third Eye</span></nav>
+<div id="fragment-faces-alive">
+  <div class="viz-controls">
+    <label class="form-label">Status
+      <select class="form-select" id="fragment-mode">
+        <option value="demo">Auto cycle</option>
+        <option value="idle">Idle</option>
+        <option value="listening">Listening</option>
+        <option value="thinking">Thinking</option>
+        <option value="searching">Searching</option>
+        <option value="speaking">Speaking</option>
+        <option value="done">Done</option>
+        <option value="alert">Reminder</option>
+        <option value="error">Error</option>
+        <option value="offline">Offline</option>
+        <option value="sleeping">Sleeping</option>
+      </select>
+    </label>
+    <label class="form-label">Emotion
+      <select class="form-select" id="fragment-emotion">
+        <option value="auto">Match status</option>
+        <option value="neutral">Neutral</option>
+        <option value="happy">Happy</option>
+        <option value="curious">Curious</option>
+        <option value="playful">Playful</option>
+        <option value="skeptical">Skeptical</option>
+        <option value="confused">Confused</option>
+        <option value="sad">Sad</option>
+        <option value="surprised">Surprised</option>
+        <option value="sleepy">Sleepy</option>
+        <option value="focused">Focused</option>
+      </select>
+    </label>
+    <label class="form-label">Gaze
+      <select class="form-select" id="fragment-gaze">
+        <option value="auto">Match state</option>
+        <option value="together">Together</option>
+        <option value="independent">Independent</option>
+      </select>
+    </label>
+    <button class="btn" id="fragment-pause" type="button">Pause</button>
+  </div>
+  <div class="viz-controls" role="group" aria-label="Quick reactions">
+    <span class="text-small text-muted">React</span>
+    <button class="btn" type="button" data-reaction="wink">Wink</button>
+    <button class="btn" type="button" data-reaction="got-it">Got it</button>
+    <button class="btn" type="button" data-reaction="no">No</button>
+    <button class="btn" type="button" data-reaction="startled">Surprise</button>
+    <button class="btn" type="button" data-reaction="laugh">Laugh</button>
+    <button class="btn" id="fragment-blink" type="button" data-reaction="blink">Blink</button>
+  </div>
+  <div class="fragment-speech">
+    <label class="form-label" for="fragment-say">Say something</label>
+    <textarea class="form-control" id="fragment-say" rows="2" maxlength="400">Hello. I am your Super Clock. I can listen, think, and now, talk. What would you like to do next?</textarea>
+    <div class="viz-controls">
+      <button class="btn btn-primary" id="fragment-talk" type="button">Talk</button>
+      <button class="btn" id="fragment-stop" type="button" disabled>Stop voice</button>
+      <button class="btn btn-ghost" id="fragment-demo" type="button">Demo phrase</button>
+      <span class="text-small text-muted" id="fragment-voice-note" aria-live="polite">Synthetic voice · both faces speak together</span>
+    </div>
+  </div>
+  <div class="fragment-stage viz-dotted-background">
+    <figure id="fragment">
+      <div class="fragment-face">
+        <canvas width="640" height="640" data-face="fragment" role="img" aria-label="Fragment clock face: independent irises and pupils move inside two eyes, beneath blinking eyelids. Move the pointer or touch the face to direct their gaze."></canvas>
+        <span class="fragment-time" aria-label="Current time"></span>
+      </div>
+      <figcaption>01 / Fragment</figcaption>
+    </figure>
+    <figure id="third-eye">
+      <div class="fragment-face">
+        <canvas width="640" height="640" data-face="third-eye" role="img" aria-label="Third Eye clock face: three independent irises and pupils move inside the eyes, beneath blinking eyelids. Move the pointer or touch the face to direct their gaze."></canvas>
+        <span class="fragment-time" aria-label="Current time"></span>
+      </div>
+      <figcaption>02 / Third Eye</figcaption>
+    </figure>
+  </div>
+  <div id="fragment-status" class="text-small text-muted text-center" aria-live="polite">Idle</div>
+  <div id="fragment-error" class="text-destructive" role="alert" hidden></div>
+</div>
+</main><script src="../../assets/preview-state.js"></script><script src="index.js"></script></body></html>

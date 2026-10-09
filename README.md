@@ -13,7 +13,7 @@ Open **http://127.0.0.1:4173**. Node.js 20 or newer is required. The gallery has
 ## Included studies
 
 - **Open Skeleton:** a round ivory mechanical face with nine emotional reactions plus idle, thinking, and answering. Includes 12 silent MP4/GIF clips, generated source artwork, and prompts. [Character pack](characters/open-skeleton/README.md).
-
+- **Fragment & Third Eye:** photographic eyes with detailed iris texture, separate pupil targets, coordinated or independent gaze, eleven emotions, twenty-two statuses, and six reactions. Includes real synthetic demo speech and local browser voices for custom text. [Behavior guide](docs/fragment-faces.md).
 - **Dot flock:** a round sculpture of individually shaded blue dots, with clear gaps, curved eyelids, rounded irises, and dark pupils. Supports expressive motion, pointer disturbance, and scatter/reform.
 - **Red eye:** a red glass lens with blue reflections and an expressive luminous aperture. Both cinematic faces combine 10 activities, 10 emotions, and 6 temporary reactions. [Behavior guide](docs/cinematic-faces.md).
 - **Prismatic lenses — character states:** idle, listening, talking, thinking, writing code, and complete. Includes a demo sequence, playback speed, pause, and round/square display views.
@@ -21,7 +21,7 @@ Open **http://127.0.0.1:4173**. Node.js 20 or newer is required. The gallery has
 - **Six palettes:** prismatic, pink, cyan, lilac, amber, and mint, shared across both studies.
 - **[Oracle](characters/oracle/README.md):** a three-eyed white statue with 34 expression, assistant, and clock modes with a separate emotion layer. Shimmering stars change into hearts, crescents, diamonds, pulses, and orbiting lights. Includes artwork, a character manifest, and generation provenance.
 
-The procedural studies are original browser-rendered concepts based on supplied visual references. Open Skeleton uses locally assembled, generated keyframes with a stop-motion character. Talking uses simulated timing; the studies are not connected to live speech, a microphone, an agent, or physical hardware. Reduced-motion settings start the previews paused.
+The procedural studies are original browser-rendered concepts based on supplied visual references. Open Skeleton uses locally assembled, generated keyframes with a stop-motion character. Fragment and Third Eye include synthetic voice playback; their demo mouth motion follows audio amplitude and custom phrases use approximate speech timing. Other studies simulate talking. The studies are not connected to a microphone, an agent, or physical hardware. Reduced-motion settings start the previews paused.
 
 ## Edit
 
@@ -42,7 +42,7 @@ npx playwright install chromium
 npm test
 ```
 
-The smoke check loads the standalone studies, checks graphics initialization, state/palette switching, animation playback, local preference persistence, reduced motion, and narrow-screen layout. Oracle's checks cover original and added state poses and shimmering eyes. `npm run check` also confirms that generated files are current and have no machine-specific paths or conversation-host API calls.
+The smoke checks exercise gallery links, graphics initialization, state and emotion performances, animation playback, interruption and return, local preferences, reduced motion, narrow-screen layout, photographic pupil confinement, and explicit voice playback. `npm run check` verifies current portable generated previews.
 
 ## Add characters
 

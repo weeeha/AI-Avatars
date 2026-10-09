@@ -47,5 +47,23 @@
     "output": "characters/open-skeleton/preview",
     "rootId": "open-skeleton",
     "manifest": "characters/open-skeleton/manifest.json"
+  },
+  {
+    "id": "fragment-faces",
+    "title": "Fragment & Third Eye",
+    "source": "studies/fragment-faces.fragment.html",
+    "output": "characters/fragment-faces/index",
+    "rootId": "fragment-faces-alive",
+    "api": "avatarPreview",
+    "characters": [
+      {
+        "id": "fragment",
+        "name": "Fragment"
+      },
+      {
+        "id": "third-eye",
+        "name": "Third Eye"
+      }
+    ]
   }
 ]

@@ -52,6 +52,8 @@ const origin=`http://127.0.0.1:${port}`;
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
     await page.emulateMedia({reducedMotion:'reduce'});await page.reload();await page.waitForSelector('#oracle-canvas[data-ready="true"]');assert.equal(await page.evaluate(()=>oraclePreview.getState().paused),true);
     await require('./oracle-state-smoke.cjs')(page,origin);
-    assert.deepEqual(errors,[]);console.log('PASS: gallery, lens studies, both cinematic characters, Oracle original states, full assistant lifecycle, expression overlays and shimmer, playback, saved preferences, palette changes, mobile layout, reduced motion.');
+    await require('./fragment-smoke.cjs')(page,origin);
+    await require('./fragment-state-smoke.cjs')(page,origin);
+    assert.deepEqual(errors,[]);console.log('PASS: combined character gallery and all imported checks.');
   }finally{await browser?.close();server.kill();}
 })().catch(e=>{console.error(e);process.exit(1);});
