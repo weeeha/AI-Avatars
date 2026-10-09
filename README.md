@@ -10,6 +10,8 @@ npm start
 
 Open **http://127.0.0.1:4173**. Node.js 20 or newer is required. The gallery has no runtime package dependencies, CDN requests, account requirements, or API keys. You can also open `index.html` directly.
 
+[Coverage for all 50 designs](docs/animation-coverage.md) lists the delivered states, expressions, family PRs, and validation commands.
+
 ## Included studies
 
 - **Shape companions:** eight soft 3D-look characters, one main color each, white gloves and black boots. Each has 16 playable emotion/activity performances using local artwork deformation, plus the original four-second idle exports (MP4, GIF and WebP) and source concepts. [Animation and behavior guide](docs/shape-cast.md).
