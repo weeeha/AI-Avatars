@@ -35,6 +35,15 @@ module.exports=async function verifyLifecycle(page,origin){
   await page.evaluate(()=>{avatarPreview.setMode('working');avatarPreview.setPaused(false);});
   await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>avatarPreview.getState().paused);
   const time=await page.evaluate(()=>avatarPreview.getState().time);await page.waitForTimeout(150);assert.equal(await page.evaluate(()=>avatarPreview.getState().time),time);
+  await page.emulateMedia({reducedMotion:'no-preference'});
+  await page.evaluate(()=>{avatarPreview.setMode('working');avatarPreview.setPaused(false);avatarPreview.startTalking(true);});
+  await page.waitForFunction(()=>avatarPreview.getState().voice?.playing);
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.waitForFunction(()=>avatarPreview.getState().paused);
+  await page.evaluate(()=>avatarPreview.stopTalking());
+  assert.equal(await page.evaluate(()=>avatarPreview.getState().paused),true,'Stopping voice must retain intervening reduced motion');
+  const stopped=await page.evaluate(()=>avatarPreview.getState().time);await page.waitForTimeout(160);
+  assert.equal(await page.evaluate(()=>avatarPreview.getState().time),stopped);
   console.log('PASS: photographic lifecycle, distinct motion on both faces, emotion layers, interruptions, aliases, sleep and live reduced motion.');
 };
 if(require.main===module){

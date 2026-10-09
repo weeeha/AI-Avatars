@@ -55,6 +55,6 @@ The status menu adds starting, working, coding, checking, waiting, needs-input, 
 
 Starting opens the eyes in a short stagger; working uses downward stepped fixations, coding reads across short lines, and checking compares left/right before centering. Waiting uses a quiet hold with an occasional glance. Needs-input and approval use one eyebrow invitation, then hold attention. Done acknowledges briefly and settles; error gives a brief shake then holds a recoverable expression. Sleep closes all eyes regardless of emotion.
 
-A new activity interrupts a temporary reaction. A finished reaction restores the selected activity and emotion. Voice playback continues to use explicit Talk/Stop controls, and stop/end restores the previous activity. Reduced motion also stops active playback when enabled during the session; explicit Play or Talk can resume.
+A new activity interrupts a temporary reaction. A finished reaction restores the selected activity and emotion. Voice playback continues to use explicit Talk/Stop controls, and stop/end restores the previous activity and its age. Any pause or reduced-motion decision made during speech is retained. Reduced motion also stops active playback when enabled during the session; explicit Play or Talk can resume.
 
 Validation: `npm run build`, `npm run check`, and `npm test` cover the lifecycle, both faces' changing pixels, all eleven expressions, pupil confinement, reactions, speech, persistence, mobile widths, and live reduced motion.
