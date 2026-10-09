@@ -1,17 +1,13 @@
 (() => {
-  const root=document.getElementById('lens-motion-ideas');
-  const gallery=root.querySelector('.mi-gallery'),canvas=root.querySelector('canvas');
-  const tiles=Array.from(root.querySelectorAll('.mi-art'));
-  const palette=root.querySelector('#mi-palette'),speed=root.querySelector('#mi-speed'),output=root.querySelector('output'),play=root.querySelector('[data-play]');
-  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-  const paletteNames=['Prismatic','Pink','Cyan','Lilac','Amber','Mint'];
-  let state={palette:0,speed:1.75,paused:reduced.matches};
-  let time=0,previous=0,lastDraw=0,raf=0,visible=true,lost=false,gl,program,uniforms,viewports=[];
+const root=document.getElementById('lens-motion-ideas'),gallery=root.querySelector('.mi-gallery'),canvas=root.querySelector('canvas');const tiles=[...root.querySelectorAll('.mi-art')];
+let state={palette:0},time=0,lost=false,gl,program,uniforms,viewports=[],pose={},api;
   const vertex=`attribute vec2 position;void main(){gl_Position=vec4(position,0.,1.);}`;
   const fragment=`
     precision highp float;
     uniform vec2 size,offset;
     uniform float time,idea,palette;
+    uniform vec4 poseA,poseB,activity;
+    uniform vec3 performance;
     const float PI=3.14159265359;
     const float TAU=6.28318530718;
     float hash(float p){return fract(sin(p*127.1+19.7)*43758.5453);}
@@ -20,16 +16,17 @@
     float line(float d,float width){return exp(-pow(d/width,2.));}
     float ring(vec2 p,float radius,float width){return line(length(p)-radius,width);}
     float scene(vec2 p,float t){
+      p=turn(poseB.x)*(p-poseA.xy);p/=poseA.zw;p.x+=poseB.z*.13*sin(p.y*5.);
       float r=length(p),a=atan(p.y,p.x);
       if(idea<.5){
-        vec2 c1=vec2(.28*cos(t*.8),.22*sin(t*.9));
+        vec2 c1=vec2(.28*cos(t*.8),.22*sin(t*.9));c1=mix(c1,vec2(.25*sign(sin(t*2.)),.2*sign(cos(t*2.))),activity.w*.7);
         vec2 c2=vec2(-.29*cos(t*.8),-.26*sin(t*.75));
         vec2 c3=vec2(.30*sin(t*.6),.37*cos(t*.8));
         float f=.065/(dot(p-c1,p-c1)+.014)+.053/(dot(p-c2,p-c2)+.014)+.038/(dot(p-c3,p-c3)+.013);
         return smoothstep(.73,1.2,f);
       }
       if(idea<1.5){
-        vec2 orbit=vec2(.39*cos(t*.65),.20*sin(t*.65));
+        vec2 orbit=vec2((.39-activity.x*.09)*cos(t*.65),(.20+activity.z*.10)*sin(t*.65));
         float sun=disk(p-orbit,.30);
         float moon=disk(p+orbit,.24);
         float rim=ring(p+orbit,.242,.024);
@@ -37,7 +34,7 @@
       }
       if(idea<2.5){
         vec2 q=turn(.25*sin(t*.4))*p;
-        float k=sin(q.x*4.8+t*.8);
+        float k=sin(q.x*(4.8+activity.y*.8)+t*.8);
         float d1=q.y-.32*k,d2=q.y+.32*k;
         float ribbon1=line(d1,.105),ribbon2=line(d2,.072);
         float cover=smoothstep(-.12,.12,cos(q.x*4.8+t*.8));
@@ -45,7 +42,7 @@
         return weave*(1.-smoothstep(.57,.83,abs(q.x)));
       }
       if(idea<3.5){
-        float cycle=mod(t,7.0),pour=min(cycle/5.8,1.);
+        float cycle=mod(t,7.0),pour=min(cycle/5.8,1.);pour=mix(pour,floor(pour*5.)/5.,activity.w*.65);
         float flip=smoothstep(5.8,7.0,cycle)*PI;
         vec2 q=turn(flip)*p;
         float width=.045+.77*abs(q.y);
@@ -59,17 +56,18 @@
       }
       if(idea<4.5){
         float lights=0.;
-        float spread=.42+.19*sin(t*.45);
+        float spread=.42+.19*sin(t*.45)-activity.x*.14+activity.z*.12;
         for(int i=0;i<9;i++){
           float k=float(i);
           vec2 pos=vec2(sin(t*(.24+hash(k)*.20)+k*2.4),cos(t*(.33+hash(k+4.)*.15)+k*1.9))*spread;
+          pos=mix(pos,vec2(mod(k,3.)-1.,floor(k/3.)-1.)*.26,activity.w*.7);
           float twinkle=.55+.45*sin(t*1.7+k*2.0);
           lights+=exp(-dot(p-pos,p-pos)/(.003+twinkle*.004))*(.35+.65*twinkle);
         }
         return min(lights,1.);
       }
       if(idea<5.5){
-        float angle=mod(a-t*.9+TAU*10.,TAU);
+        float angle=mod(a-t*.9+TAU*10.+performance.x*.6,TAU);
         float sweep=exp(-angle*4.1)*(1.-smoothstep(.66,.75,r));
         float rings=(ring(p,.25,.009)+ring(p,.48,.009)+ring(p,.70,.009))*.18;
         float cross=(line(p.x,.007)+line(p.y,.007))*.12*(1.-smoothstep(.66,.71,r));
@@ -84,7 +82,7 @@
       }
       if(idea<6.5){
         vec2 q=turn(-.23)*p;
-        float phase=q.y*7.-t*1.3;
+        float phase=q.y*(7.+activity.x*2.)-t*1.3;
         float x=.33*sin(phase);
         float front=.6+.4*cos(phase);
         float strands=line(q.x-x,.06)*front+line(q.x+x,.06)*(1.2-front);
@@ -94,22 +92,22 @@
       }
       if(idea<7.5){
         float level=.12*sin(t*.45);
-        float wave=level+.10*sin(p.x*5.+t*1.0)+.046*sin(p.x*9.-t*.65);
+        float wave=level+(.10+activity.z*.15)*sin(p.x*5.+t*1.0)+.046*sin(p.x*9.-t*.65);
         float filled=1.-smoothstep(wave-.02,wave+.025,p.y);
         float foam=line(p.y-wave,.045);
         float depth=.60+.14*sin(p.y*13.+p.x*3.+t*.8);
         return clamp(filled*depth+foam*.45,0.,1.)*(1.-smoothstep(.83,.9,r));
       }
       if(idea<8.5){
-        float opening=.5+.5*sin(t*.65);
+        float opening=(.5+.5*sin(t*.65))*poseB.y;
         float petal=.30+opening*.18+(.10+opening*.08)*cos(6.*a+t*.32);
         float silhouette=1.-smoothstep(petal-.025,petal+.05,r);
         float veins=.65+.35*cos(6.*a+t*.32);
         float core=disk(p,.12+.045*opening);
         return clamp(silhouette*(.40+.4*veins)+core*.38,0.,1.);
       }
-      float blink=1.-.95*exp(-pow((mod(t,4.7)-3.45)/.10,2.));
-      vec2 gaze=vec2(.065*sin(t*.8),.05*sin(t*.55));
+      float blink=poseB.y*(1.-.95*exp(-pow((mod(t,4.7)-3.45)/.10,2.)));
+      vec2 gaze=vec2(.065*sin(t*.8),.05*sin(t*.55))+poseA.xy*.25;
       float eyes=0.;
       for(int i=0;i<2;i++){
         vec2 e=p-vec2(i==0?-.29:.29,.05);
@@ -130,7 +128,7 @@
       return mint;
     }
     vec3 colorField(vec2 p,float t){
-      float f=clamp(scene(p,t),0.,1.);
+      float f=clamp(scene(p,t),0.,1.);f*=mix(1.,smoothstep(.02,.085,abs(p.x+p.y*.3)),performance.y*.75);
       if(palette<.5){
         vec3 bg=vec3(.028,.041,.052);
         vec3 teal=vec3(.10,.71,.65),coral=vec3(1.,.43,.31),pink=vec3(.96,.04,.52);
@@ -166,7 +164,7 @@
       float noise=fract(sin(dot(gl_FragCoord.xy,vec2(127.1,311.7)))*43758.5453)-.5;
       c+=noise*(palette<.5?.019:.007);
       float alpha=1.-smoothstep(.977,.985,length(p));
-      gl_FragColor=vec4(clamp(c,0.,1.),alpha);
+      gl_FragColor=vec4(clamp(c*performance.z,0.,1.),alpha);
     }`;
   function fail(message){root.querySelector('[data-error]').hidden=false;root.querySelector('[data-error]').textContent=message;canvas.dataset.ready='false';}
   function compile(kind,source){const s=gl.createShader(kind);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;}
@@ -178,7 +176,7 @@
     gl.deleteShader(vs);gl.deleteShader(fs);gl.useProgram(program);
     const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
     const pos=gl.getAttribLocation(program,'position');gl.enableVertexAttribArray(pos);gl.vertexAttribPointer(pos,2,gl.FLOAT,false,0,0);
-    uniforms={};for(const key of ['size','offset','time','idea','palette'])uniforms[key]=gl.getUniformLocation(program,key);
+    uniforms={};for(const key of ['size','offset','time','idea','palette','poseA','poseB','activity','performance'])uniforms[key]=gl.getUniformLocation(program,key);
     gl.clearColor(0,0,0,0);canvas.dataset.ready='true';root.querySelector('[data-error]').hidden=true;
   }
   function resize(){
@@ -192,27 +190,16 @@
   function draw(){
     if(!gl||lost||!viewports.length)return;
     gl.clear(gl.COLOR_BUFFER_BIT);gl.uniform1f(uniforms.time,time);gl.uniform1f(uniforms.palette,state.palette);
-    viewports.forEach((v,i)=>{gl.viewport(v.x,v.y,v.size,v.size);gl.uniform2f(uniforms.size,v.size,v.size);gl.uniform2f(uniforms.offset,v.x,v.y);gl.uniform1f(uniforms.idea,i);gl.drawArrays(gl.TRIANGLES,0,6);});
+    viewports.forEach((v,i)=>{gl.viewport(v.x,v.y,v.size,v.size);gl.uniform2f(uniforms.size,v.size,v.size);gl.uniform2f(uniforms.offset,v.x,v.y);gl.uniform1f(uniforms.idea,i);const gain=.86+(i%6)*.06;gl.uniform4f(uniforms.poseA,pose.x*gain,pose.y*gain,pose.sx,pose.sy);gl.uniform4f(uniforms.poseB,pose.turn*gain,pose.aperture,pose.fold*gain,pose.focus);gl.uniform4f(uniforms.activity,pose.listen,pose.think,pose.speak,pose.focus);gl.uniform3f(uniforms.performance,pose.scan,pose.fail,pose.brightness);gl.drawArrays(gl.TRIANGLES,0,6);});
   }
-  function animate(now){
-    raf=0;if(state.paused||!visible||document.hidden||lost)return;
-    if(previous)time+=Math.min((now-previous)/1000,.2)*state.speed;previous=now;
-    if(now-lastDraw>1000/30){draw();lastDraw=now;}
-    raf=requestAnimationFrame(animate);
-  }
-  function schedule(){cancelAnimationFrame(raf);raf=0;previous=0;if(!state.paused&&visible&&!document.hidden&&!lost)raf=requestAnimationFrame(animate);}
-  function sync(){palette.value=String(state.palette);speed.value=state.speed;output.textContent=state.speed.toFixed(2)+'×';play.textContent=state.paused?'Play all':'Pause all';play.setAttribute('aria-label',state.paused?'Play all animations':'Pause all animations');draw();schedule();}
-  function save(){window.avatarState?.setWidgetState?.({modelContent:{study:'SuperClock ten motion ideas',palette:paletteNames[state.palette],speed:state.speed},privateContent:{paused:state.paused}})?.catch(()=>{});}
-  function restore(saved){const m=saved?.modelContent,p=saved?.privateContent;if(m?.study!=='SuperClock ten motion ideas')return;const index=paletteNames.indexOf(m.palette);if(index>=0)state.palette=index;if(typeof m.speed==='number'&&Number.isFinite(m.speed))state.speed=Math.max(.25,Math.min(2,m.speed));if(typeof p?.paused==='boolean')state.paused=p.paused||reduced.matches;}
-  palette.addEventListener('change',()=>{state.palette=Number(palette.value);sync();save();root.querySelector('[data-status]').textContent=paletteNames[state.palette]+' applied to all ten ideas.';});
-  speed.addEventListener('input',()=>{state.speed=Number(speed.value);output.textContent=state.speed.toFixed(2)+'×';});speed.addEventListener('change',save);
-  play.addEventListener('click',()=>{state.paused=!state.paused;sync();save();});
-  window.addEventListener('avatar:set_globals',e=>{if(e.detail?.globals?.widgetState){restore(e.detail.globals.widgetState);sync();}});
-  reduced.addEventListener('change',e=>{if(e.matches){state.paused=true;sync();}});document.addEventListener('visibilitychange',schedule);
-  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();lost=true;cancelAnimationFrame(raf);fail('Graphics paused while the preview recovers.');});
-  canvas.addEventListener('webglcontextrestored',()=>{try{lost=false;init();resize();sync();}catch(e){fail(e.message);}});
-  new ResizeObserver(resize).observe(gallery);
-  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;schedule();}).observe(gallery);
-  try{restore(window.avatarState?.widgetState);init();resize();sync();}catch(e){fail(e.message);}
-  window.motionIdeasPreview={seek:(s)=>{time=Math.max(0,Number(s)||0);draw();},getState:()=>({...state,time,ready:canvas.dataset.ready==='true',viewports}),capture:()=>canvas.toDataURL('image/png')};
+
+try{init();}catch(e){fail(e.message);return;}
+api=LensPerformance.mount({root,sharedComparison:true,variants:[{"id": "liquid-core", "name": "Liquid core"}, {"id": "twin-moons", "name": "Twin moons"}, {"id": "ribbon-knot", "name": "Ribbon knot"}, {"id": "hourglass", "name": "Hourglass"}, {"id": "fireflies", "name": "Fireflies"}, {"id": "radar-sweep", "name": "Radar sweep"}, {"id": "helix", "name": "Helix"}, {"id": "tide", "name": "Tide"}, {"id": "bloom", "name": "Bloom"}, {"id": "curious-eyes", "name": "Curious eyes"}],extraControls:"<label>Palette<select data-palette aria-label=\"Palette\"><option value=\"aurora\">Prismatic</option><option value=\"pink\">Pink</option><option value=\"cyan\">Cyan</option><option value=\"lilac\">Lilac</option><option value=\"amber\">Amber</option><option value=\"mint\">Mint</option></select></label><label>Motion speed<input data-speed aria-label=\"Motion speed\" type=\"range\" min=\".25\" max=\"2\" step=\".05\" value=\"1\"></label>",render(frame){pose=frame.pose;time=frame.time;state.palette=['aurora','pink','cyan','lilac','amber','mint'].indexOf(frame.extra.palette);tiles.forEach((tile,i)=>tile.closest('figure').dataset.selected=String(i===frame.index));resize();draw();}});
+const controls=root.querySelector('.lens-controls');gallery.before(controls);controls.querySelector('[data-character]').parentElement.firstChild.textContent='Highlight design';
+root.querySelector('.lens-note').textContent+=' Activity and emotion apply to all ten designs. Highlighting keeps the chosen design easy to find.';
+window.motionIdeasPreview={...api,getState:()=>({...api.getState(),viewports,palette:state.palette})};
+for(const [i,tile]of tiles.entries()){tile.addEventListener('click',()=>{const selector=root.querySelector('[data-character]');selector.value=["liquid-core", "twin-moons", "ribbon-knot", "hourglass", "fireflies", "radar-sweep", "helix", "tide", "bloom", "curious-eyes"][i];selector.dispatchEvent(new Event('change'));});}
+new ResizeObserver(()=>api.redraw()).observe(gallery);
+canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();lost=true;api.setPaused(true);fail('Graphics paused while the browser restores the preview.');});
+canvas.addEventListener('webglcontextrestored',()=>{try{lost=false;init();api.redraw();}catch(e){fail(e.message);}});
 })();

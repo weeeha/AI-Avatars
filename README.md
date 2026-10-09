@@ -17,8 +17,8 @@ Open **http://127.0.0.1:4173**. Node.js 20 or newer is required. The gallery has
 - **Fragment & Third Eye:** photographic eyes with detailed iris texture, separate pupil targets, coordinated or independent gaze, eleven emotions, twenty-two statuses, and six reactions. Includes real synthetic demo speech and local browser voices for custom text. [Behavior guide](docs/fragment-faces.md).
 - **Dot flock:** a round sculpture of individually shaded blue dots, with clear gaps, curved eyelids, rounded irises, and dark pupils. Supports expressive motion, pointer disturbance, and scatter/reform.
 - **Red eye:** a red glass lens with blue reflections and an expressive luminous aperture. Both cinematic faces combine 22 activity and condition states, 11 emotions, and 6 temporary reactions. [Behavior guide](docs/cinematic-faces.md).
-- **Prismatic lenses — character states:** idle, listening, talking, thinking, writing code, and complete. Includes a demo sequence, playback speed, pause, and round/square display views.
-- **Ten motion ideas:** liquid core, twin moons, ribbon knot, hourglass, fireflies, radar sweep, helix, tide, bloom, and curious eyes.
+- **Prismatic lenses — character states:** twelve activities and seven independent expressions, with a simulated demo, exact-pose pause, playback speed, and round/square display views.
+- **Ten motion ideas:** liquid core, twin moons, ribbon knot, hourglass, fireflies, radar sweep, helix, tide, bloom, and curious eyes. Every design supports the same twelve activities and seven expressions in the parallel comparison view. [Lens behavior guide](docs/lens-states.md).
 - **Six palettes:** prismatic, pink, cyan, lilac, amber, and mint, shared across both studies.
 - **[Oracle](characters/oracle/README.md):** a three-eyed white statue with 34 expression, assistant, and clock modes with a separate emotion layer. Shimmering stars change into hearts, crescents, diamonds, pulses, and orbiting lights. Includes artwork, a character manifest, and generation provenance.
 

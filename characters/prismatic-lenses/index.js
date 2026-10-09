@@ -1,20 +1,8 @@
 (() => {
-  const root=document.getElementById('prismatic-dots');
-  const canvas=root.querySelector('canvas');
-  const stage=root.querySelector('.pd-stage');
-  const play=root.querySelector('[data-play]');
-  const speed=root.querySelector('#pd-speed');
-  const round=root.querySelector('[data-round]');
-  const output=root.querySelector('output');
-  const status=root.querySelector('[data-status]');
-  const demo=root.querySelector('[data-demo]');
-  const detail=root.querySelector('[data-detail]');
-  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-  const modes=['idle','listening','talking','thinking','coding','complete'];
+const root=document.getElementById('prismatic-dots'),canvas=root.querySelector('canvas'),stage=root.querySelector('.lens-stage');let api;
   const palettes={aurora:{label:'Prismatic',tint:0},pink:{label:'Pink',tint:0},cyan:{label:'Cyan',tint:1},lilac:{label:'Lilac',tint:2},amber:{label:'Amber',tint:3},mint:{label:'Mint',tint:4}};
-  const descriptions={idle:'Idle · slow breathing',listening:'Listening · inward ripples',talking:'Talking · syllabic pulses',thinking:'Thinking · orbiting light',coding:'Writing code · building line by line',complete:'Complete · a ripple, then rest'};
-  let state={look:'pink',speed:1.05,round:true,paused:reduced.matches,mode:'talking',demo:false};
-  let time=0,modeTime=0,demoTime=0,previous=0,raf=0,visible=true,gl,program,uniforms,contextLost=false;
+  let state={look:'aurora'};
+  let time=0,modeTime=0,gl,program,uniforms,contextLost=false,pose={};
   let weights=[0,0,1,0,0,0];
   const vertex=`attribute vec2 position; void main(){gl_Position=vec4(position,0.0,1.0);}`;
   const fragment=`
@@ -23,6 +11,7 @@
     uniform float time,look,tint,modeTime;
     uniform vec4 weightsA;
     uniform vec2 weightsB;
+    uniform vec4 poseA,poseB,performance;
     const float TAU=6.28318530718;
     float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
     mat2 turn(float a){float c=cos(a),s=sin(a);return mat2(c,-s,s,c);}
@@ -39,6 +28,7 @@
       return clamp(syllables*phrase,0.0,1.0);
     }
     vec2 motionPoint(vec2 p){
+      p=turn(poseB.x)*(p-poseA.xy);p/=poseA.zw;p.y+=poseB.z*.15*sin(p.x*4.);
       float s=modeTime;
       float r=length(p);
       vec2 listen=p*(1.0+.11*sin(r*13.0+s*3.6));
@@ -126,7 +116,8 @@
       c=mix(c,bright,halo*weightsB.y*.8);
       float quiet=weightsB.y*(1.0-exp(-s*.5));
       c=mix(c,look<.5?aurora(p*.88,0.0):pink(p*.88,0.0),quiet*.92);
-      return c;
+      c*=mix(1.,smoothstep(.025,.08,abs(v.x+v.y*.2)),performance.y*.65);
+      return c*performance.z;
     }
     void main(){
       vec2 p=(gl_FragCoord.xy/resolution-.5)*2.0;
@@ -192,7 +183,7 @@
       color+=noise;
       gl_FragColor=vec4(clamp(color,0.0,1.0),1.0);
     }`;
-  function fail(message){const error=root.querySelector('.pd-error');error.textContent=message;error.hidden=false;canvas.dataset.ready='false';}
+  function fail(message){const error=root.querySelector('[data-error]');error.textContent=message;error.hidden=false;canvas.dataset.ready='false';}
   function compile(kind,source){const shader=gl.createShader(kind);gl.shaderSource(shader,source);gl.compileShader(shader);if(!gl.getShaderParameter(shader,gl.COMPILE_STATUS)){const m=gl.getShaderInfoLog(shader);gl.deleteShader(shader);throw Error(m);}return shader;}
   function init(){
     gl=canvas.getContext('webgl',{alpha:false,antialias:false,preserveDrawingBuffer:true});
@@ -204,8 +195,8 @@
     gl.deleteShader(vs);gl.deleteShader(fs);gl.useProgram(program);
     const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
     const position=gl.getAttribLocation(program,'position');gl.enableVertexAttribArray(position);gl.vertexAttribPointer(position,2,gl.FLOAT,false,0,0);
-    uniforms={};for(const key of ['resolution','time','look','tint','modeTime','weightsA','weightsB'])uniforms[key]=gl.getUniformLocation(program,key);
-    root.querySelector('.pd-error').hidden=true;canvas.dataset.ready='true';
+    uniforms={};for(const key of ['resolution','time','look','tint','modeTime','weightsA','weightsB','poseA','poseB','performance'])uniforms[key]=gl.getUniformLocation(program,key);
+    root.querySelector('[data-error]').hidden=true;canvas.dataset.ready='true';
   }
   function draw(){
     if(!gl||contextLost)return;
@@ -213,57 +204,13 @@
     if(canvas.width!==size||canvas.height!==size){canvas.width=size;canvas.height=size;gl.viewport(0,0,size,size);}
     gl.uniform2f(uniforms.resolution,size,size);gl.uniform1f(uniforms.time,time);gl.uniform1f(uniforms.look,state.look==='aurora'?0:1);gl.uniform1f(uniforms.tint,palettes[state.look].tint);gl.uniform1f(uniforms.modeTime,modeTime);
     gl.uniform4fv(uniforms.weightsA,weights.slice(0,4));gl.uniform2fv(uniforms.weightsB,weights.slice(4));
-    gl.drawArrays(gl.TRIANGLES,0,6);
+    gl.uniform4f(uniforms.poseA,pose.x,pose.y,pose.sx,pose.sy);gl.uniform4f(uniforms.poseB,pose.turn,pose.aperture,pose.fold,pose.focus);gl.uniform4f(uniforms.performance,pose.scan,pose.fail,pose.brightness,0);gl.drawArrays(gl.TRIANGLES,0,6);
   }
-  function targetWeights(){return modes.map(m=>m===state.mode?1:0);}
-  function animate(now){
-    raf=0;if(state.paused||!visible||document.hidden||contextLost)return;
-    const elapsed=previous?Math.max(0,(now-previous)/1000):0;
-    const dt=Math.min(elapsed,.25);previous=now;
-    time=(time+dt*state.speed)%24;modeTime+=dt*state.speed;
-    if(state.demo){demoTime+=elapsed;if(demoTime>=5.5){const steps=Math.floor(demoTime/5.5);demoTime%=5.5;state.mode=modes[(modes.indexOf(state.mode)+steps)%modes.length];modeTime=0;updateLabels();}}
-    const target=targetWeights(),blend=1-Math.exp(-elapsed*8);
-    weights=weights.map((v,i)=>v+(target[i]-v)*blend);
-    draw();raf=requestAnimationFrame(animate);
-  }
-  function schedule(){cancelAnimationFrame(raf);raf=0;previous=0;if(!state.paused&&visible&&!document.hidden&&!contextLost)raf=requestAnimationFrame(animate);}
-  function updateLabels(){
-    root.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===state.mode)));
-    detail.textContent=descriptions[state.mode];demo.setAttribute('aria-pressed',String(state.demo));demo.textContent=state.demo?'Stop sequence':'Demo sequence';
-    canvas.setAttribute('aria-label',palettes[state.look].label+' circular lenses. '+descriptions[state.mode]);
-  }
-  function sync(){
-    root.querySelectorAll('[data-look]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.look===state.look)));
-    speed.value=state.speed;output.textContent=Number(state.speed).toFixed(2)+'×';round.checked=state.round;stage.dataset.round=String(state.round);
-    play.textContent=state.paused?'Play':'Pause';play.setAttribute('aria-label',state.paused?'Play animation':'Pause animation');
-    updateLabels();
-    draw();schedule();
-  }
-  function save(){window.avatarState?.setWidgetState?.({modelContent:{study:'SuperClock prismatic dots',look:state.look,speed:state.speed,roundDisplay:state.round,status:state.mode},privateContent:{paused:state.paused,demo:state.demo}})?.catch(()=>{});}
-  function restore(saved){
-    const m=saved?.modelContent,p=saved?.privateContent;
-    if(m?.study==='SuperClock prismatic dots'){
-      if(Object.prototype.hasOwnProperty.call(palettes,m.look))state.look=m.look;
-      if(typeof m.speed==='number'&&Number.isFinite(m.speed))state.speed=Math.max(.25,Math.min(1.75,m.speed));
-      if(typeof m.roundDisplay==='boolean')state.round=m.roundDisplay;
-      if(modes.includes(m.status))state.mode=m.status;
-      if(typeof p?.paused==='boolean')state.paused=p.paused||reduced.matches;
-      if(typeof p?.demo==='boolean')state.demo=p.demo;
-    }
-  }
-  root.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{state.mode=b.dataset.mode;state.demo=false;modeTime=0;demoTime=0;if(state.paused||reduced.matches)weights=targetWeights();sync();save();}));
-  demo.addEventListener('click',()=>{state.demo=!state.demo;demoTime=0;if(state.demo){state.mode='idle';modeTime=0;state.paused=false;}sync();save();});
-  root.querySelectorAll('[data-look]').forEach(b=>b.addEventListener('click',()=>{state.look=b.dataset.look;sync();save();status.textContent=b.textContent+' selected.';}));
-  play.addEventListener('click',()=>{state.paused=!state.paused;sync();save();status.textContent=state.paused?'Animation paused.':'Animation playing.';});
-  speed.addEventListener('input',()=>{state.speed=Number(speed.value);output.textContent=state.speed.toFixed(2)+'×';});speed.addEventListener('change',save);
-  round.addEventListener('change',()=>{state.round=round.checked;sync();save();});
-  window.addEventListener('avatar:set_globals',e=>{if(e.detail?.globals?.widgetState){const before=state.mode;restore(e.detail.globals.widgetState);if(before!==state.mode){modeTime=0;weights=targetWeights();}sync();}});
-  reduced.addEventListener('change',e=>{if(e.matches){state.paused=true;sync();}});
-  document.addEventListener('visibilitychange',schedule);
-  canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();contextLost=true;cancelAnimationFrame(raf);fail('Preview paused while the graphics context recovers.');});
-  canvas.addEventListener('webglcontextrestored',()=>{try{contextLost=false;init();sync();}catch(e){fail(e.message);}});
-  new ResizeObserver(draw).observe(stage);
-  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;schedule();}).observe(stage);
-  try{restore(window.avatarState?.widgetState);weights=targetWeights();init();sync();}catch(e){fail(e.message);}
-  window.prismaticPreview={seek:(s)=>{time=((Number(s)%24)+24)%24;modeTime=Math.max(0,Number(s));weights=targetWeights();draw();},getState:()=>({...state,time,modeTime,weights:[...weights],ready:canvas.dataset.ready==='true'}),capture:()=>canvas.toDataURL('image/png')};
+
+try{init();}catch(e){fail(e.message);return;}
+api=LensPerformance.mount({root,variants:[{id:'prismatic-lens',name:'Prismatic lens'}],extraControls:"<label>Palette<select data-palette aria-label=\"Palette\"><option value=\"aurora\">Prismatic</option><option value=\"pink\">Pink</option><option value=\"cyan\">Cyan</option><option value=\"lilac\">Lilac</option><option value=\"amber\">Amber</option><option value=\"mint\">Mint</option></select></label><label>Motion speed<input data-speed aria-label=\"Motion speed\" type=\"range\" min=\".25\" max=\"1.75\" step=\".05\" value=\"1\"></label><label><input data-round-control type=\"checkbox\" checked>Round display</label>",render(frame){pose=frame.pose;time=frame.time;modeTime=frame.age;state.look=frame.extra.palette;stage.dataset.round=String(frame.extra.round);const w=[pose.listen,pose.speak,pose.think,pose.focus,pose.success];weights=[Math.max(0,1-w.reduce((a,b)=>a+b,0)),...w];const total=weights.reduce((a,b)=>a+b,0)||1;weights=weights.map(x=>x/total);draw();}});
+window.prismaticPreview=api;
+new ResizeObserver(()=>api.redraw()).observe(stage);
+canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();contextLost=true;api.setPaused(true);fail('Graphics paused while the browser restores the preview.');});
+canvas.addEventListener('webglcontextrestored',()=>{try{contextLost=false;init();api.redraw();}catch(e){fail(e.message);}});
 })();

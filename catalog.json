@@ -5,7 +5,13 @@
     "source": "studies/prismatic-lenses.fragment.html",
     "output": "characters/prismatic-lenses/index",
     "rootId": "prismatic-dots",
-    "api": "prismaticPreview"
+    "api": "prismaticPreview",
+    "characters": [
+      {
+        "id": "prismatic-lens",
+        "name": "Prismatic lens"
+      }
+    ]
   },
   {
     "id": "lens-motion-ideas",
@@ -13,7 +19,49 @@
     "source": "studies/lens-motion-ideas.fragment.html",
     "output": "characters/prismatic-lenses/ideas",
     "rootId": "lens-motion-ideas",
-    "api": "motionIdeasPreview"
+    "api": "motionIdeasPreview",
+    "characters": [
+      {
+        "id": "liquid-core",
+        "name": "Liquid core"
+      },
+      {
+        "id": "twin-moons",
+        "name": "Twin moons"
+      },
+      {
+        "id": "ribbon-knot",
+        "name": "Ribbon knot"
+      },
+      {
+        "id": "hourglass",
+        "name": "Hourglass"
+      },
+      {
+        "id": "fireflies",
+        "name": "Fireflies"
+      },
+      {
+        "id": "radar-sweep",
+        "name": "Radar sweep"
+      },
+      {
+        "id": "helix",
+        "name": "Helix"
+      },
+      {
+        "id": "tide",
+        "name": "Tide"
+      },
+      {
+        "id": "bloom",
+        "name": "Bloom"
+      },
+      {
+        "id": "curious-eyes",
+        "name": "Curious eyes"
+      }
+    ]
   },
   {
     "id": "cinematic-faces",
