@@ -1,0 +1,1286 @@
+{
+  "method": "Local two-texture articulation; hand-keyed eye, lid, brow, jaw and secondary head motion.",
+  "sources": [
+    "frames/idle/00.png",
+    "frames/idle/03.png"
+  ],
+  "fps": 25,
+  "size": [
+    512,
+    512
+  ],
+  "states": {
+    "starting": {
+      "duration": 4,
+      "peak": 2.5,
+      "end": "idle",
+      "keys": [
+        [
+          0,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 1,
+            "lid_r": 1,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 6,
+            "tilt": 0
+          }
+        ],
+        [
+          0.55,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 1,
+            "lid_r": 1,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 6,
+            "tilt": 0
+          }
+        ],
+        [
+          1.05,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0.55,
+            "lid_r": 0.55,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 3,
+            "tilt": 0
+          }
+        ],
+        [
+          1.4,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0.55,
+            "lid_r": 0.55,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 3,
+            "tilt": 0
+          }
+        ],
+        [
+          2,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.24,
+            "brow_l": -2,
+            "brow_r": -2,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          2.5,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.18,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 4,
+            "tilt": 0
+          }
+        ],
+        [
+          3.2,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          4,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ]
+      ],
+      "sha256": "5e555fc34a1649fe2f0572bd95d8f78da59a2702e9c6119a7c254486f6629e02"
+    },
+    "listening": {
+      "duration": 4.8,
+      "peak": 1.9,
+      "end": "loop",
+      "keys": [
+        [
+          0,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.3,
+            "brow_l": -2,
+            "brow_r": -2,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          0.8,
+          {
+            "gaze_x": -2,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.38,
+            "brow_l": -3,
+            "brow_r": -3,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          1.5,
+          {
+            "gaze_x": -2,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.38,
+            "brow_l": -3,
+            "brow_r": -3,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          1.9,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.27,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 1,
+            "nod": 5,
+            "tilt": 0
+          }
+        ],
+        [
+          2.4,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.3,
+            "brow_l": -2,
+            "brow_r": -2,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          3.3,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.3,
+            "brow_l": -2,
+            "brow_r": -2,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          3.44,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 1,
+            "lid_r": 1,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          3.62,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.3,
+            "brow_l": -2,
+            "brow_r": -2,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          4.8,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.3,
+            "brow_l": -2,
+            "brow_r": -2,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ]
+      ],
+      "sha256": "7c63987b8ca3f1ab76f6956da91c62a746ab8dcd6ad13dc9a28d76b647c2c291"
+    },
+    "researching": {
+      "duration": 5.6,
+      "peak": 2.35,
+      "end": "loop",
+      "keys": [
+        [
+          0,
+          {
+            "gaze_x": -8,
+            "gaze_y": -2,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": -1,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          0.55,
+          {
+            "gaze_x": -8,
+            "gaze_y": -2,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": -1,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          1.15,
+          {
+            "gaze_x": 7,
+            "gaze_y": -2,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          1.55,
+          {
+            "gaze_x": 7,
+            "gaze_y": -2,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          1.8,
+          {
+            "gaze_x": -8,
+            "gaze_y": 3,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 1,
+            "tilt": 0
+          }
+        ],
+        [
+          2.35,
+          {
+            "gaze_x": 8,
+            "gaze_y": 3,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 1,
+            "tilt": 0
+          }
+        ],
+        [
+          2.8,
+          {
+            "gaze_x": 8,
+            "gaze_y": 3,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 1,
+            "tilt": 0
+          }
+        ],
+        [
+          3.05,
+          {
+            "gaze_x": -7,
+            "gaze_y": 6,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 2,
+            "tilt": 0
+          }
+        ],
+        [
+          3.65,
+          {
+            "gaze_x": 7,
+            "gaze_y": 6,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 2,
+            "tilt": 0
+          }
+        ],
+        [
+          4.1,
+          {
+            "gaze_x": 7,
+            "gaze_y": 6,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 2,
+            "tilt": 0
+          }
+        ],
+        [
+          4.3,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 1,
+            "lid_r": 1,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          4.55,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          5.1,
+          {
+            "gaze_x": -8,
+            "gaze_y": -2,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": -1,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          5.6,
+          {
+            "gaze_x": -8,
+            "gaze_y": -2,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": -1,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ]
+      ],
+      "sha256": "f6de196ae5c5e30119b61d4c6a898ed827b1193c878cda5b7f054233a2262a85"
+    },
+    "coding": {
+      "duration": 4.8,
+      "peak": 1.55,
+      "end": "loop",
+      "keys": [
+        [
+          0,
+          {
+            "gaze_x": -4,
+            "gaze_y": 6,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": -0.16,
+            "brow_l": 2,
+            "brow_r": 2,
+            "jaw": 0,
+            "nod": 2,
+            "tilt": 0
+          }
+        ],
+        [
+          0.45,
+          {
+            "gaze_x": -4,
+            "gaze_y": 6,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": -0.16,
+            "brow_l": 2,
+            "brow_r": 2,
+            "jaw": 0,
+            "nod": 2,
+            "tilt": 0
+          }
+        ],
+        [
+          0.62,
+          {
+            "gaze_x": 4,
+            "gaze_y": 6,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": -0.16,
+            "brow_l": 2,
+            "brow_r": 2,
+            "jaw": 0,
+            "nod": 2,
+            "tilt": 0
+          }
+        ],
+        [
+          0.94,
+          {
+            "gaze_x": 4,
+            "gaze_y": 6,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": -0.16,
+            "brow_l": 2,
+            "brow_r": 2,
+            "jaw": 0,
+            "nod": 2,
+            "tilt": 0
+          }
+        ],
+        [
+          1.08,
+          {
+            "gaze_x": -2,
+            "gaze_y": 8,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": -0.16,
+            "brow_l": 2,
+            "brow_r": 2,
+            "jaw": 0,
+            "nod": 2,
+            "tilt": 0
+          }
+        ],
+        [
+          1.55,
+          {
+            "gaze_x": 7,
+            "gaze_y": 6,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": -0.16,
+            "brow_l": 2,
+            "brow_r": 2,
+            "jaw": 0,
+            "nod": 2,
+            "tilt": 0
+          }
+        ],
+        [
+          1.9,
+          {
+            "gaze_x": 7,
+            "gaze_y": 6,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": -0.16,
+            "brow_l": 2,
+            "brow_r": 2,
+            "jaw": 0,
+            "nod": 2,
+            "tilt": 0
+          }
+        ],
+        [
+          2.2,
+          {
+            "gaze_x": 0,
+            "gaze_y": -3,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.16,
+            "brow_l": -2,
+            "brow_r": -2,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          2.8,
+          {
+            "gaze_x": 0,
+            "gaze_y": -3,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.16,
+            "brow_l": -2,
+            "brow_r": -2,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          3.1,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 1,
+            "nod": 5,
+            "tilt": 0
+          }
+        ],
+        [
+          3.45,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          4,
+          {
+            "gaze_x": -4,
+            "gaze_y": 6,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": -0.16,
+            "brow_l": 2,
+            "brow_r": 2,
+            "jaw": 0,
+            "nod": 2,
+            "tilt": 0
+          }
+        ],
+        [
+          4.8,
+          {
+            "gaze_x": -4,
+            "gaze_y": 6,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": -0.16,
+            "brow_l": 2,
+            "brow_r": 2,
+            "jaw": 0,
+            "nod": 2,
+            "tilt": 0
+          }
+        ]
+      ],
+      "sha256": "6e8c1176d6fdaed1376f60b31ab4c03995dc31ef2d529e44ac0a233ada1e540f"
+    },
+    "waiting": {
+      "duration": 4.8,
+      "peak": 1.2,
+      "end": "hold",
+      "keys": [
+        [
+          0,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          0.7,
+          {
+            "gaze_x": 7,
+            "gaze_y": 0,
+            "lid_l": 0.16,
+            "lid_r": 0.16,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          1.6,
+          {
+            "gaze_x": 7,
+            "gaze_y": 0,
+            "lid_l": 0.16,
+            "lid_r": 0.16,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          2.1,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 1,
+            "lid_r": 1,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 1,
+            "tilt": 0
+          }
+        ],
+        [
+          2.5,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 1,
+            "lid_r": 1,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 1,
+            "tilt": 0
+          }
+        ],
+        [
+          3.1,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0.14,
+            "lid_r": 0.14,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          4.8,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0.14,
+            "lid_r": 0.14,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ]
+      ],
+      "sha256": "6175077f8500cfcf673f3d0ddae4d61c201e99ef07c0c685001907874305146f"
+    },
+    "needs-input": {
+      "duration": 4.4,
+      "peak": 2,
+      "end": "hold",
+      "keys": [
+        [
+          0,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          0.6,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.16,
+            "brow_l": -6,
+            "brow_r": 1,
+            "jaw": 1,
+            "nod": 0,
+            "tilt": -3
+          }
+        ],
+        [
+          1.2,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.22,
+            "brow_l": -6,
+            "brow_r": 1,
+            "jaw": 1,
+            "nod": 0,
+            "tilt": -4
+          }
+        ],
+        [
+          1.5,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 1,
+            "wide": 0.2,
+            "brow_l": -6,
+            "brow_r": 1,
+            "jaw": 1,
+            "nod": 0,
+            "tilt": -4
+          }
+        ],
+        [
+          1.75,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.22,
+            "brow_l": -6,
+            "brow_r": 1,
+            "jaw": 1,
+            "nod": 0,
+            "tilt": -4
+          }
+        ],
+        [
+          2.4,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.16,
+            "brow_l": -5,
+            "brow_r": 1,
+            "jaw": 1,
+            "nod": 0,
+            "tilt": -3
+          }
+        ],
+        [
+          4.4,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.16,
+            "brow_l": -5,
+            "brow_r": 1,
+            "jaw": 1,
+            "nod": 0,
+            "tilt": -3
+          }
+        ]
+      ],
+      "sha256": "0afac88a9f26276ae7724bfd0050267bc52063478a594779836abb890f2517dd"
+    },
+    "complete": {
+      "duration": 4,
+      "peak": 1.7,
+      "end": "idle",
+      "keys": [
+        [
+          0,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          0.5,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": -0.18,
+            "brow_l": -3,
+            "brow_r": -3,
+            "jaw": 2,
+            "nod": -2,
+            "tilt": 0
+          }
+        ],
+        [
+          1,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": -0.2,
+            "brow_l": -3,
+            "brow_r": -3,
+            "jaw": 2,
+            "nod": -2,
+            "tilt": 0
+          }
+        ],
+        [
+          1.35,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": -0.15,
+            "brow_l": -2,
+            "brow_r": -2,
+            "jaw": 0,
+            "nod": 6,
+            "tilt": 0
+          }
+        ],
+        [
+          1.7,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": -0.15,
+            "brow_l": -2,
+            "brow_r": -2,
+            "jaw": 0,
+            "nod": -1,
+            "tilt": 0
+          }
+        ],
+        [
+          2.05,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": -0.15,
+            "brow_l": -2,
+            "brow_r": -2,
+            "jaw": 0,
+            "nod": 4,
+            "tilt": 0
+          }
+        ],
+        [
+          2.5,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": -0.15,
+            "brow_l": -2,
+            "brow_r": -2,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          3.3,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          4,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ]
+      ],
+      "sha256": "95c170944a98f905d0715ff030594d8da90708d90c6e53eb7818c4e537124921"
+    },
+    "error": {
+      "duration": 4.4,
+      "peak": 0.6,
+      "end": "hold",
+      "keys": [
+        [
+          0,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          0.24,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.65,
+            "brow_l": -5,
+            "brow_r": -5,
+            "jaw": 7,
+            "nod": -2,
+            "tilt": 0
+          }
+        ],
+        [
+          0.65,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.65,
+            "brow_l": -5,
+            "brow_r": -5,
+            "jaw": 7,
+            "nod": -2,
+            "tilt": 0
+          }
+        ],
+        [
+          1.1,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.12,
+            "brow_l": -3,
+            "brow_r": 1,
+            "jaw": 2,
+            "nod": 0,
+            "tilt": 3
+          }
+        ],
+        [
+          1.4,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.12,
+            "brow_l": -3,
+            "brow_r": 1,
+            "jaw": 2,
+            "nod": 0,
+            "tilt": -3
+          }
+        ],
+        [
+          1.7,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.12,
+            "brow_l": -3,
+            "brow_r": 1,
+            "jaw": 2,
+            "nod": 0,
+            "tilt": 2
+          }
+        ],
+        [
+          2.2,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.15,
+            "brow_l": -3,
+            "brow_r": 1,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          4.4,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0.15,
+            "brow_l": -3,
+            "brow_r": 1,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ]
+      ],
+      "sha256": "1acdf64f5de30f99b0b55b002b90af04c087243f5e23c1ebd12446ddc2b1ecb7"
+    },
+    "sleeping": {
+      "duration": 4.8,
+      "peak": 3.4,
+      "end": "hold",
+      "keys": [
+        [
+          0,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0,
+            "lid_r": 0,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 0,
+            "tilt": 0
+          }
+        ],
+        [
+          0.8,
+          {
+            "gaze_x": 0,
+            "gaze_y": 4,
+            "lid_l": 0.2,
+            "lid_r": 0.2,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 2,
+            "tilt": 0
+          }
+        ],
+        [
+          1.8,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 0.65,
+            "lid_r": 0.65,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 4,
+            "tilt": 0
+          }
+        ],
+        [
+          2.7,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 1,
+            "lid_r": 1,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 7,
+            "tilt": 0
+          }
+        ],
+        [
+          4.8,
+          {
+            "gaze_x": 0,
+            "gaze_y": 0,
+            "lid_l": 1,
+            "lid_r": 1,
+            "wide": 0,
+            "brow_l": 0,
+            "brow_r": 0,
+            "jaw": 0,
+            "nod": 7,
+            "tilt": 0
+          }
+        ]
+      ],
+      "sha256": "b8478116891d3d22125d67fa1eb7139ed0f7df074f2349f1cf1e222b926ec454"
+    }
+  }
+}

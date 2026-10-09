@@ -6,12 +6,15 @@ import {byteRange} from '../scripts/byte-range.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const base=path.join(root,'characters/open-skeleton');
 const manifest=JSON.parse(await fs.readFile(path.join(base,'manifest.json'),'utf8'));
-assert.equal(manifest.clips.length,12);
+assert.equal(manifest.clips.length,21);
 assert.equal(manifest.clips.filter(c=>c.group==='emotion').length,9);
-assert.equal(new Set(manifest.clips.map(c=>c.id)).size,12);
+assert.equal(manifest.clips.filter(c=>c.group==='activity').length,12);
+assert.equal(new Set(manifest.clips.map(c=>c.id)).size,21);
+assert(!manifest.plannedActivities,'All planned activities now need playable assets');
+for(const mapping of Object.values(manifest.semantics))assert(manifest.clips.some(c=>c.id===mapping.clip));
 for(const clip of manifest.clips){
   assert.equal(clip.status,'ready');assert(clip.duration>0&&clip.peakTime<clip.duration);
-  for(const key of ['file','gif','poster']){
+  for(const key of ['file','gif','poster','restPoster','reducedPoster'].filter(key=>clip[key])){
     const file=path.resolve(base,clip[key]);assert(file.startsWith(base+path.sep));
     assert((await fs.stat(file)).size>0,`Empty ${clip[key]}`);
   }
@@ -19,7 +22,9 @@ for(const clip of manifest.clips){
   assert.match((await fs.readFile(path.join(base,clip.gif))).toString('ascii',0,6),/^GIF8[79]a$/);
 }
 const html=await fs.readFile(path.join(base,'preview.html'),'utf8');
-assert.equal([...html.matchAll(/<video\b/g)].length,12);
+assert.equal([...html.matchAll(/<video\b/g)].length,22);
+const script=await fs.readFile(path.join(base,'preview.js'),'utf8');
+assert.deepEqual(JSON.parse(script.match(/const skeletonManifest=(.*);/)[1]),manifest,'Embedded offline manifest is stale');
 for(const [,ref]of html.matchAll(/(?:href|src|poster)="([^"]+)"/g)){
   if(/^(?:https?:|data:|#)/.test(ref))continue;
   assert((await fs.stat(path.resolve(base,ref))).isFile(),`Missing ${ref}`);
@@ -31,4 +36,4 @@ for(const [header,size,expected]of [
   ['bytes=-0',100,null],['bytes=9-0',100,null],['bytes=-',100,null],
   ['bytes=0-1,3-4',100,null],['bytes=0-',0,null],['bytes=999999999999999999-',100,null]
 ])assert.deepEqual(byteRange(header,size),expected,header);
-console.log('Verified 12 media clips, gallery references, and video seek range handling.');
+console.log('Verified 21 media clips, 12 activities, offline metadata, semantic fallbacks, gallery references, and video seek range handling.');

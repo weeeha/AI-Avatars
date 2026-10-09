@@ -20,8 +20,8 @@ Montage order, left to right: happy / curious / surprised; confused / concerned 
 
 These are short, silent keyframe studies with a stop-motion character. Eight poses were generated for each emotion using the built-in image tool. Local assembly preserves the generated art, uses a shared frame scale, times the expressive poses, and returns to the opening frame. Source sheets, extracted poses, and timing data are retained. Concerned and frustrated are intentionally restrained reactions.
 
-For future integration, use these as brief event reactions that return to an activity such as idle. The manifest marks emotional reactions as one-shot by default. This package does not yet connect them to assistant events, synchronize speech, or establish fit on a specific physical display.
+The local simulator plays these as brief event reactions that return to the selected activity. The manifest marks emotional reactions as one-shot by default. This package does not yet connect them to assistant events, synchronize speech, or establish fit on a specific physical display.
 
 [Exact generation prompts](prompts.json) · [Manifest](manifest.json) · [Assembly and timing](assembly-report.json) · [Verification](verification.json)
 
-Verification checks encoded motion, duration, looping, image bounds, and local gallery references. The updated browser gallery could not be visually checked because the browser's admin policy check was unavailable.
+Verification checks encoded motion, duration, looping, image bounds, and local gallery references. The current browser suite also checks reaction selection, interruption, return to activity, and reduced motion; see the [character guide](../README.md).
