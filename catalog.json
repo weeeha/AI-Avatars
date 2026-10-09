@@ -1,0 +1,18 @@
+[
+  {
+    "id": "prismatic-lenses",
+    "title": "Prismatic lenses — character states",
+    "source": "studies/prismatic-lenses.fragment.html",
+    "output": "characters/prismatic-lenses/index",
+    "rootId": "prismatic-dots",
+    "api": "prismaticPreview"
+  },
+  {
+    "id": "lens-motion-ideas",
+    "title": "Ten motion ideas",
+    "source": "studies/lens-motion-ideas.fragment.html",
+    "output": "characters/prismatic-lenses/ideas",
+    "rootId": "lens-motion-ideas",
+    "api": "motionIdeasPreview"
+  }
+]

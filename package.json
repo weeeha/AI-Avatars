@@ -1,0 +1,14 @@
+{
+  "name": "ai-avatars",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Animated character and avatar studies for circular displays.",
+  "scripts": {
+    "build": "node scripts/build-previews.mjs",
+    "check": "node scripts/check.mjs",
+    "start": "node scripts/serve.mjs",
+    "test": "node tests/smoke.cjs"
+  },
+  "engines": { "node": ">=20" },
+  "devDependencies": { "playwright": "1.62.1" }
+}

@@ -1,0 +1,11 @@
+#prismatic-dots { width:100%; }
+  #prismatic-dots .pd-modes { max-width:560px; margin:0 auto 14px; }
+  #prismatic-dots .pd-stage { position:relative; width:min(100%,560px); aspect-ratio:1; margin:0 auto; }
+  #prismatic-dots .pd-caption { max-width:560px; margin:10px auto 0; display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+  #prismatic-dots canvas { display:block; width:100%; height:100%; border-radius:50%; }
+  #prismatic-dots .pd-stage[data-round="false"] canvas { border-radius:6%; }
+  #prismatic-dots .pd-toolbar { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin:16px auto 0; max-width:560px; }
+  #prismatic-dots .pd-settings { display:flex; align-items:center; justify-content:space-between; gap:28px; flex-wrap:wrap; max-width:560px; margin:10px auto 0; }
+  #prismatic-dots .pd-settings > .form-label { flex:1 1 150px; }
+  #prismatic-dots .pd-speed-label { display:flex; justify-content:space-between; gap:16px; }
+  #prismatic-dots .pd-error { position:absolute; inset:35% 12% auto; color:var(--foreground); background:var(--background); padding:16px; }
