@@ -1,0 +1,1373 @@
+{
+  "method": "Generated eight-pose sheets, shared-scale extraction, timed keyframe playback. No drawn replacement features or synthetic in-between frames.",
+  "states": {
+    "happy": {
+      "duration": 3.2,
+      "frames": [
+        {
+          "frame": 0,
+          "crop": [
+            0,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.850030265632629
+        },
+        {
+          "frame": 1,
+          "crop": [
+            444,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8493466095370261
+        },
+        {
+          "frame": 2,
+          "crop": [
+            887,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8492026118062026
+        },
+        {
+          "frame": 3,
+          "crop": [
+            1330,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.850030265632629
+        },
+        {
+          "frame": 4,
+          "crop": [
+            0,
+            443,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            1
+          ],
+          "radialExtent": 0.8557657049882863
+        },
+        {
+          "frame": 5,
+          "crop": [
+            444,
+            443,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            1
+          ],
+          "radialExtent": 0.855289220705807
+        },
+        {
+          "frame": 6,
+          "crop": [
+            887,
+            443,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            1
+          ],
+          "radialExtent": 0.8550866344848703
+        },
+        {
+          "frame": 7,
+          "crop": [
+            1330,
+            443,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            1
+          ],
+          "radialExtent": 0.8557657049882863
+        }
+      ],
+      "timeline": [
+        [
+          0,
+          0.64
+        ],
+        [
+          1,
+          0.16
+        ],
+        [
+          2,
+          0.2
+        ],
+        [
+          3,
+          0.32
+        ],
+        [
+          4,
+          0.6
+        ],
+        [
+          5,
+          0.24
+        ],
+        [
+          6,
+          0.2
+        ],
+        [
+          0,
+          0.84
+        ]
+      ],
+      "sha256": "284fd65a673fd5f6ca9a7d163156a3a2d58a124a3518b08e711c07d7301c9a39"
+    },
+    "curious": {
+      "duration": 3.6,
+      "frames": [
+        {
+          "frame": 0,
+          "crop": [
+            0,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.887463393245289
+        },
+        {
+          "frame": 1,
+          "crop": [
+            444,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.889573837256796
+        },
+        {
+          "frame": 2,
+          "crop": [
+            887,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8901235649425548
+        },
+        {
+          "frame": 3,
+          "crop": [
+            1330,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8901235649425548
+        },
+        {
+          "frame": 4,
+          "crop": [
+            0,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8946345384033868
+        },
+        {
+          "frame": 5,
+          "crop": [
+            444,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8975914144892583
+        },
+        {
+          "frame": 6,
+          "crop": [
+            887,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8955453862654559
+        },
+        {
+          "frame": 7,
+          "crop": [
+            1330,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8952836124176948
+        }
+      ],
+      "timeline": [
+        [
+          0,
+          0.6
+        ],
+        [
+          1,
+          0.2
+        ],
+        [
+          2,
+          0.28
+        ],
+        [
+          3,
+          0.4
+        ],
+        [
+          4,
+          0.76
+        ],
+        [
+          5,
+          0.28
+        ],
+        [
+          6,
+          0.24
+        ],
+        [
+          0,
+          0.84
+        ]
+      ],
+      "sha256": "3767c7a8775f33d01005d4596c6bbe4d3811ef8335974bfe8bf7c5ed52f26dbe"
+    },
+    "surprised": {
+      "duration": 3.0,
+      "frames": [
+        {
+          "frame": 0,
+          "crop": [
+            0,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8832273768332629
+        },
+        {
+          "frame": 1,
+          "crop": [
+            444,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8841038692749935
+        },
+        {
+          "frame": 2,
+          "crop": [
+            886,
+            -1,
+            443,
+            443
+          ],
+          "translation": [
+            1,
+            1
+          ],
+          "radialExtent": 0.8858082340708153
+        },
+        {
+          "frame": 3,
+          "crop": [
+            1330,
+            -1,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            1
+          ],
+          "radialExtent": 0.8862683105731627
+        },
+        {
+          "frame": 4,
+          "crop": [
+            0,
+            441,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            3
+          ],
+          "radialExtent": 0.8950445346489401
+        },
+        {
+          "frame": 5,
+          "crop": [
+            444,
+            441,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            3
+          ],
+          "radialExtent": 0.8950445346489401
+        },
+        {
+          "frame": 6,
+          "crop": [
+            886,
+            441,
+            443,
+            443
+          ],
+          "translation": [
+            1,
+            3
+          ],
+          "radialExtent": 0.8948281711508225
+        },
+        {
+          "frame": 7,
+          "crop": [
+            1330,
+            441,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            3
+          ],
+          "radialExtent": 0.8946345384033868
+        }
+      ],
+      "timeline": [
+        [
+          0,
+          0.72
+        ],
+        [
+          1,
+          0.08
+        ],
+        [
+          2,
+          0.12
+        ],
+        [
+          3,
+          0.16
+        ],
+        [
+          4,
+          0.4
+        ],
+        [
+          5,
+          0.2
+        ],
+        [
+          6,
+          0.24
+        ],
+        [
+          0,
+          1.08
+        ]
+      ],
+      "sha256": "3d326e4c3087d376a5e07f21e5267cec83e1851e70f53300e4117a58b23801e2"
+    },
+    "confused": {
+      "duration": 3.6,
+      "frames": [
+        {
+          "frame": 0,
+          "crop": [
+            0,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8282055990302413
+        },
+        {
+          "frame": 1,
+          "crop": [
+            444,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8387333594613767
+        },
+        {
+          "frame": 2,
+          "crop": [
+            887,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8411963201147026
+        },
+        {
+          "frame": 3,
+          "crop": [
+            1330,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8422133694079403
+        },
+        {
+          "frame": 4,
+          "crop": [
+            0,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8632592519835602
+        },
+        {
+          "frame": 5,
+          "crop": [
+            444,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8556108767021777
+        },
+        {
+          "frame": 6,
+          "crop": [
+            887,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8547170889372019
+        },
+        {
+          "frame": 7,
+          "crop": [
+            1330,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.842902811105119
+        }
+      ],
+      "timeline": [
+        [
+          0,
+          0.6
+        ],
+        [
+          1,
+          0.24
+        ],
+        [
+          2,
+          0.28
+        ],
+        [
+          3,
+          0.36
+        ],
+        [
+          4,
+          0.72
+        ],
+        [
+          5,
+          0.28
+        ],
+        [
+          6,
+          0.24
+        ],
+        [
+          0,
+          0.88
+        ]
+      ],
+      "sha256": "e6d6a3bb4caae683225f5c863738016901ff766a6b1bf6b2a9f43e0765ea7374"
+    },
+    "concerned": {
+      "duration": 3.8,
+      "frames": [
+        {
+          "frame": 0,
+          "crop": [
+            0,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8724889683736738
+        },
+        {
+          "frame": 1,
+          "crop": [
+            444,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8730144340499922
+        },
+        {
+          "frame": 2,
+          "crop": [
+            887,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8764746066432131
+        },
+        {
+          "frame": 3,
+          "crop": [
+            1330,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8760326534158135
+        },
+        {
+          "frame": 4,
+          "crop": [
+            0,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.892695900906572
+        },
+        {
+          "frame": 5,
+          "crop": [
+            444,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8919649691830467
+        },
+        {
+          "frame": 6,
+          "crop": [
+            887,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8913249122288354
+        },
+        {
+          "frame": 7,
+          "crop": [
+            1330,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8916335684771314
+        }
+      ],
+      "timeline": [
+        [
+          0,
+          0.6
+        ],
+        [
+          1,
+          0.24
+        ],
+        [
+          2,
+          0.28
+        ],
+        [
+          3,
+          0.36
+        ],
+        [
+          4,
+          0.88
+        ],
+        [
+          5,
+          0.28
+        ],
+        [
+          6,
+          0.24
+        ],
+        [
+          0,
+          0.92
+        ]
+      ],
+      "sha256": "494ada28a8cbf9f1841433cf23c588ae8719000e3b47a04d056fea8ed32e43ec"
+    },
+    "frustrated": {
+      "duration": 3.4,
+      "frames": [
+        {
+          "frame": 0,
+          "crop": [
+            0,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8938595879559066
+        },
+        {
+          "frame": 1,
+          "crop": [
+            444,
+            -1,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            1
+          ],
+          "radialExtent": 0.8951811583352853
+        },
+        {
+          "frame": 2,
+          "crop": [
+            887,
+            -1,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            1
+          ],
+          "radialExtent": 0.8945092242901352
+        },
+        {
+          "frame": 3,
+          "crop": [
+            1330,
+            -1,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            1
+          ],
+          "radialExtent": 0.8965917173675059
+        },
+        {
+          "frame": 4,
+          "crop": [
+            0,
+            443,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            1
+          ],
+          "radialExtent": 0.8983291127866079
+        },
+        {
+          "frame": 5,
+          "crop": [
+            444,
+            442,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            2
+          ],
+          "radialExtent": 0.8985219493484055
+        },
+        {
+          "frame": 6,
+          "crop": [
+            887,
+            442,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            2
+          ],
+          "radialExtent": 0.8984652370089448
+        },
+        {
+          "frame": 7,
+          "crop": [
+            1330,
+            442,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            2
+          ],
+          "radialExtent": 0.8991455489971393
+        }
+      ],
+      "timeline": [
+        [
+          0,
+          0.6
+        ],
+        [
+          1,
+          0.16
+        ],
+        [
+          2,
+          0.2
+        ],
+        [
+          3,
+          0.28
+        ],
+        [
+          4,
+          0.72
+        ],
+        [
+          5,
+          0.24
+        ],
+        [
+          6,
+          0.24
+        ],
+        [
+          0,
+          0.96
+        ]
+      ],
+      "sha256": "b1cae06f4799f04fa57b7e6557ce06394d14da58d2cffa42d60d83772653811a"
+    },
+    "playful": {
+      "duration": 3.0,
+      "frames": [
+        {
+          "frame": 0,
+          "crop": [
+            0,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8616285643763283
+        },
+        {
+          "frame": 1,
+          "crop": [
+            444,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8601132788521795
+        },
+        {
+          "frame": 2,
+          "crop": [
+            887,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8601132788521795
+        },
+        {
+          "frame": 3,
+          "crop": [
+            1330,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8597933072444357
+        },
+        {
+          "frame": 4,
+          "crop": [
+            0,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8637313395459074
+        },
+        {
+          "frame": 5,
+          "crop": [
+            444,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8630585365746238
+        },
+        {
+          "frame": 6,
+          "crop": [
+            887,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8630585365746238
+        },
+        {
+          "frame": 7,
+          "crop": [
+            1330,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8632592519835602
+        }
+      ],
+      "timeline": [
+        [
+          0,
+          0.6
+        ],
+        [
+          1,
+          0.12
+        ],
+        [
+          2,
+          0.16
+        ],
+        [
+          3,
+          0.2
+        ],
+        [
+          4,
+          0.36
+        ],
+        [
+          5,
+          0.16
+        ],
+        [
+          6,
+          0.2
+        ],
+        [
+          0,
+          1.2
+        ]
+      ],
+      "sha256": "7168d74f86298b77d2de70fd6dde03743025b8134e9165fd3c343c3a24cddf06"
+    },
+    "proud": {
+      "duration": 3.6,
+      "frames": [
+        {
+          "frame": 0,
+          "crop": [
+            0,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8905356380104836
+        },
+        {
+          "frame": 1,
+          "crop": [
+            444,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.889802931733233
+        },
+        {
+          "frame": 2,
+          "crop": [
+            887,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8899518115179528
+        },
+        {
+          "frame": 3,
+          "crop": [
+            1330,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8907759259350686
+        },
+        {
+          "frame": 4,
+          "crop": [
+            0,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.9030361116682499
+        },
+        {
+          "frame": 5,
+          "crop": [
+            444,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.903656596167715
+        },
+        {
+          "frame": 6,
+          "crop": [
+            887,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.9003348580250935
+        },
+        {
+          "frame": 7,
+          "crop": [
+            1330,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8997913689521607
+        }
+      ],
+      "timeline": [
+        [
+          0,
+          0.6
+        ],
+        [
+          1,
+          0.24
+        ],
+        [
+          2,
+          0.28
+        ],
+        [
+          3,
+          0.4
+        ],
+        [
+          4,
+          0.72
+        ],
+        [
+          5,
+          0.28
+        ],
+        [
+          6,
+          0.24
+        ],
+        [
+          0,
+          0.84
+        ]
+      ],
+      "sha256": "bb7fd2fd38821a57ab25fcdd03ab77bb8e340698af7f029e3ee710f3a269da15"
+    },
+    "relieved": {
+      "duration": 4.0,
+      "frames": [
+        {
+          "frame": 0,
+          "crop": [
+            0,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8466666504838934
+        },
+        {
+          "frame": 1,
+          "crop": [
+            444,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8454138992336127
+        },
+        {
+          "frame": 2,
+          "crop": [
+            887,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8452210034694833
+        },
+        {
+          "frame": 3,
+          "crop": [
+            1330,
+            0,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8448350798132847
+        },
+        {
+          "frame": 4,
+          "crop": [
+            0,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8624088431444931
+        },
+        {
+          "frame": 5,
+          "crop": [
+            444,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8609659551104446
+        },
+        {
+          "frame": 6,
+          "crop": [
+            887,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8607055047639911
+        },
+        {
+          "frame": 7,
+          "crop": [
+            1330,
+            444,
+            443,
+            443
+          ],
+          "translation": [
+            0,
+            0
+          ],
+          "radialExtent": 0.8608239010539116
+        }
+      ],
+      "timeline": [
+        [
+          0,
+          0.64
+        ],
+        [
+          1,
+          0.24
+        ],
+        [
+          2,
+          0.32
+        ],
+        [
+          3,
+          0.4
+        ],
+        [
+          4,
+          0.72
+        ],
+        [
+          5,
+          0.32
+        ],
+        [
+          6,
+          0.28
+        ],
+        [
+          0,
+          1.08
+        ]
+      ],
+      "sha256": "5c910fa88ae859d5172f8e2cd3f35cd7f080f62930fc8930cb496ce085dff3f5"
+    }
+  }
+}

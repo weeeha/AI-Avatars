@@ -1,0 +1,235 @@
+{
+  "title": "Open Skeleton",
+  "version": 2,
+  "clips": [
+    {
+      "id": "happy",
+      "label": "Happy",
+      "description": "A warm grin and a cheerful eye squint.",
+      "group": "emotion",
+      "file": "emotions/happy.mp4",
+      "gif": "emotions/happy.gif",
+      "poster": "emotions/frames/happy/00.png",
+      "duration": 3.2,
+      "peakTime": 1.08,
+      "defaultLoop": false,
+      "status": "ready"
+    },
+    {
+      "id": "curious",
+      "label": "Curious",
+      "description": "One raised lid, a questioning tilt, then back to you.",
+      "group": "emotion",
+      "file": "emotions/curious.mp4",
+      "gif": "emotions/curious.gif",
+      "poster": "emotions/frames/curious/00.png",
+      "duration": 3.6,
+      "peakTime": 1.16,
+      "defaultLoop": false,
+      "status": "ready"
+    },
+    {
+      "id": "surprised",
+      "label": "Surprised",
+      "description": "A quick wide-eyed gasp, followed by recovery.",
+      "group": "emotion",
+      "file": "emotions/surprised.mp4",
+      "gif": "emotions/surprised.gif",
+      "poster": "emotions/frames/surprised/00.png",
+      "duration": 3.0,
+      "peakTime": 1.0,
+      "defaultLoop": false,
+      "status": "ready"
+    },
+    {
+      "id": "confused",
+      "label": "Confused",
+      "description": "An uneven squint and a small reconsidering tilt.",
+      "group": "emotion",
+      "file": "emotions/confused.mp4",
+      "gif": "emotions/confused.gif",
+      "poster": "emotions/frames/confused/00.png",
+      "duration": 3.6,
+      "peakTime": 1.2,
+      "defaultLoop": false,
+      "status": "ready"
+    },
+    {
+      "id": "concerned",
+      "label": "Concerned",
+      "description": "Soft eye contact and a sympathetic downward nod.",
+      "group": "emotion",
+      "file": "emotions/concerned.mp4",
+      "gif": "emotions/concerned.gif",
+      "poster": "emotions/frames/concerned/00.png",
+      "duration": 3.8,
+      "peakTime": 1.2,
+      "defaultLoop": false,
+      "status": "ready"
+    },
+    {
+      "id": "frustrated",
+      "label": "Frustrated",
+      "description": "A narrowed stare and tense jaw, then release.",
+      "group": "emotion",
+      "file": "emotions/frustrated.mp4",
+      "gif": "emotions/frustrated.gif",
+      "poster": "emotions/frames/frustrated/00.png",
+      "duration": 3.4,
+      "peakTime": 1.04,
+      "defaultLoop": false,
+      "status": "ready"
+    },
+    {
+      "id": "playful",
+      "label": "Playful",
+      "description": "A deliberate wink with a crooked mechanical grin.",
+      "group": "emotion",
+      "file": "emotions/playful.mp4",
+      "gif": "emotions/playful.gif",
+      "poster": "emotions/frames/playful/00.png",
+      "duration": 3.0,
+      "peakTime": 0.96,
+      "defaultLoop": false,
+      "status": "ready"
+    },
+    {
+      "id": "proud",
+      "label": "Proud",
+      "description": "A pleased chin lift and a composed little smile.",
+      "group": "emotion",
+      "file": "emotions/proud.mp4",
+      "gif": "emotions/proud.gif",
+      "poster": "emotions/frames/proud/00.png",
+      "duration": 3.6,
+      "peakTime": 1.2,
+      "defaultLoop": false,
+      "status": "ready"
+    },
+    {
+      "id": "relieved",
+      "label": "Relieved",
+      "description": "A slow eye closure and relaxed release of the jaw.",
+      "group": "emotion",
+      "file": "emotions/relieved.mp4",
+      "gif": "emotions/relieved.gif",
+      "poster": "emotions/frames/relieved/00.png",
+      "duration": 4.0,
+      "peakTime": 1.28,
+      "defaultLoop": false,
+      "status": "ready"
+    },
+    {
+      "id": "idle",
+      "label": "Idle / blink",
+      "description": "A quiet presence, with an occasional blink.",
+      "group": "activity",
+      "file": "idle.mp4",
+      "gif": "idle.gif",
+      "poster": "frames/idle/00.png",
+      "duration": 4,
+      "peakTime": 1.92,
+      "defaultLoop": true,
+      "status": "ready"
+    },
+    {
+      "id": "thinking",
+      "label": "Thinking",
+      "description": "An upward glance, a pause, then back to you.",
+      "group": "activity",
+      "file": "thinking.mp4",
+      "gif": "thinking.gif",
+      "poster": "frames/thinking/00.png",
+      "duration": 4,
+      "peakTime": 1.5,
+      "defaultLoop": true,
+      "status": "ready"
+    },
+    {
+      "id": "answering",
+      "label": "Answering",
+      "description": "Short speech-like phrases, with pauses between.",
+      "group": "activity",
+      "file": "answering.mp4",
+      "gif": "answering.gif",
+      "poster": "frames/answering/00.png",
+      "duration": 3,
+      "peakTime": 0.5,
+      "defaultLoop": true,
+      "status": "ready"
+    }
+  ],
+  "id": "open-skeleton",
+  "description": "Round ivory mechanical companion with exposed metal details and expressive gray-green eyes.",
+  "portrait": "concepts/round-face.png",
+  "preview": "preview.html",
+  "display": {
+    "shape": "circle",
+    "canvas": [
+      512,
+      512
+    ],
+    "physicalFit": "unverified"
+  },
+  "format": "silent-keyframe-animation",
+  "generation": {
+    "artwork": "OpenAI built-in image generation",
+    "assembly": "Local ffmpeg keyframe sequencing"
+  },
+  "plannedActivities": [
+    {
+      "id": "starting",
+      "label": "Starting",
+      "status": "concept-only",
+      "motion": "Eyelids lift in two stages; eyes focus forward; small ready nod."
+    },
+    {
+      "id": "listening",
+      "label": "Listening",
+      "status": "concept-only",
+      "motion": "Wider attentive eyes, small forward inclination and acknowledgment nod."
+    },
+    {
+      "id": "researching",
+      "label": "Researching",
+      "status": "concept-only",
+      "motion": "Measured horizontal reading sweeps with short pauses and downward resets."
+    },
+    {
+      "id": "coding",
+      "label": "Coding",
+      "status": "concept-only",
+      "motion": "Downward focus, short rapid eye movements, checking pauses and tiny decisive nod."
+    },
+    {
+      "id": "waiting",
+      "label": "Waiting",
+      "status": "concept-only",
+      "motion": "Patient side glance, slow blink and return to center."
+    },
+    {
+      "id": "needs-input",
+      "label": "Needs input",
+      "status": "concept-only",
+      "motion": "Direct questioning gaze, one raised lid and a small tilted-head hold."
+    },
+    {
+      "id": "complete",
+      "label": "Complete",
+      "status": "concept-only",
+      "motion": "A brief pleased expression and affirmative nod, then return to idle."
+    },
+    {
+      "id": "error",
+      "label": "Error",
+      "status": "concept-only",
+      "motion": "Short concerned surprise, brief hold, then attentive recovery pose."
+    },
+    {
+      "id": "sleeping",
+      "label": "Sleeping",
+      "status": "concept-only",
+      "motion": "Slowly close both eyelids and incline head; hold still until waking."
+    }
+  ]
+}
