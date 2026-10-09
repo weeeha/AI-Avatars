@@ -4,7 +4,7 @@
 
 | ID | Name | Visual language |
 | --- | --- | --- |
-| `eidolon` | Dot flock | Round blue particle face; dimensional eyes; independent dots flow, separate, scatter, and reform |
+| `eidolon` | Dot flock | Round sculpture of individually shaded blue dots; dimensional eyes; particles flow, separate, scatter, and reform |
 | `lens` | Red eye | Red glass lens; cool reflections; expressive luminous aperture |
 
 The two renderers share the same activity, emotion, and transient reaction state. They express that state differently: Dot flock deforms facial features and particle flow; Red eye changes its core aperture, gaze, light, and surrounding motion.
@@ -45,7 +45,7 @@ Reactions finish automatically and return to the selected emotion. The conversat
 
 ## Continuing the design
 
-Keep individual dots visible and the head round. Preserve curved eyelids, rounded irises, dark pupils, and highlights when refining expressions. Treat activities, emotions, and temporary reactions as separate inputs. Always review a moving preview, focused and annoyed eyes, paused state changes, character switching, and a narrow mobile viewport after geometry or animation changes.
+Keep individual dots visible and the head round. Skin samples have a minimum gap, and each dot is shaded as a small bead with restrained glow. Upper-left lighting reveals the forehead, nose, cheek, and chin volumes. Staggered eyelid beads preserve rounded eyes without dense continuous rings. Preserve curved eyelids, rounded irises, dark pupils, and highlights when refining expressions. Treat activities, emotions, and temporary reactions as separate inputs. Always review a moving preview, focused and annoyed eyes, paused state changes, character switching, and a narrow mobile viewport after geometry or animation changes.
 
 ## Source and preview
 

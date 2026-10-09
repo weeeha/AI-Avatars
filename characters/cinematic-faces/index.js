@@ -183,95 +183,112 @@ const characters = Object.freeze([
   // The face supplies attraction targets for independent flocking particles.
   function headWidth(y){return .90*(1-.045*smooth(.35,1.03,y));}
   function surface(x,y){
-    let z=.32*Math.sqrt(Math.max(0,1-(x/1.0)**2-(y/1.24)**2));
+    let z=.46*Math.sqrt(Math.max(0,1-(x/1.0)**2-(y/1.24)**2));
     z+=.065*G(x,y,0,-.6,.63,.46);
     z+=.05*G(x,y,0,-.1,.15,.55);
     for(const side of [-1,1]){
       z-=.155*G(x,y,side*.285,-.21,.17,.115);
-      z+=.095*G(x,y,side*.285,-.36,.22,.075);
-      z+=.11*G(x,y,side*.40,.16,.22,.21);
+      z+=.115*G(x,y,side*.285,-.36,.22,.085);
+      z+=.15*G(x,y,side*.40,.16,.24,.22);
       z-=.05*G(x,y,side*.28,.49,.11,.22);
       z+=.069*G(x,y,side*.117,.21,.073,.065);
       z-=.05*G(x,y,side*.076,.247,.042,.026);
     }
     z+=.165*G(x,y,0,-.06,.078,.27);
-    z+=.24*G(x,y,0,.17,.10,.12);
+    z+=.28*G(x,y,0,.17,.105,.13);
     z-=.025*G(x,y,0,.37,.037,.10);
     z+=.073*G(x,y,0,.45,.235,.045);
     z+=.072*G(x,y,0,.54,.205,.054);
     z-=.05*G(x,y,0,.495,.24,.018);
-    z+=.105*G(x,y,0,.81,.29,.14);
+    z+=.13*G(x,y,0,.81,.31,.16);
     return z;
   }
   const points=[];
-  for(let i=0;i<4400;i++){
+  // A minimum gap makes the surface read as separate beads rather than noisy glow.
+  const spacing=.0265,sampleGrid=new Map();
+  function spaced(x,y){
+    const gx=Math.floor(x/spacing),gy=Math.floor(y/spacing);
+    for(let sy=-1;sy<=1;sy++)for(let sx=-1;sx<=1;sx++){
+      const bucket=sampleGrid.get((gx+sx)+','+(gy+sy));
+      if(bucket?.some(p=>(p.x-x)**2+(p.y-y)**2<spacing*spacing))return false;
+    }
+    const key=gx+','+gy;
+    if(!sampleGrid.has(key))sampleGrid.set(key,[]);
+    sampleGrid.get(key).push({x,y});return true;
+  }
+  for(let i=0;i<26000;i++){
     const y=random()*2.18-1.09;
     const width=headWidth(y)*Math.sqrt(Math.max(0,1-(y/1.115)**2));
     const x=(random()*2-1)*.96;
     if(Math.abs(x)>width)continue;
+    if([-1,1].some(side=>((x-side*.285)/.181)**2+((y+.208)/.122)**2<1))continue;
+    if(!spaced(x,y))continue;
     const z=surface(x,y), dx=(surface(x+.006,y)-surface(x-.006,y))/.012, dy=(surface(x,y+.006)-surface(x,y-.006))/.012;
     const n=Math.sqrt(1+dx*dx+dy*dy);
-    const key=Math.max(0,(.43+.62*dx-.79*dy)/n);
-    const spec=clamp((.94+.35*dx-.69*dy)/(n*1.22));
-    let lighting=.13+key*.95+Math.pow(spec,13)*.62;
-    lighting+=.18*G(x,y,-.025,.155,.078,.080);
+    // Light the actual surface normals from above-left to reveal the sculpted planes.
+    const key=Math.max(0,(.70+.48*dx+.64*dy)/(n*1.065));
+    const spec=clamp((.90+.30*dx+.40*dy)/(n*1.03));
+    let lighting=.14+key*.88+Math.pow(spec,18)*.12;
+    lighting+=.10*G(x,y,-.025,.155,.078,.080);
     let eyeMask=0;
     for(const side of [-1,1])eyeMask=Math.max(eyeMask,G(x,y,side*.285,-.20,.138,.065));
     lighting*=1-.97*eyeMask;
     for(const side of [-1,1])lighting*=1-.9*G(x,y,side*.08,.254,.046,.025);
     const mouth=Math.exp(-((x/.225)**4+((y-.496)/.021)**2));
     lighting*=1-.97*mouth;
-    if(lighting<.14&&random()>.15)continue;
-    points.push({x,y,z,light:lighting,s:.82+random()*.5,phase:random()*TAU,kind:'skin'});
+    points.push({x,y,z,light:lighting,s:.94+random()*.12,phase:random()*TAU,kind:'skin'});
   }
-  function feature(x,y,z,light,kind='detail',extra={}){points.push({x,y,z,light,s:.65+random()*.6,phase:random()*TAU,kind,...extra});}
+  function feature(x,y,z,light,kind='detail',extra={}){points.push({x,y,z,light,s:.88+random()*.10,phase:random()*TAU,kind,...extra});}
   function eyeDepth(side,dx,dy){
     return surface(side*.285,-.208)+.045+.115*Math.sqrt(Math.max(0,1-(dx/.17)**2-(dy/.14)**2));
   }
   for(const side of [-1,1]){
-    // Three offset particle bands give the upper and lower eyelids thickness.
-    for(let layer=0;layer<3;layer++)for(let i=0;i<52;i++){
-      const a=i/52*TAU,dx=Math.cos(a)*(.162+layer*.006);
-      const dy=Math.sin(a)*(.098+layer*.009);
+    // Staggered beads give the eyelids thickness without forming continuous lines.
+    for(let layer=0;layer<2;layer++)for(let i=0;i<32;i++){
+      const a=(i+layer*.5)/32*TAU,dx=Math.cos(a)*(.162+layer*.015);
+      const dy=Math.sin(a)*(.098+layer*.018);
       feature(side*.285+dx,-.208+dy,eyeDepth(side,dx,dy)+.006,
-        Math.sin(a)<0?.84-layer*.09:.52-layer*.06,'lid',{side,a,layer,s:.68});
+        Math.sin(a)<0?.88-layer*.09:.57-layer*.06,'lid',{side,a,layer,s:.88});
     }
     // A curved globe is visible through the lids; it does not flatten when squinting.
-    for(let i=0;i<230;i++){
+    const globeSamples=[];
+    for(let i=0;i<350;i++){
       const u=random()*2-1,v=random()*2-1;
       if(u*u+v*v>1)continue;
       const dx=u*.157,dy=v*.125;
       if(dx*dx+dy*dy<.071*.071)continue;
+      if(globeSamples.some(p=>(p.x-dx)**2+(p.y-dy)**2<.024**2))continue;
+      globeSamples.push({x:dx,y:dy});
       const bulge=Math.sqrt(1-u*u-v*v);
       feature(side*.285+dx,-.208+dy,eyeDepth(side,dx,dy),
-        .28+bulge*.36-u*.08-v*.13,'eye-globe',{side,eyeX:dx,eyeY:dy,s:.57+random()*.22});
+        .34+bulge*.36-u*.08-v*.13,'eye-globe',{side,eyeX:dx,eyeY:dy,s:.80});
     }
     // Round iris annuli surround a dark, genuinely open pupil.
-    for(let ring=0;ring<4;ring++){
-      const radius=.030+ring*.012,count=18+ring*6;
+    for(let ring=0;ring<3;ring++){
+      const radius=.027+ring*.020,count=10+ring*6;
       for(let i=0;i<count;i++){
         const a=i/count*TAU+ring*.17,dx=Math.cos(a)*radius,dy=Math.sin(a)*radius;
         feature(side*.285+dx,-.208+dy,eyeDepth(side,dx,dy)+.008,
-          .53+ring*.095+Math.sin(a*7)*.09,'iris',{side,eyeX:dx,eyeY:dy,s:.67+ring*.035});
+          .53+ring*.095+Math.sin(a*7)*.09,'iris',{side,eyeX:dx,eyeY:dy,s:.75+ring*.035});
       }
     }
-    for(const offset of [[-.021,-.028],[-.026,-.023],[-.017,-.024]]){
+    for(const offset of [[-.024,-.025]]){
       const [dx,dy]=offset;
       feature(side*.285+dx,-.208+dy,eyeDepth(side,dx,dy)+.014,
         1.35,'eye-glint',{side,eyeX:dx,eyeY:dy,s:.98});
     }
-    for(let i=0;i<36;i++){
-      const u=i/36;
+    for(let i=0;i<16;i++){
+      const u=i/15;
       const x=side*(.117+.34*u),y=-.34-.043*Math.sin(u*Math.PI)+.024*u;
       feature(x,y,surface(x,y)+.004,.64,'brow',{side,u});
     }
   }
-  for(let i=0;i<76;i++){
-    const a=i/76*TAU,x=.228*Math.cos(a),y=.49+.034*Math.sin(a)+.012*Math.cos(a*2);
+  for(let i=0;i<40;i++){
+    const a=i/40*TAU,x=.228*Math.cos(a),y=.49+.034*Math.sin(a)+.012*Math.cos(a*2);
     feature(x,y,surface(x,y)+.012,.66,'lip',{a});
   }
-  for(let i=0;i<40;i++){
-    const y=-.25+i/39*.44,x=-.037+Math.sin(i*.45)*.009;
+  for(let i=0;i<18;i++){
+    const y=-.25+i/17*.44,x=-.037+Math.sin(i*.45)*.009;
     feature(x,y,surface(x,y)+.012,.72);
   }
   const flock=points.map((home,i)=>({
@@ -282,9 +299,12 @@ const characters = Object.freeze([
   const sprites=Array.from({length:8},(_,i)=>{
     const c=document.createElement('canvas');c.width=c.height=40;
     const ctx=c.getContext('2d'),k=i/7;
-    halo(ctx,20,20,20,[[0,'rgba(81,182,255,.65)'],[.24,'rgba(37,137,255,.27)'],[.57,'rgba(20,89,219,.07)'],[1,'rgba(9,61,195,0)']]);
-    circle(ctx,20,20,4.9,'rgb('+Math.round(21+k*170)+','+Math.round(71+k*164)+','+Math.round(166+k*89)+')');
-    circle(ctx,19.7,19.6,2.1,'rgb('+Math.round(42+k*193)+','+Math.round(105+k*142)+','+Math.round(191+k*64)+')');
+    halo(ctx,20,20,19,[[0,'rgba(100,180,255,.10)'],[.72,'rgba(76,158,246,.025)'],[1,'rgba(9,61,195,0)']]);
+    const bead=ctx.createRadialGradient(15,14,1,20,20,14);
+    bead.addColorStop(0,'rgb('+Math.round(65+k*184)+','+Math.round(113+k*139)+','+Math.round(164+k*91)+')');
+    bead.addColorStop(.46,'rgb('+Math.round(27+k*140)+','+Math.round(61+k*157)+','+Math.round(105+k*139)+')');
+    bead.addColorStop(1,'rgb('+Math.round(7+k*39)+','+Math.round(19+k*79)+','+Math.round(39+k*115)+')');
+    circle(ctx,20,20,14,bead);
     return c;
   });
   function flockStep(dt,t){
@@ -301,7 +321,7 @@ const characters = Object.freeze([
       const eyePart=h.kind==='lid'||h.kind==='iris'||h.kind==='eye-globe'||h.kind==='eye-glint';
       b.eyeVisibility=1;
       const focus=clamp(G(h.x,h.y,0,.02,.18,.4)+G(h.x,h.y,0,.49,.28,.11));
-      const drift=eyePart?.055:feature?.22:1-focus*.55;
+      const drift=eyePart?.035:feature?.12:.38-focus*.20;
       const phase=t*(1.35+mix.thinking*.65)*opt.motion*(.2+e.energy*.8);
       let tx=h.x,ty=h.y,tz=h.z;
       const jaw=smooth(.34,.98,h.y),mouthWeight=G(h.x,h.y,0,.49,.38,.18);
@@ -329,9 +349,9 @@ const characters = Object.freeze([
         ty-=(e.lift+e.brow*(Math.abs(h.x)-.285)/.17+e.asym*(side>0?.055:-.022))*browWeight;
       }
       if(h.kind==='lid'){
-        const dx=Math.cos(h.a)*(.162+h.layer*.006);
+        const dx=Math.cos(h.a)*(.162+h.layer*.015);
         const arch=-.032*(1-clamp(eyeOpen))*Math.sin(h.a)**2;
-        const dy=Math.sin(h.a)*(.098*eyeOpen+h.layer*.008)+arch;
+        const dy=Math.sin(h.a)*(.098*eyeOpen+h.layer*.018)+arch;
         tx=side*.285+dx;ty=-.208+dy;
         tz=eyeDepth(side,dx,dy)+.010+h.layer*.003;
       }
@@ -356,7 +376,7 @@ const characters = Object.freeze([
       tz+=Math.sin(phase*1.25+h.x*6+h.y*3+b.phase*.2)*.062*drift*opt.motion*e.energy;
       const speechWave=Math.sin(h.y*11-t*8)*talk*.06;
       tx+=h.x*speechWave;tz+=speechWave;
-      const roam=(!feature&&b.wander>.77)?(.18+mix.thinking*.37+mix.remembering*.22)*(.5+.5*Math.sin(t*1.55+h.y*2+b.band))*e.energy*(1-mix.listening*.65):0;
+      const roam=(!feature&&b.wander>.92)?(.12+mix.thinking*.28+mix.remembering*.18)*(.5+.5*Math.sin(t*1.55+h.y*2+b.band))*e.energy*(1-mix.listening*.65):0;
       const sparks=!feature&&b.wander>.84?e.celebrate*.65:0;
       const scan=!feature?mix.searching*.16*Math.exp(-(((h.x-Math.sin(t*1.5)*.65)/.17)**2)):0;
       const release=clamp(burst*(.72+b.wander*.22)+roam+sparks+scan,0,.96);
@@ -367,7 +387,7 @@ const characters = Object.freeze([
       tx=tx*(1-release)+ox*release;
       ty=ty*(1-release)+oy*release;
       tz=tz*(1-release)+oz*release;
-      const spring=(eyePart?58:feature?34:17+focus*16)*(1+mix.listening*.35);
+      const spring=(eyePart?58:feature?40:25+focus*16)*(1+mix.listening*.35);
       let ax=(tx-b.x)*spring,ay=(ty-b.y)*spring,az=(tz-b.z)*spring;
       let sx=0,sy=0,sz=0,avx=0,avy=0,avz=0,cx=0,cy=0,cz=0,n=0;
       // Spatial neighborhoods: separation, alignment and cohesion.
@@ -384,7 +404,7 @@ const characters = Object.freeze([
         if(n>=18)break;
       }
       if(n){
-        const separation=eyePart?.0008:feature?.004:.016;
+        const separation=eyePart?.0008:feature?.004:.024;
         ax+=sx*separation+(avx/n-b.vx)*1.15+(cx/n-b.x)*.7;
         ay+=sy*separation+(avy/n-b.vy)*1.15+(cy/n-b.y)*.7;
         az+=sz*separation+(avz/n-b.vz)*1.15+(cz/n-b.z)*.7;
@@ -415,7 +435,7 @@ const characters = Object.freeze([
       const steps=Math.ceil(elapsed/.025);
       for(let s=0;s<steps;s++)flockStep(elapsed/steps,t-elapsed+(s+1)*elapsed/steps);
     }
-    const yaw=(Math.sin(t*.48)*.16*e.energy+mix.thinking*Math.sin(t*.82)*.06+e.yaw)*opt.motion;
+    const yaw=(Math.sin(t*.48)*.23*e.energy+mix.thinking*Math.sin(t*.82)*.06+e.yaw)*opt.motion;
     const pitch=(Math.sin(t*.55)*.034*e.energy+e.pitch)*opt.motion;
     const cs=Math.cos(yaw),sn=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);
     const roll=e.tilt*opt.motion,cr=Math.cos(roll),sr=Math.sin(roll);
@@ -430,9 +450,9 @@ const characters = Object.freeze([
       const scanLight=mix.searching*Math.exp(-(((b.home.x-Math.sin(t*1.5)*.65)/.2)**2))*.24;
       const intensity=clamp((.08+b.home.light*.92+scanLight+mix.waking*.1)*opt.glow*(1-mix.sleeping*.57));
       const sprite=sprites[Math.min(7,Math.round(intensity*7))];
-      const breathe=1+Math.sin(t*1.8+b.phase)*.10;
-      const size=(13+depth*4)*b.home.s*breathe;
-      ctx.globalAlpha=clamp((.14+Math.pow(intensity,1.2)*.86)*(.72+depth*.28))*(b.eyeVisibility??1);
+      const breathe=1+Math.sin(t*1.8+b.phase)*.035;
+      const size=(6.5+depth*2.0)*b.home.s*breathe;
+      ctx.globalAlpha=clamp((.30+Math.pow(intensity,.9)*.70)*(.83+depth*.17))*(b.eyeVisibility??1);
       ctx.drawImage(sprite,px-size/2,py-size/2,size,size);
       speedSum+=Math.hypot(b.vx,b.vy,b.vz);
       spreadSum+=(b.x-b.home.x)**2+(b.y-b.home.y)**2+(b.z-b.home.z)**2;
