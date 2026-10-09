@@ -30,6 +30,7 @@ const origin=`http://127.0.0.1:${port}`;
     await page.emulateMedia({reducedMotion:'reduce'});await page.reload();await page.waitForSelector('canvas[data-ready="true"]');assert.equal(await page.evaluate(()=>motionIdeasPreview.getState().paused),true);
     await require('./cinematic-smoke.cjs')(page,origin);
     await require('./abstract-smoke.cjs')(page,origin);
+    await require('./abstract-lifecycle-smoke.cjs')(page,origin);
     assert.deepEqual(errors,[]);console.log('PASS: gallery, lens studies, both cinematic characters, expressions, playback, reactions, saved preferences, mobile layout, reduced motion.');
   }finally{await browser?.close();server.kill();}
 })().catch(e=>{console.error(e);process.exit(1);});

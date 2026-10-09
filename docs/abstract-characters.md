@@ -21,7 +21,7 @@ Every design supports 12 activities and seven expressions, including all 84 comb
 | Error / recovery | Brief recoil followed by a contracted, interrupted hold; Recover returns to idle |
 | Sleeping | Close and lower into a dim, compressed resting pose |
 
-Waiting, input, error, sleep, startup, and completion settle by 2.4 seconds. A new selection blends out of the held pose over 450 ms. Continuous activities keep their original material motion. Character-dependent tempo and amplitude retain distinct temperaments. The renderer changes actual geometry, pupil opening, gaze, or field deformation; changing color alone never represents an activity.
+Waiting, input, error, sleep, startup, and completion settle by 2.4 seconds. A new selection blends out of the held pose over 450 ms. Continuous activities keep their original material motion. Character-dependent tempo and amplitude retain distinct temperaments. Material animation time stays continuous through state changes and freezes only when a held pose settles. Paused character selection preserves the held pose; a new demo clears previous simulated conditions. Optional clock time updates once per minute without advancing paused motion. The renderer changes actual geometry, pupil opening, gaze, or field deformation; changing color alone never represents an activity.
 
 Expressions remain independent: **neutral/calm, happy, curious, surprised, confused, concerned, playful**. Happy lifts and softens; curious cocks and opens; surprise enlarges the opening; confusion alternates tilt and folding; concern narrows and lowers; playfulness adds a springing sway. In waiting/input/error/rest, expressions settle with the activity rather than creating endless attention demands.
 
