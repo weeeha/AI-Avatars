@@ -17,12 +17,13 @@ Open **http://127.0.0.1:4173**. Node.js 20 or newer is required. The gallery has
 - **Prismatic lenses — character states:** idle, listening, talking, thinking, writing code, and complete. Includes a demo sequence, playback speed, pause, and round/square display views.
 - **Ten motion ideas:** liquid core, twin moons, ribbon knot, hourglass, fireflies, radar sweep, helix, tide, bloom, and curious eyes.
 - **Six palettes:** prismatic, pink, cyan, lilac, amber, and mint, shared across both studies.
+- **[Oracle](characters/oracle/README.md):** a three-eyed white statue with 14 emotions and clock states. Shimmering stars change into hearts, crescents, diamonds, pulses, and orbiting lights. Includes artwork, a character manifest, and generation provenance.
 
 These are original browser-rendered concepts based on supplied visual references. Talking uses simulated timing; the studies are not connected to live speech, a microphone, an agent, or physical hardware. Reduced-motion settings start the previews paused.
 
 ## Edit
 
-The editable sources are listed in `catalog.json` under `studies/`. Each includes its markup, styling, and animation logic. `studies/cinematic-faces.fragment.html` contains Dot flock and Red eye; the lens studies include their WebGL shaders.
+The editable sources are listed in `catalog.json` under `studies/`. Each includes its markup, styling, and animation logic. `studies/cinematic-faces.fragment.html` contains Dot flock and Red eye; the lens studies include their WebGL shaders. Oracle's editable source is `studies/oracle.fragment.html`, with character assets and documentation in `characters/oracle/`.
 
 ```sh
 npm run build
@@ -39,7 +40,7 @@ npx playwright install chromium
 npm test
 ```
 
-The smoke check loads both standalone studies, checks graphics initialization, state/palette switching, animation playback, local preference persistence, reduced motion, and narrow-screen layout. `npm run check` also confirms that generated files are current and have no machine-specific paths or conversation-host API calls.
+The smoke check loads the standalone studies, checks graphics initialization, state/palette switching, animation playback, local preference persistence, reduced motion, and narrow-screen layout. Oracle's checks cover all 14 state poses and shimmering eyes. `npm run check` also confirms that generated files are current and have no machine-specific paths or conversation-host API calls.
 
 ## Add characters
 

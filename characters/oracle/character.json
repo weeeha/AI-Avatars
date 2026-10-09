@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "id": "oracle",
+  "name": "Oracle",
+  "status": "motion-prototype",
+  "description": "A smooth white sculptural character with three black starry eyes and expressive carved lips.",
+  "preview": "index.html",
+  "assets": {
+    "concept": "assets/concept-sheet.png",
+    "runtimeTexture": "assets/oracle-source.jpg"
+  },
+  "provenance": "provenance/image-generation.md",
+  "states": [
+    {
+      "id": "resting",
+      "category": "emotion",
+      "description": "softly shimmering stars",
+      "eyeSymbol": "star"
+    },
+    {
+      "id": "curious",
+      "category": "emotion",
+      "description": "one eye opens wider, stars glance sideways",
+      "eyeSymbol": "star"
+    },
+    {
+      "id": "happy",
+      "category": "emotion",
+      "description": "soft smile and luminous hearts",
+      "eyeSymbol": "heart"
+    },
+    {
+      "id": "delighted",
+      "category": "emotion",
+      "description": "a bigger smile and dancing starbursts",
+      "eyeSymbol": "starburst"
+    },
+    {
+      "id": "surprised",
+      "category": "emotion",
+      "description": "wide eyes, oversized stars, open lips",
+      "eyeSymbol": "star"
+    },
+    {
+      "id": "sleepy",
+      "category": "emotion",
+      "description": "heavy eyelids and slow crescent moons",
+      "eyeSymbol": "crescent"
+    },
+    {
+      "id": "annoyed",
+      "category": "emotion",
+      "description": "narrowed eyes and sharp diamonds",
+      "eyeSymbol": "diamond"
+    },
+    {
+      "id": "sad",
+      "category": "emotion",
+      "description": "downturned lips and low, faint stars",
+      "eyeSymbol": "star"
+    },
+    {
+      "id": "listening",
+      "category": "activity",
+      "description": "attentive eyes and a soft star pulse",
+      "eyeSymbol": "pulse"
+    },
+    {
+      "id": "thinking",
+      "category": "activity",
+      "description": "orbiting lights and an uneven gaze",
+      "eyeSymbol": "orbit"
+    },
+    {
+      "id": "speaking",
+      "category": "activity",
+      "description": "shifting stars and a silent lip-motion loop",
+      "eyeSymbol": "star"
+    },
+    {
+      "id": "focus",
+      "category": "activity",
+      "description": "steady diamonds and a concentrated gaze",
+      "eyeSymbol": "diamond"
+    },
+    {
+      "id": "time",
+      "category": "activity",
+      "description": "live clock in the forehead eye",
+      "eyeSymbol": "star"
+    },
+    {
+      "id": "alarm",
+      "category": "activity",
+      "description": "bright starbursts and an alert expression",
+      "eyeSymbol": "starburst"
+    }
+  ],
+  "limitations": [
+    "Silent motion studies; no speech synchronization.",
+    "No live assistant-event integration.",
+    "Not a rigged 3D model.",
+    "Final hardware fit and performance are unverified."
+  ],
+  "source": "../../studies/oracle.fragment.html"
+}

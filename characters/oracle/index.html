@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><title>Oracle — three-eyed statue · AI Avatars</title><link rel="stylesheet" href="../../assets/preview.css"><link rel="stylesheet" href="index.css"></head>
+<body><main class="page"><nav class="page-nav" aria-label="Gallery navigation"><a href="../../index.html">← AI Avatars</a><span class="page-title">Oracle — three-eyed statue</span></nav>
+<div id="oracle-alive">
+  <div class="viz-controls">
+    <label class="form-label">Preview
+      <select class="form-select" id="oracle-mode" aria-label="Preview">
+        <option value="demo">Auto demo</option>
+        <optgroup label="Emotions">
+          <option value="resting">Resting</option>
+          <option value="curious">Curious</option>
+          <option value="happy">Happy</option>
+          <option value="delighted">Delighted</option>
+          <option value="surprised">Surprised</option>
+          <option value="sleepy">Sleepy</option>
+          <option value="annoyed">Annoyed</option>
+          <option value="sad">Sad</option>
+        </optgroup>
+        <optgroup label="Clock states">
+          <option value="listening">Listening</option>
+          <option value="thinking">Thinking</option>
+          <option value="speaking">Speaking</option>
+          <option value="focus">Focus</option>
+          <option value="time">Time</option>
+          <option value="alarm">Alarm</option>
+        </optgroup>
+      </select>
+    </label>
+    <button class="btn" id="oracle-pause" type="button">Pause</button>
+    <button class="btn" id="oracle-next" type="button">Next state</button>
+    <button class="btn" id="oracle-blink" type="button">Blink</button>
+  </div>
+  <div class="oracle-stage">
+    <div class="oracle-face">
+      <canvas id="oracle-canvas" width="768" height="768" role="img" aria-label="An expressive white statue clock with three shimmering black eyes. Choose an emotion or clock state to change its eyelids, lips and luminous eye symbols."></canvas>
+      <div class="oracle-clock" aria-hidden="true"></div>
+    </div>
+  </div>
+  <div class="text-small text-muted text-center" id="oracle-status" aria-live="polite">Resting · stars and slow blinks</div>
+  <div id="oracle-error" role="alert" hidden></div>
+</div>
+</main><script src="../../assets/preview-state.js"></script><script src="index.js"></script></body></html>

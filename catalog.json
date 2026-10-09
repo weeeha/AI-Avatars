@@ -1,7 +1,7 @@
 [
   {
     "id": "prismatic-lenses",
-    "title": "Prismatic lenses \u2014 character states",
+    "title": "Prismatic lenses — character states",
     "source": "studies/prismatic-lenses.fragment.html",
     "output": "characters/prismatic-lenses/index",
     "rootId": "prismatic-dots",
@@ -31,5 +31,13 @@
         "name": "Red eye"
       }
     ]
+  },
+  {
+    "id": "oracle",
+    "title": "Oracle — three-eyed statue",
+    "source": "studies/oracle.fragment.html",
+    "output": "characters/oracle/index",
+    "rootId": "oracle-alive",
+    "api": "oraclePreview"
   }
 ]
