@@ -39,5 +39,47 @@
     "output": "characters/open-skeleton/preview",
     "rootId": "open-skeleton",
     "manifest": "characters/open-skeleton/manifest.json"
+  },
+  {
+    "id": "shape-cast",
+    "title": "Shape companions",
+    "source": "studies/shape-cast.fragment.html",
+    "output": "characters/shape-cast/index",
+    "rootId": "shape-cast",
+    "api": "shapeCastPreview",
+    "characters": [
+      {
+        "id": "triangle",
+        "name": "Triangle"
+      },
+      {
+        "id": "circle",
+        "name": "Circle"
+      },
+      {
+        "id": "square",
+        "name": "Square"
+      },
+      {
+        "id": "star",
+        "name": "Star"
+      },
+      {
+        "id": "crescent",
+        "name": "Crescent"
+      },
+      {
+        "id": "bean",
+        "name": "Bean"
+      },
+      {
+        "id": "heart",
+        "name": "Heart"
+      },
+      {
+        "id": "diamond",
+        "name": "Diamond"
+      }
+    ]
   }
 ]

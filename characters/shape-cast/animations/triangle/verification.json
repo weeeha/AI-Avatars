@@ -1,0 +1,82 @@
+{
+  "character": "triangle",
+  "status": "assembled",
+  "format": "generated-keyframe-animation",
+  "duration": 4,
+  "fps": 24,
+  "width": 512,
+  "height": 512,
+  "decodedFrames": 96,
+  "sourceFrames": 16,
+  "uniqueSourceFrames": 16,
+  "loopEndpointMeanPixelDifference": 0.7003466288248698,
+  "middleFrameMeanPixelDifference": 21.99302037556966,
+  "registrationOffsets": [
+    {
+      "x": 2,
+      "y": 0
+    },
+    {
+      "x": 2,
+      "y": 0
+    },
+    {
+      "x": 2,
+      "y": 0
+    },
+    {
+      "x": 2,
+      "y": 0
+    },
+    {
+      "x": 2,
+      "y": 2
+    },
+    {
+      "x": 6,
+      "y": 2
+    },
+    {
+      "x": 10,
+      "y": 2
+    },
+    {
+      "x": 10,
+      "y": 2
+    },
+    {
+      "x": 11,
+      "y": 3
+    },
+    {
+      "x": 11,
+      "y": 2
+    },
+    {
+      "x": 10,
+      "y": 2
+    },
+    {
+      "x": 10,
+      "y": 2
+    },
+    {
+      "x": 11,
+      "y": 3
+    },
+    {
+      "x": 10,
+      "y": 2
+    },
+    {
+      "x": 2,
+      "y": 3
+    },
+    {
+      "x": 2,
+      "y": 2
+    }
+  ],
+  "blinkFrames": "Original eyelid poses preserved for output frames 20-30 to avoid optical-flow ghosting",
+  "note": "Local pose-sequence animation with optical-flow interpolation; not a rigged 3D model."
+}

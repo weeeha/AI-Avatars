@@ -1,0 +1,82 @@
+{
+  "character": "star",
+  "status": "assembled",
+  "format": "generated-keyframe-animation",
+  "duration": 4,
+  "fps": 24,
+  "width": 512,
+  "height": 512,
+  "decodedFrames": 96,
+  "sourceFrames": 16,
+  "uniqueSourceFrames": 16,
+  "loopEndpointMeanPixelDifference": 0.809179941813151,
+  "middleFrameMeanPixelDifference": 28.501912434895832,
+  "registrationOffsets": [
+    {
+      "x": -5,
+      "y": -11
+    },
+    {
+      "x": 5,
+      "y": -11
+    },
+    {
+      "x": -4,
+      "y": -11
+    },
+    {
+      "x": 6,
+      "y": -11
+    },
+    {
+      "x": -3,
+      "y": -10
+    },
+    {
+      "x": 2,
+      "y": -11
+    },
+    {
+      "x": 3,
+      "y": -11
+    },
+    {
+      "x": 1,
+      "y": -11
+    },
+    {
+      "x": 0,
+      "y": -11
+    },
+    {
+      "x": 1,
+      "y": -11
+    },
+    {
+      "x": 1,
+      "y": -11
+    },
+    {
+      "x": 2,
+      "y": -11
+    },
+    {
+      "x": 2,
+      "y": -9
+    },
+    {
+      "x": 0,
+      "y": -10
+    },
+    {
+      "x": -1,
+      "y": -10
+    },
+    {
+      "x": 2,
+      "y": -9
+    }
+  ],
+  "blinkFrames": "Original eyelid poses preserved for output frames 20-30 to avoid optical-flow ghosting",
+  "note": "Local pose-sequence animation with optical-flow interpolation; not a rigged 3D model."
+}

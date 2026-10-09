@@ -1,0 +1,53 @@
+(()=>{
+  const characters=[{"id": "triangle", "name": "Triangle", "color": "electric lemon yellow", "hex": "#FFF42A", "personality": "Jaunty and enterprising. Snappy asymmetrical brows, small forward leans and brisk compact gestures; never angry or bossy."}, {"id": "circle", "name": "Circle", "color": "vivid tangerine orange", "hex": "#FF861F", "personality": "Warm and buoyant. Rounded gestures, gentle bounces and open facial expressions."}, {"id": "square", "name": "Square", "color": "electric spring green", "hex": "#45EE47", "personality": "Calm and dependable. Small measured gestures, balanced stance and restrained expressive changes; visibly awake when active."}, {"id": "star", "name": "Star", "color": "electric hot pink", "hex": "#F92BB9", "personality": "Playful and enthusiastic. Broad but controlled arm poses and energetic eye expression, without changing the five-point silhouette."}, {"id": "crescent", "name": "Crescent", "color": "luminous lavender violet", "hex": "#B85FF4", "personality": "Gentle and unhurried. Graceful lean, slow nod and relaxed hands. Open attentive eyes for listening and work; fully closed eyes for blinks and sleeping."}, {"id": "bean", "name": "Bean", "color": "electric cyan aqua", "hex": "#0FD5E5", "personality": "Inquisitive and slightly quirky. Small alternating tilts, asymmetrical brows and thoughtful glove-to-cheek gestures."}, {"id": "heart", "name": "Heart", "color": "bright warm coral red", "hex": "#FF575E", "personality": "Kind and encouraging. Open palms, soft direct gaze and small reassuring nods; concern is supportive, not distressed."}, {"id": "diamond", "name": "Diamond", "color": "electric cobalt blue", "hex": "#2167EE", "personality": "Poised and precise. Compact deliberate gestures, mild confident smile and controlled tilts."}];
+  const states=[{"id": "happy", "group": "emotion", "label": "Happy", "row": 0, "column": 0, "trigger": "A positive conversational moment; never used alone as proof that work completed.", "motion": "Brief eye-crinkle and small bounce, then return to the current activity."}, {"id": "curious", "group": "emotion", "label": "Curious", "row": 0, "column": 1, "trigger": "A new topic or user-invited exploration.", "motion": "Raise one brow, tilt and glance toward the topic, then settle."}, {"id": "surprised", "group": "emotion", "label": "Surprised", "row": 0, "column": 2, "trigger": "An unexpected but noncritical event.", "motion": "Quick widened eyes and tiny recoil, then recover."}, {"id": "confused", "group": "emotion", "label": "Confused", "row": 0, "column": 3, "trigger": "The assistant cannot interpret a request with enough confidence.", "motion": "Small uneven brow and tilt, followed by a clear clarification question."}, {"id": "concerned", "group": "emotion", "label": "Concerned", "row": 1, "column": 0, "trigger": "A supportive conversational response or a recoverable problem.", "motion": "Soft gaze, gentle open palm, one small reassuring nod."}, {"id": "playful", "group": "emotion", "label": "Playful", "row": 1, "column": 1, "trigger": "User chooses a playful tone or initiates play.", "motion": "One wink and a tiny jaunty wave."}, {"id": "idle", "group": "activity", "label": "Idle", "row": 1, "column": 2, "trigger": "The assistant is available and no task is executing.", "motion": "Small breathing motion and occasional complete blink."}, {"id": "listening", "group": "activity", "label": "Listening", "row": 1, "column": 3, "trigger": "Microphone permission is granted and audio capture is actively receiving user input.", "motion": "Attentive forward lean and a restrained acknowledgment nod."}, {"id": "thinking", "group": "activity", "label": "Thinking", "row": 2, "column": 0, "trigger": "The assistant is processing/planning and is not currently running a tool.", "motion": "Look up briefly, glove at chin, return gaze to center."}, {"id": "researching", "group": "activity", "label": "Researching", "row": 2, "column": 1, "trigger": "Retrieval, browsing or source inspection is actively running.", "motion": "Small reading sweeps with pauses, then a downward reset."}, {"id": "working", "group": "activity", "label": "Working", "row": 2, "column": 2, "trigger": "An action such as writing, coding, generating or testing is executing.", "motion": "Steady downward focus, small precise glove movements, occasional checking pause."}, {"id": "answering", "group": "activity", "label": "Answering", "row": 2, "column": 3, "trigger": "A response is being delivered as text or audio.", "motion": "Open-palm explaining gesture with soft eye contact."}, {"id": "needs-input", "group": "activity", "label": "Needs Input", "row": 3, "column": 0, "trigger": "Execution is blocked on a user answer or explicit approval.", "motion": "Patient questioning glance and one open-palm invitation, then rest."}, {"id": "complete", "group": "activity", "label": "Complete", "row": 3, "column": 1, "trigger": "All requested work is confirmed successful.", "motion": "One thumbs-up, small pleased lift, then settle."}, {"id": "error", "group": "activity", "label": "Error", "row": 3, "column": 2, "trigger": "A task or tool action failed and cannot continue without recovery.", "motion": "One concerned pause signal, then attentive neutral stance."}, {"id": "sleeping", "group": "activity", "label": "Sleeping", "row": 3, "column": 3, "trigger": "The assistant is explicitly resting and no foreground or background task requires a visible status.", "motion": "Slow eye closure and a gentle lowered posture."}];
+  const $=id=>document.getElementById(id),video=$('shape-video'),reduced=matchMedia('(prefers-reduced-motion: reduce)');
+  const params=new URLSearchParams(location.search);
+  let current=characters.find(c=>c.id===params.get('character'))||characters[0];
+  let state=states.find(s=>s.id===params.get('state'))||states.find(s=>s.id==='idle');
+  let mode=params.get('mode')==='concepts'?'concepts':'animation',wantsPlay=!reduced.matches,revision=0;
+  characters.forEach(c=>{
+    const b=document.createElement('button');b.className='shape-pick';b.dataset.character=c.id;b.setAttribute('aria-label',c.name);b.setAttribute('aria-pressed','false');
+    const img=document.createElement('img');img.src=`animations/${c.id}/poster.png`;img.alt='';img.width=80;img.height=80;
+    const text=document.createElement('span');text.textContent=c.name;b.append(img,text);b.addEventListener('click',()=>select(c));$('shape-picker').append(b);
+  });
+  for(const [group,label] of [['emotion','Core expressions'],['activity','Assistant activities']]){
+    const g=document.createElement('optgroup');g.label=label;
+    states.filter(s=>s.group===group).forEach(s=>{const o=document.createElement('option');o.value=s.id;o.textContent=s.label;g.append(o);});$('shape-state').append(g);
+  }
+  function url(){try{const u=new URL(location.href);u.searchParams.set('character',current.id);u.searchParams.set('mode',mode);if(mode==='concepts')u.searchParams.set('state',state.id);else u.searchParams.delete('state');history.replaceState(null,'',u);}catch{}}
+  function announce(){ $('shape-announcement').textContent=`${current.name}, ${mode==='animation'?'idle animation':state.label+' concept'}.`; }
+  function updatePlay(){ $('shape-play').textContent=video.paused?'Play animation':'Pause animation'; }
+  async function play(){const token=revision;try{await video.play();if(token===revision&&!wantsPlay)video.pause();}catch(e){if(token===revision&&e.name!=='AbortError'){wantsPlay=false;updatePlay();}}}
+  function updatePose(){
+    $('shape-state').value=state.id;$('shape-pose').alt=`${current.name}, ${state.label}, static pose concept`;
+    $('shape-pose').style.left=`${-state.column*100}%`;$('shape-pose').style.top=`${-state.row*100}%`;
+    $('shape-trigger').textContent=state.trigger;$('shape-motion').textContent=state.motion;
+  }
+  function updateMode(){
+    const animated=mode==='animation';video.hidden=!animated;$('shape-crop').hidden=animated;
+    $('shape-animation-controls').hidden=!animated;$('shape-concept-controls').hidden=animated;
+    $('shape-animation-mode').setAttribute('aria-pressed',String(animated));$('shape-concept-mode').setAttribute('aria-pressed',String(!animated));
+    $('shape-media-label').textContent=animated?'Idle pet loop · 4 seconds':state.label+' · Still pose';
+    if(animated&&wantsPlay)play();else video.pause();updatePose();url();
+  }
+  function select(c,initial=false){
+    revision++;video.pause();current=c;const folder=`animations/${c.id}/`;
+    $('shape-cast').style.setProperty('--accent',c.hex);$('shape-name').textContent=c.name;$('shape-color').textContent=c.color;$('shape-personality').textContent=c.personality;
+    document.querySelectorAll('.shape-pick').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.character===c.id)));
+    $('shape-error').hidden=true;video.poster=folder+'poster.png';video.src=folder+'idle.mp4';video.setAttribute('aria-label',c.name+' idle animation');video.load();
+    for(const format of ['mp4','webp','gif']){const a=$('shape-'+format);a.href=folder+'idle.'+format;a.download=c.id+'-idle.'+format;}
+    $('shape-pose').src=`states/${c.id}.png`;$('shape-sheet').href=`states/${c.id}.png`;updateMode();if(!initial)announce();
+  }
+  $('shape-animation-mode').addEventListener('click',()=>{mode='animation';updateMode();announce();});
+  $('shape-concept-mode').addEventListener('click',()=>{mode='concepts';updateMode();announce();});
+  $('shape-state').addEventListener('change',e=>{state=states.find(s=>s.id===e.target.value);updateMode();announce();});
+  $('shape-play').addEventListener('click',()=>{wantsPlay=video.paused;if(wantsPlay)play();else video.pause();});
+  $('shape-restart').addEventListener('click',()=>{video.currentTime=0;wantsPlay=true;play();});
+  $('shape-round').addEventListener('change',e=>$('shape-stage').classList.toggle('round',e.target.checked));
+  video.addEventListener('play',updatePlay);video.addEventListener('pause',updatePlay);
+  video.addEventListener('error',()=>{$('shape-error').textContent='This browser could not play the video. Try the animated WebP or GIF download.';$('shape-error').hidden=false;wantsPlay=false;updatePlay();});
+  function reducedMotion(){if(reduced.matches){wantsPlay=false;video.pause();}$('shape-motion-note').textContent=reduced.matches?'Reduced motion is on. Press Play when you want to preview the loop.':'A quiet blink and a small hello, returning to rest.';}
+  reduced.addEventListener('change',reducedMotion);reducedMotion();select(current,true);
+  window.shapeCastPreview={getState:()=>({character:current.id,mode,state:state.id,paused:video.paused,time:video.currentTime,ready:video.readyState>=2,reducedMotion:reduced.matches})};
+})();
