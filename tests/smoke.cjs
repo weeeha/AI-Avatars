@@ -30,6 +30,7 @@ const origin=`http://127.0.0.1:${port}`;
     await page.setViewportSize({width:320,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
     await page.emulateMedia({reducedMotion:'reduce'});await page.reload();await page.waitForSelector('canvas[data-ready="true"]');assert.equal(await page.evaluate(()=>motionIdeasPreview.getState().paused),true);
     await require('./cinematic-smoke.cjs')(page,origin);
+    await require('./cinematic-state-smoke.cjs')(page,origin);
     await page.emulateMedia({reducedMotion:'no-preference'});
     await page.goto(origin+'/characters/oracle/');await page.waitForSelector('#oracle-canvas[data-ready="true"]');
     await page.getByRole('button',{name:'Pause',exact:true}).click();
