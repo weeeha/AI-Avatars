@@ -12,14 +12,16 @@ Open **http://127.0.0.1:4173**. Node.js 20 or newer is required. The gallery has
 
 ## Included studies
 
+- **Open Skeleton:** a round ivory mechanical face with nine emotional reactions plus idle, thinking, and answering. Includes 12 silent MP4/GIF clips, generated source artwork, and prompts. [Character pack](characters/open-skeleton/README.md).
+
 - **Dot flock:** a round sculpture of individually shaded blue dots, with clear gaps, curved eyelids, rounded irises, and dark pupils. Supports expressive motion, pointer disturbance, and scatter/reform.
 - **Red eye:** a red glass lens with blue reflections and an expressive luminous aperture. Both cinematic faces combine 10 activities, 10 emotions, and 6 temporary reactions. [Behavior guide](docs/cinematic-faces.md).
 - **Prismatic lenses — character states:** idle, listening, talking, thinking, writing code, and complete. Includes a demo sequence, playback speed, pause, and round/square display views.
 - **Ten motion ideas:** liquid core, twin moons, ribbon knot, hourglass, fireflies, radar sweep, helix, tide, bloom, and curious eyes.
 - **Six palettes:** prismatic, pink, cyan, lilac, amber, and mint, shared across both studies.
-- **[Oracle](characters/oracle/README.md):** a three-eyed white statue with 14 emotions and clock states. Shimmering stars change into hearts, crescents, diamonds, pulses, and orbiting lights. Includes artwork, a character manifest, and generation provenance.
+- **[Oracle](characters/oracle/README.md):** a three-eyed white statue with 34 expression, assistant, and clock modes with a separate emotion layer. Shimmering stars change into hearts, crescents, diamonds, pulses, and orbiting lights. Includes artwork, a character manifest, and generation provenance.
 
-These are original browser-rendered concepts based on supplied visual references. Talking uses simulated timing; the studies are not connected to live speech, a microphone, an agent, or physical hardware. Reduced-motion settings start the previews paused.
+The procedural studies are original browser-rendered concepts based on supplied visual references. Open Skeleton uses locally assembled, generated keyframes with a stop-motion character. Talking uses simulated timing; the studies are not connected to live speech, a microphone, an agent, or physical hardware. Reduced-motion settings start the previews paused.
 
 ## Edit
 
@@ -40,7 +42,7 @@ npx playwright install chromium
 npm test
 ```
 
-The smoke check loads the standalone studies, checks graphics initialization, state/palette switching, animation playback, local preference persistence, reduced motion, and narrow-screen layout. Oracle's checks cover all 14 state poses and shimmering eyes. `npm run check` also confirms that generated files are current and have no machine-specific paths or conversation-host API calls.
+The smoke check loads the standalone studies, checks graphics initialization, state/palette switching, animation playback, local preference persistence, reduced motion, and narrow-screen layout. Oracle's checks cover original and added state poses and shimmering eyes. `npm run check` also confirms that generated files are current and have no machine-specific paths or conversation-host API calls.
 
 ## Add characters
 

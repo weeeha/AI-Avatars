@@ -46,3 +46,15 @@ The source image is stored as [the concept sheet](assets/concept-sheet.png), wit
 ## Local review
 
 Serve the repository as described in the root README, then open `/characters/oracle/`. Run `npm run check` and `npm test` after changes. Check all states, motion, transitions, keyboard controls, Pause/Play, and the layout at 320px width. Test the final device separately before treating the prototype as a hardware implementation.
+
+## Completed assistant motion vocabulary
+
+Oracle retains the fourteen original looks and adds twenty expression, activity and operational modes. Activity and Emotion are now separate controls: try Working + Happy or Researching + Concerned. The original emotion choices in Preview remain available for comparison.
+
+The added performances are starting (staggered eye opening), researching (reading sweeps), working and coding (distinct fixation rhythms), checking (left/right comparison), waiting (one patient glance), needs input (questioning forehead eye), complete (one starburst acknowledgement then rest), error (brief concerned shake), and sleeping (fully closed eyes). Confused, Concerned and Playful extend the expression palette. Offline, reconnecting, awaiting approval, permission denied, paused, stopped and partly done have explicit labels and restrained reusable poses. They are manually selected simulations; no task outcome or connection is inferred.
+
+Play expression runs a 2.8-second temporary expression and returns to the current activity. Changing activity interrupts it immediately. Sleeping closes all eyes regardless of a selected expression. Complete keeps its label after the one-shot motion settles. Reduced motion pauses a running preview when enabled; manual Play remains available.
+
+`oraclePreview` exposes `setMode(id)`, `setEmotion(id)`, `react(emotionId)`, `setPaused(boolean)`, `seek(seconds)`, `getState()` and `capture()`. Seeking is relative to the selected activity for deterministic review. Accepted aliases: idle/resting, waking/starting, searching/researching, answering/speaking, success/complete and approval/awaiting-approval. The character manifest lists all canonical modes and expression-layer IDs.
+
+Run `npm test` for the original visual checks plus new activity poses, time-separated performances, expression combinations, reaction interruption/return, operational labels, live reduced-motion changes and small-screen layout.

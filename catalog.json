@@ -1,7 +1,7 @@
 [
   {
     "id": "prismatic-lenses",
-    "title": "Prismatic lenses — character states",
+    "title": "Prismatic lenses \u2014 character states",
     "source": "studies/prismatic-lenses.fragment.html",
     "output": "characters/prismatic-lenses/index",
     "rootId": "prismatic-dots",
@@ -34,10 +34,18 @@
   },
   {
     "id": "oracle",
-    "title": "Oracle — three-eyed statue",
+    "title": "Oracle \u2014 three-eyed statue",
     "source": "studies/oracle.fragment.html",
     "output": "characters/oracle/index",
     "rootId": "oracle-alive",
     "api": "oraclePreview"
+  },
+  {
+    "id": "open-skeleton",
+    "title": "Open Skeleton \u2014 emotions and activities",
+    "source": "studies/open-skeleton.fragment.html",
+    "output": "characters/open-skeleton/preview",
+    "rootId": "open-skeleton",
+    "manifest": "characters/open-skeleton/manifest.json"
   }
 ]

@@ -94,6 +94,106 @@
       "category": "activity",
       "description": "bright starbursts and an alert expression",
       "eyeSymbol": "starburst"
+    },
+    {
+      "id": "confused",
+      "category": "emotion",
+      "description": "Uneven lids and reconsidering lips"
+    },
+    {
+      "id": "concerned",
+      "category": "emotion",
+      "description": "Soft eye contact and a restrained concerned mouth"
+    },
+    {
+      "id": "playful",
+      "category": "emotion",
+      "description": "Asymmetric grin and a deliberate wink"
+    },
+    {
+      "id": "starting",
+      "category": "activity",
+      "description": "Three eyelids open in sequence and focus forward"
+    },
+    {
+      "id": "researching",
+      "category": "activity",
+      "description": "Horizontal reading sweeps and line resets"
+    },
+    {
+      "id": "working",
+      "category": "activity",
+      "description": "Downward focus and deliberate fixations"
+    },
+    {
+      "id": "coding",
+      "category": "activity",
+      "description": "Short rapid fixations and checking pauses"
+    },
+    {
+      "id": "checking",
+      "category": "activity",
+      "description": "Compare left and right then return to center"
+    },
+    {
+      "id": "waiting",
+      "category": "activity",
+      "description": "One patient glance then settle"
+    },
+    {
+      "id": "needs-input",
+      "category": "activity",
+      "description": "Questioning forehead eye and attentive hold"
+    },
+    {
+      "id": "complete",
+      "category": "activity",
+      "description": "Starburst acknowledgement then visual rest"
+    },
+    {
+      "id": "error",
+      "category": "activity",
+      "description": "Concerned eye shake then attentive recovery"
+    },
+    {
+      "id": "sleeping",
+      "category": "activity",
+      "description": "All three eyes close; no speaking"
+    },
+    {
+      "id": "offline",
+      "category": "condition",
+      "description": "Quiet lowered stars with an offline label"
+    },
+    {
+      "id": "reconnecting",
+      "category": "condition",
+      "description": "Measured connection scan"
+    },
+    {
+      "id": "awaiting-approval",
+      "category": "condition",
+      "description": "Patient direct gaze with explicit approval label"
+    },
+    {
+      "id": "permission-denied",
+      "category": "condition",
+      "description": "Concerned reusable pose with access-needed label"
+    },
+    {
+      "id": "paused",
+      "category": "condition",
+      "description": "Still attentive pose"
+    },
+    {
+      "id": "cancelled",
+      "category": "condition",
+      "description": "Quiet rest with stopped label, no celebration"
+    },
+    {
+      "id": "partial",
+      "category": "condition",
+      "description": "Concerned asymmetry with partial-result label"
     }
   ],
   "limitations": [
@@ -102,5 +202,33 @@
     "Not a rigged 3D model.",
     "Final hardware fit and performance are unverified."
   ],
-  "source": "../../studies/oracle.fragment.html"
+  "source": "../../studies/oracle.fragment.html",
+  "expressionLayer": [
+    "auto",
+    "neutral",
+    "happy",
+    "curious",
+    "surprised",
+    "confused",
+    "concerned",
+    "playful",
+    "delighted",
+    "sleepy",
+    "annoyed",
+    "sad"
+  ],
+  "aliases": {
+    "idle": "resting",
+    "waking": "starting",
+    "searching": "researching",
+    "answering": "speaking",
+    "success": "complete",
+    "approval": "awaiting-approval"
+  },
+  "transitions": {
+    "emotionalReaction": "2.8 second overlay; returns to current activity",
+    "interrupt": "setMode cancels any reaction immediately",
+    "complete": "single acknowledgement, then rests while Complete label persists",
+    "reducedMotion": "pauses on preference activation; manual Play is available"
+  }
 }

@@ -23,6 +23,8 @@
         </optgroup>
       </select>
     </label>
+    <label class="form-label">Emotion<select class="form-select" id="oracle-emotion" aria-label="Emotion"></select></label>
+    <button class="btn" id="oracle-react" type="button">Play expression</button>
     <button class="btn" id="oracle-pause" type="button">Pause</button>
     <button class="btn" id="oracle-next" type="button">Next state</button>
     <button class="btn" id="oracle-blink" type="button">Blink</button>
@@ -71,21 +73,61 @@
     time:{label:'Time · live clock in the forehead eye',open:[1,1,1],lid:[0,0,0],tilt:[0,0,0],smile:0,asym:0,width:1,gap:0,glyph:0,size:.34,shimmer:.45,speed:.85,brightness:.95,gaze:[0,0]},
     alarm:{label:'Alarm · bright starbursts and an alert expression',open:[1.22,1.23,1.23],lid:[0,0,0],tilt:[0,.04,-.04],smile:-4,asym:0,width:.84,gap:30,glyph:6,size:.67,shimmer:.75,speed:1.35,brightness:1.08,gaze:[0,0]}
   };
+  const make=(base,label,values={})=>({...presets[base],...values,label});
+  Object.assign(presets,{
+    confused:make('curious','Confused · questioning eyes and reconsidering lips',{lid:[.12,.35,.02],tilt:[.12,.13,-.06],smile:-10,asym:19,glyph:4,size:.3}),
+    concerned:make('sad','Concerned · soft eye contact and reassurance',{open:[1.1,1.08,1.08],lid:[.08,.13,.13],smile:-14,gaze:[0,0],brightness:.93}),
+    playful:make('happy','Playful · a crooked smile and a deliberate wink',{asym:16,tilt:[.04,-.10,.08],size:.4})
+  });
+  Object.assign(presets,{
+    starting:make('resting','Starting · eyelids open, then find you',{size:.28,shimmer:.3}),
+    researching:make('thinking','Researching · reading sweeps and line resets',{lid:[0,.12,.12],asym:4,glyph:3,size:.43}),
+    working:make('focus','Working · precise downward focus',{gaze:[0,.14],lid:[.1,.23,.23],asym:6}),
+    coding:make('focus','Writing code · short fixations and checking pauses',{gaze:[0,.15],lid:[.04,.3,.3],size:.3}),
+    checking:make('focus','Checking · compare left, compare right, then center',{open:[1.06,1.12,1.12],lid:[0,.07,.07],glyph:5,size:.33}),
+    waiting:make('resting','Waiting for a result · available and patient',{shimmer:.16,speed:.35,smile:3,size:.28}),
+    'needs-input':make('curious','Needs your input · one invitation, then an attentive hold',{shimmer:.18,speed:.45,smile:5,asym:9,glyph:5,size:.35}),
+    complete:make('happy','Complete · brief acknowledgement, then rest',{glyph:6,size:.57,shimmer:.62}),
+    error:make('concerned','Something went wrong · ready for a retry',{tilt:[0,.12,-.12],asym:0,glyph:4,size:.28,smile:-19}),
+    sleeping:make('sleepy','Sleeping · closed eyes and quiet stars',{lid:[1,1,1],shimmer:0,brightness:.3,speed:0,gap:0}),
+    offline:make('concerned','Offline · reconnect or continue locally',{lid:[.18,.28,.28],gaze:[0,.08],brightness:.7,shimmer:.1,size:.25}),
+    reconnecting:make('listening','Reconnecting · checking the connection',{glyph:3,size:.32,shimmer:.3,speed:.7}),
+    'awaiting-approval':make('curious','Approval needed · waiting for your decision',{gaze:[0,0],smile:1,asym:8,shimmer:.15,size:.32}),
+    'permission-denied':make('concerned','Access needed · change permission or choose another method',{glyph:4,smile:-8,shimmer:.12,size:.29}),
+    paused:make('resting','Paused · ready when you resume',{shimmer:0,speed:0,smile:2,size:.31}),
+    cancelled:make('resting','Stopped · completed work is kept',{shimmer:.08,speed:.2,smile:0,gaze:[0,.04],size:.25}),
+    partial:make('concerned','Partly done · review results or retry the rest',{smile:2,asym:7,glyph:5,size:.32,shimmer:.16})
+  });
+  const emotionIds=['resting','happy','curious','surprised','confused','concerned','playful','delighted','sleepy','annoyed','sad'];
+  const emotionControl=root.querySelector('#oracle-emotion');
+  emotionControl.innerHTML='<option value="auto">Match activity</option><option value="neutral">Neutral</option>'+emotionIds.filter(id=>id!=='resting').map(id=>`<option value="${id}">${id[0].toUpperCase()+id.slice(1)}</option>`).join('');
+  const extraGroup=document.createElement('optgroup');extraGroup.label='Assistant activities and conditions';
+  Object.keys(presets).filter(id=>!modeControl.querySelector(`option[value="${id}"]`)).forEach(id=>{const option=document.createElement('option');option.value=id;option.textContent=presets[id].label.split(' · ')[0];extraGroup.append(option);});modeControl.append(extraGroup);
+  const aliases={idle:'resting',waking:'starting',searching:'researching',answering:'speaking',success:'complete',approval:'awaiting-approval'};
   const order=Object.keys(presets);
   const allowed=['demo',...order];
   const saved=window.openai?.widgetState?.modelContent;
   const savedUI=window.openai?.widgetState?.privateContent;
   let mode=allowed.includes(saved?.mode)?saved.mode:'demo';
   let paused=reduce.matches||savedUI?.paused===true,ready=false,time=0,last=0,blinkStart=-100,timeFade=0,speechFade=0;
-  let renderedState='',dirty=true,active='resting',demoOffset=0;
+  let renderedState='',dirty=true,active='resting',demoOffset=0,stateSince=0,reaction=null,lastReduced=reduce.matches;
+  let emotion=['auto','neutral',...emotionIds].includes(saved?.emotion)?saved.emotion:'auto';
+  emotionControl.value=emotion;
   const pose=JSON.parse(JSON.stringify(presets.resting));
   let glyphFrom=0,glyphTo=0,glyphBlend=1;
   modeControl.value=mode;
   pauseButton.textContent=paused?'Play':'Pause';
-  const save=()=>{const result=window.openai?.setWidgetState?.({modelContent:{mode,version:2},privateContent:{paused}});result?.catch?.(()=>{});};
-  modeControl.onchange=()=>{mode=modeControl.value;dirty=true;save();};
-  nextButton.onclick=()=>{mode=order[(order.indexOf(active)+1)%order.length];modeControl.value=mode;dirty=true;save();};
-  pauseButton.onclick=()=>{paused=!paused;pauseButton.textContent=paused?'Play':'Pause';save();};
+  const save=()=>{const result=window.openai?.setWidgetState?.({modelContent:{mode,emotion,version:3},privateContent:{paused}});result?.catch?.(()=>{});};
+  let draw=()=>{};
+  function setMode(next){next=Object.hasOwn(aliases,next)?aliases[next]:next;if(!allowed.includes(next))return;mode=next;modeControl.value=mode;time=0;stateSince=0;reaction=null;renderedState='';dirty=true;save();if(ready)draw(1);}
+  function setEmotion(next){if(!['auto','neutral',...emotionIds].includes(next))return;emotion=next;emotionControl.value=next;dirty=true;save();if(ready)draw(1);}
+  function setPaused(value){paused=!!value;pauseButton.textContent=paused?'Play':'Pause';save();}
+  function react(next){const id=next==='neutral'?'resting':next;if(!emotionIds.includes(id))return;reaction={id,at:time};dirty=true;if(ready)draw(1);}
+  modeControl.onchange=()=>setMode(modeControl.value);
+  emotionControl.onchange=()=>setEmotion(emotionControl.value);
+  root.querySelector('#oracle-react').onclick=()=>{react(emotion==='auto'?'happy':emotion);setPaused(false);};
+  nextButton.onclick=()=>setMode(order[(order.indexOf(active)+1)%order.length]);
+  pauseButton.onclick=()=>setPaused(!paused);
   blinkButton.onclick=()=>{blinkStart=performance.now()/1000;};
   let gl;
   function fail(message){error.hidden=false;error.textContent=message;}
@@ -263,17 +305,40 @@
     photo.onload=()=>{gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,photo);ready=true;};
     photo.onerror=()=>fail('The statue image could not load.');
     const pulse=(elapsed,duration)=>elapsed>=0&&elapsed<duration?Math.pow(Math.sin(Math.PI*elapsed/duration),1.45):0;
-    function draw(dt){
+    draw=(dt)=>{
       active=mode==='demo'?order[(Math.floor(time/4.8)+demoOffset)%order.length]:mode;
-      const target=presets[active];
+      if(active!==renderedState)stateSince=time;
+      const age=Math.max(0,time-stateSince);
+      let target=JSON.parse(JSON.stringify(presets[active]));
+      const entry=Math.max(0,Math.sin(Math.min(1,age/2)*Math.PI));
+      if(active==='starting'){target.lid=[Math.max(0,1-age/1.1),Math.max(0,1-(age-.18)/1.2),Math.max(0,1-(age-.3)/1.2)];target.gaze=[0,.18*Math.max(0,1-age/1.5)];}
+      if(active==='researching'){const row=(age%3)/3;target.gaze=[-.24+.48*(row*3%1),-.08+.10*Math.floor(row*3)];target.asym=8*Math.sin(age*2);}
+      if(active==='working'||active==='coding'){const coding=active==='coding',step=Math.floor(age*(coding?3.2:1.4));target.gaze=[Math.sin(step*2.1)*.13,.16+.025*Math.sin(age*2)];target.lid[0]+=.10*Math.pow(Math.max(0,Math.sin(age*2.5)),5);target.asym+=Math.sin(age*(coding?5:2))*(coding?5:2);}
+      if(active==='checking'){target.gaze=[Math.sin(Math.floor(age*1.3)*Math.PI/2)*.22,-.035];target.open[1]+=.06*Math.sin(age*3);target.open[2]-=.06*Math.sin(age*3);}
+      if(active==='waiting'){target.gaze=[.12*entry,0];target.lid=target.lid.map(v=>v+.12*entry);}
+      if(['needs-input','awaiting-approval'].includes(active)){target.tilt[0]+=.10*entry;target.gaze=[.1*entry,-.03];target.open[0]+=.13*entry;}
+      if(active==='complete'){target.size+=.14*entry;target.smile+=10*entry;if(age>2.8)target={...JSON.parse(JSON.stringify(presets.resting)),label:presets.complete.label};}
+      if(active==='error'){target.gaze=[Math.sin(age*10)*.14*entry,0];target.open=target.open.map(v=>v+.10*entry);}
+      if(active==='reconnecting'){target.gaze=[Math.sin(age*1.8)*.14,Math.cos(age*1.8)*.04];}
+      if(reaction&&time-reaction.at>2.8)reaction=null;
+      const selected=reaction?.id||(emotion==='auto'?null:emotion==='neutral'?'resting':emotion);
+      if(selected&&active!=='sleeping'){
+        const expression=presets[selected];const weight=reaction?Math.sin(Math.min(1,(time-reaction.at)/2.8)*Math.PI):.72;
+        for(const key of ['smile','asym','width','gap'])target[key]+=(expression[key]-target[key])*weight;
+        for(const key of ['open','lid','tilt'])target[key]=target[key].map((v,i)=>v+(expression[key][i]-v)*weight);
+        if(weight>.35&&active!=='alarm'&&active!=='time'){target.glyph=expression.glyph;target.size+=(expression.size-target.size)*weight;}
+      }
+      if((selected==='playful'||active==='playful')&&active!=='sleeping')target.lid[2]=Math.max(target.lid[2],pulse(time%4-.5,.8));
+      if(active==='sleeping'){target.lid=[1,1,1];target.gap=0;}
+      const targetLabel=presets[active].label+(selected?' · '+selected:'');
       const easing=dirty&&paused?1:1.-Math.exp(-dt*5.5);
-      if(active!==renderedState){
-        status.textContent=target.label;
-        if(target.glyph!==glyphTo){glyphFrom=glyphBlend<.5?glyphFrom:glyphTo;glyphTo=target.glyph;glyphBlend=0;}
+      if(dirty||active!==renderedState||status.textContent!==targetLabel){
+        status.textContent=targetLabel;
         renderedState=active;
       }
       for(const key of ['smile','asym','width','gap','size','shimmer','speed','brightness'])pose[key]+=(target[key]-pose[key])*easing;
       for(const key of ['open','lid','tilt','gaze'])for(let i=0;i<pose[key].length;i++)pose[key][i]+=(target[key][i]-pose[key][i])*easing;
+      if(target.glyph!==glyphTo){glyphFrom=glyphBlend<.5?glyphFrom:glyphTo;glyphTo=target.glyph;glyphBlend=0;}
       glyphBlend+=(1-glyphBlend)*easing;
       timeFade+=(Number(active==='time')-timeFade)*easing;
       speechFade+=(Number(active==='speaking')-speechFade)*easing;
@@ -305,14 +370,15 @@
     }
     function frame(now){
       const dt=Math.min((now-last)/1000||0,.1);last=now;
+      if(reduce.matches!==lastReduced){lastReduced=reduce.matches;if(lastReduced)setPaused(true);}
       if(!paused&&!document.hidden)time+=dt;
       if(ready&&!document.hidden&&(!paused||dirty||now/1000-blinkStart<.6))draw(paused?0:dt);
       requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
-    window.oraclePreview={seek:(seconds)=>{time=seconds;dirty=true;draw(1);},getState:()=>({mode,active,paused,time,ready,timeFade,speechFade,glyphFrom,glyphTo,glyphBlend,pose}),capture:()=>canvas.toDataURL('image/png')};
+    window.oraclePreview={setMode,setEmotion,setPaused,react,seek:(seconds)=>{time=seconds;stateSince=0;renderedState=mode==='demo'?renderedState:mode;dirty=true;draw(1);},getState:()=>({mode,active,emotion,reaction:reaction?.id||null,paused,time,ready,timeFade,speechFade,glyphFrom,glyphTo,glyphBlend,pose}),capture:()=>canvas.toDataURL('image/png')};
     addEventListener('openai:set_globals',event=>{const next=event.detail?.globals?.widgetState?.modelContent?.mode;if(allowed.includes(next)){mode=next;modeControl.value=mode;dirty=true;}});
-    reduce.addEventListener('change',event=>{if(event.matches){paused=true;pauseButton.textContent='Play';}});
+    reduce.addEventListener('change',event=>{lastReduced=event.matches;if(event.matches)setPaused(true);});
   }catch(e){fail(e.message);}
 })();
 </script>

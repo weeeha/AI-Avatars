@@ -1,0 +1,136 @@
+{
+  "fileChecksPassed": true,
+  "browserVerification": "Blocked: browser admin policy check unavailable; no alternate browser access attempted.",
+  "clips": [
+    {
+      "id": "happy",
+      "duration": 3.2,
+      "size": [
+        512,
+        512
+      ],
+      "fps": "25/1",
+      "changedPixels": 30554,
+      "meanPixelChange": 8.09,
+      "loopSeamMeanError": 1.17,
+      "maxCircularExtent": 0.851,
+      "gifFrames": 80
+    },
+    {
+      "id": "curious",
+      "duration": 3.6,
+      "size": [
+        512,
+        512
+      ],
+      "fps": "25/1",
+      "changedPixels": 98030,
+      "meanPixelChange": 38.977,
+      "loopSeamMeanError": 1.269,
+      "maxCircularExtent": 0.898,
+      "gifFrames": 90
+    },
+    {
+      "id": "surprised",
+      "duration": 3.0,
+      "size": [
+        512,
+        512
+      ],
+      "fps": "25/1",
+      "changedPixels": 47911,
+      "meanPixelChange": 13.335,
+      "loopSeamMeanError": 1.147,
+      "maxCircularExtent": 0.884,
+      "gifFrames": 75
+    },
+    {
+      "id": "confused",
+      "duration": 3.6,
+      "size": [
+        512,
+        512
+      ],
+      "fps": "25/1",
+      "changedPixels": 84070,
+      "meanPixelChange": 32.305,
+      "loopSeamMeanError": 1.121,
+      "maxCircularExtent": 0.863,
+      "gifFrames": 90
+    },
+    {
+      "id": "concerned",
+      "duration": 3.8,
+      "size": [
+        512,
+        512
+      ],
+      "fps": "25/1",
+      "changedPixels": 43741,
+      "meanPixelChange": 11.949,
+      "loopSeamMeanError": 1.176,
+      "maxCircularExtent": 0.893,
+      "gifFrames": 95
+    },
+    {
+      "id": "frustrated",
+      "duration": 3.4,
+      "size": [
+        512,
+        512
+      ],
+      "fps": "25/1",
+      "changedPixels": 41074,
+      "meanPixelChange": 10.615,
+      "loopSeamMeanError": 1.207,
+      "maxCircularExtent": 0.894,
+      "gifFrames": 85
+    },
+    {
+      "id": "playful",
+      "duration": 3.0,
+      "size": [
+        512,
+        512
+      ],
+      "fps": "25/1",
+      "changedPixels": 85194,
+      "meanPixelChange": 31.323,
+      "loopSeamMeanError": 1.176,
+      "maxCircularExtent": 0.864,
+      "gifFrames": 75
+    },
+    {
+      "id": "proud",
+      "duration": 3.6,
+      "size": [
+        512,
+        512
+      ],
+      "fps": "25/1",
+      "changedPixels": 106100,
+      "meanPixelChange": 42.703,
+      "loopSeamMeanError": 1.324,
+      "maxCircularExtent": 0.903,
+      "gifFrames": 90
+    },
+    {
+      "id": "relieved",
+      "duration": 4.0,
+      "size": [
+        512,
+        512
+      ],
+      "fps": "25/1",
+      "changedPixels": 61937,
+      "meanPixelChange": 18.654,
+      "loopSeamMeanError": 1.124,
+      "maxCircularExtent": 0.862,
+      "gifFrames": 100
+    }
+  ],
+  "galleryVideos": 12,
+  "defaultVisibleCards": 9,
+  "localReferences": 50,
+  "scope": "Pre-import media checks for these byte-identical clips. Imported gallery checked separately by npm run check."
+}
