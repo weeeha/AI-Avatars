@@ -4,6 +4,7 @@ const fs=require('node:fs/promises');
 const path=require('node:path');
 const data=require('../studies/shape-cast.states.json');
 module.exports=async(page,base)=>{
+  await require('./shape-lifecycle.cjs')(page,base);
   const out=path.join(__dirname,'../test-results/shape-cast'),evidence=path.join(__dirname,'evidence/shape-cast');await fs.mkdir(out,{recursive:true});await fs.mkdir(evidence,{recursive:true});
   await page.emulateMedia({reducedMotion:'no-preference'});
   await page.setViewportSize({width:1000,height:1100});
