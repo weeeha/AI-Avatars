@@ -2,6 +2,7 @@ const assert=require('node:assert/strict');
 const {createHash}=require('node:crypto');
 
 module.exports=async(page,origin)=>{
+  await page.emulateMedia({reducedMotion:'reduce'});
   const url=origin+'/characters/cinematic-faces/index.html';
   await page.goto(url);
   const root=page.locator('#superclock-cinematic-faces');

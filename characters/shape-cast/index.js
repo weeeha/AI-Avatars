@@ -44,13 +44,13 @@
     if(!byId(id)&&!variant(id))return false;if(byId(id)?.group==='emotion')return react(id);
     from=art();const previous=activity;activity=id;time=0;
     if(critical.has(id))expression=null;
-    if(!expression)blendTime=0;
+    if(!expression)blendTime=wantsPlay?0:1;
     if(id==='complete')durable='Complete · The demonstration result stays available after the celebration.';
     else if(id==='partial')durable='Partly done · Review completed output and retry the remaining work.';
     else if(id==='cancelled')durable='Stopped · Previously completed output is preserved. No success was reported.';
     if(previous!==id){details();announce();}return true;
   }
-  function react(id){if(!engine.durations[id]||id==='complete'||critical.has(activity))return false;from=art();expression=id;reactionTime=0;blendTime=0;details();announce();return true;}
+  function react(id){if(!engine.durations[id]||id==='complete'||critical.has(activity))return false;from=art();expression=id;reactionTime=0;blendTime=wantsPlay?0:1;details();announce();return true;}
   function updatePose(){
     $('shape-state').value=concept.id;$('shape-pose').alt=`${current.name}, ${concept.label}, static pose concept`;
     $('shape-pose').style.left=`${-concept.column*100}%`;$('shape-pose').style.top=`${-concept.row*100}%`;
@@ -73,7 +73,7 @@
     }catch(e){if(token===revision){$('shape-error').textContent=e.message;$('shape-error').hidden=false;pause();}}
   }
   function select(c,initial=false){
-    revision++;video.pause();current=c;time=0;reactionTime=0;blendTime=1;const folder=`animations/${c.id}/`;
+    revision++;video.pause();current=c;blendTime=1;const folder=`animations/${c.id}/`;
     $('shape-cast').style.setProperty('--accent',c.hex);$('shape-name').textContent=c.name;$('shape-color').textContent=c.color;$('shape-personality').textContent=c.personality;
     document.querySelectorAll('.shape-pick').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.character===c.id)));
     $('shape-error').hidden=!rendererError;if(rendererError)$('shape-error').textContent=rendererError;video.poster=folder+'poster.png';video.src=folder+'idle.mp4';video.setAttribute('aria-label',c.name+' original idle animation');video.load();
@@ -108,7 +108,7 @@
     syncReducedMotion();const dt=Math.min(.05,(now-last)/1000);last=now;
     if(wantsPlay&&mode==='animation'&&!document.hidden&&ready){time+=dt;reactionTime+=dt;blendTime+=dt;}
     const t=expression?reactionTime:time;
-    if(expression&&t>=engine.durations[expression]){expression=null;time=0;from=art();blendTime=1;details();}
+    if(expression&&t>=engine.durations[expression]){expression=null;from=art();blendTime=1;details();}
     else if(activity==='complete'&&time>=engine.durations.complete){activity='idle';time=0;blendTime=1;details();}
     if(ready&&mode==='animation'){
       lastPose=engine.pose(current.id,displayed(),expression?reactionTime:time,{still:!wantsPlay&&reduced.matches});
