@@ -16,8 +16,8 @@ Open **http://127.0.0.1:4173**. Node.js 20 or newer is required. The gallery has
 
 - **Dot flock:** a round sculpture of individually shaded blue dots, with clear gaps, curved eyelids, rounded irises, and dark pupils. Supports expressive motion, pointer disturbance, and scatter/reform.
 - **Red eye:** a red glass lens with blue reflections and an expressive luminous aperture. Both cinematic faces combine 10 activities, 10 emotions, and 6 temporary reactions. [Behavior guide](docs/cinematic-faces.md).
-- **Prismatic lenses — character states:** idle, listening, talking, thinking, writing code, and complete. Includes a demo sequence, playback speed, pause, and round/square display views.
-- **Ten motion ideas:** liquid core, twin moons, ribbon knot, hourglass, fireflies, radar sweep, helix, tide, bloom, and curious eyes.
+- **Prismatic lenses — character states:** twelve activities and seven independent expressions, with a simulated demo, exact-pose pause, playback speed, and round/square display views.
+- **Ten motion ideas:** liquid core, twin moons, ribbon knot, hourglass, fireflies, radar sweep, helix, tide, bloom, and curious eyes. Every design supports the same twelve activities and seven expressions in the parallel comparison view. [Lens behavior guide](docs/lens-states.md).
 - **Six palettes:** prismatic, pink, cyan, lilac, amber, and mint, shared across both studies.
 
 The procedural studies are original browser-rendered concepts based on supplied visual references. Open Skeleton uses locally assembled, generated keyframes with a stop-motion character. Talking uses simulated timing; the studies are not connected to live speech, a microphone, an agent, or physical hardware. Reduced-motion settings start the previews paused.
@@ -41,7 +41,7 @@ npx playwright install chromium
 npm test
 ```
 
-The smoke check loads both standalone studies, checks graphics initialization, state/palette switching, animation playback, local preference persistence, reduced motion, and narrow-screen layout. `npm run check` also confirms that generated files are current and have no machine-specific paths or conversation-host API calls.
+The smoke check verifies all 924 lens activity/expression combinations, actual rendered motion, held states, interruption, palette and playback controls, local preferences, live reduced motion, and narrow-screen layout, alongside the cinematic checks. `npm run check` also confirms that generated files are current and have no machine-specific paths or conversation-host API calls.
 
 ## Add characters
 
