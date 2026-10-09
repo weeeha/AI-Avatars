@@ -13,10 +13,10 @@ module.exports=async(page,origin)=>{
     assert.equal(await root.getAttribute('data-character'),character);
     assert.equal(await page.locator('#cinema-scatter-slot').isVisible(),character==='eidolon');
     const hashes=new Set();
-    for(const emotion of ['calm','happy','curious','focused','surprised','worried','sad','annoyed','playful','sleepy']){
+    for(const emotion of ['calm','happy','curious','focused','surprised','worried','sad','annoyed','playful','sleepy','confused']){
       await page.selectOption('#cinema-emotion',emotion);hashes.add(await hash());
     }
-    assert.equal(hashes.size,10,character+' emotions should render differently');
+    assert.equal(hashes.size,11,character+' emotions should render differently');
     for(const activity of ['idle','waking','listening','thinking','speaking','searching','remembering','success','error','sleeping']){
       await page.selectOption('#cinema-state',activity);assert.equal(await root.getAttribute('data-state'),activity);
     }

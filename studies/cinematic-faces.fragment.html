@@ -142,13 +142,18 @@ const characters = Object.freeze([
     characterSelect.add(new Option(character.name,character.id));
   }
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-  const modes = ['idle','waking','listening','thinking','speaking','searching','remembering','success','error','sleeping'];
+  const modes = ['idle','waking','listening','thinking','speaking','searching','remembering','success','error','sleeping','working','coding','checking','waiting','needs-input','offline','reconnecting','awaiting-approval','permission-denied','paused','cancelled','partial'];
   const settings = Object.fromEntries(characters.map(c=>[c.id,{glow:1,motion:1}]));
   const storageKey='ai-avatars:character-studio:v1';
   let activeCharacter=characters[0].id;
   const views = [...root.querySelectorAll('canvas')].map(canvas => ({canvas,ctx:canvas.getContext('2d'),face:canvas.dataset.face,section:canvas.closest('section')}));
-  const descriptions = {idle:'Idle',waking:'Waking up',listening:'Listening',thinking:'Thinking',speaking:'Speaking · simulated voice',searching:'Searching',remembering:'Remembering',success:'Got it!',error:'Something went wrong',sleeping:'Sleeping'};
-  const emotionNames={calm:'Calm',happy:'Happy',curious:'Curious',focused:'Focused',surprised:'Surprised',worried:'Worried',sad:'Sad',annoyed:'Annoyed',playful:'Playful',sleepy:'Sleepy'};
+  const descriptions = {idle:'Idle',waking:'Waking up',listening:'Listening',thinking:'Thinking',speaking:'Speaking · simulated voice',searching:'Searching',remembering:'Remembering',success:'Got it!',error:'Something went wrong',sleeping:'Sleeping',working:'Working',coding:'Writing code',checking:'Checking',waiting:'Waiting',
+    'needs-input':'Needs your input',offline:'Offline · check connection',reconnecting:'Reconnecting',
+    'awaiting-approval':'Waiting for your approval','permission-denied':'Access needed · change permission or choose another method',
+    paused:'Task paused · resume when ready',cancelled:'Cancelled · ready for another task',partial:'Partly done · review results or retry the rest'};
+  const emotionNames={calm:'Calm',happy:'Happy',curious:'Curious',focused:'Focused',surprised:'Surprised',worried:'Worried',sad:'Sad',annoyed:'Annoyed',playful:'Playful',sleepy:'Sleepy',confused:'Confused'};
+  for(const key of modes)if(![...stateSelect.options].some(o=>o.value===key))stateSelect.add(new Option(descriptions[key],key));
+  emotionSelect.add(new Option('Confused','confused'));
   const reactionNames={nod:'Nod yes',shake:'Shake no',wink:'Wink',laugh:'Laugh',surprise:'Startled',celebrate:'Celebrate'};
   const neutral={smile:0,open:0,width:1,eyes:1,lift:0,brow:0,tilt:0,energy:1,wink:0,asym:0};
   const emotions={
@@ -161,7 +166,8 @@ const characters = Object.freeze([
     sad:{...neutral,smile:-.16,eyes:.58,brow:-.11,tilt:-.07,energy:.49},
     annoyed:{...neutral,smile:-.06,eyes:.38,brow:.13,lift:-.025,energy:.76},
     playful:{...neutral,smile:.16,eyes:.76,lift:.055,tilt:.09,energy:1.28,wink:.76,asym:.35},
-    sleepy:{...neutral,eyes:.13,open:.02,tilt:-.06,energy:.24}
+    sleepy:{...neutral,eyes:.13,open:.02,tilt:-.06,energy:.24},
+    confused:{...neutral,eyes:1.08,smile:-.025,width:.92,brow:-.045,tilt:-.14,energy:.72,asym:.85}
   };
   const mix = Object.fromEntries(modes.map(s=>[s,s==='idle'?1:0]));
   let emotion='happy',reaction=null,reactionAt=-100,demoSaved=null;
@@ -170,7 +176,7 @@ const characters = Object.freeze([
   const pointer = {x:0,y:0,tx:0,ty:0,active:false};
   const TAU = Math.PI*2;
   let mode='idle', playing=!reduce.matches, visible=true, time=0, previous=0, raf=0;
-  let demoStart=null, wake=0, voice=0, scatterAt=-100;
+  let demoStart=null, wake=0, voice=0, scatterAt=-100,stateSince=0;
   let seed=1703;
   const random=()=>{ seed=(seed*1664525+1013904223)>>>0;return seed/4294967296; };
   const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
@@ -178,16 +184,35 @@ const characters = Object.freeze([
   const G=(x,y,cx,cy,sx,sy)=>Math.exp(-(((x-cx)/sx)**2+((y-cy)/sy)**2));
   function expression(t){
     const e={...mood,yaw:0,pitch:0,bounce:0,celebrate:0,recoil:0};
+    const age=Math.max(0,t-stateSince),ack=1-smooth(1.4,2.8,age);
+    const invitation=age<1.8?Math.sin(age/1.8*Math.PI):0;
+    e.eyes*=1-mix.waking*(1-smooth(0,1.5,age))*.98;
+    e.energy*=1-(mix.waiting+mix.paused+mix.cancelled)*.68;
+    e.energy*=1-mix.offline*.83;
+    e.eyes*=1-(mix.working*.22+mix.coding*.32);
+    e.pitch+=mix.working*(.07+Math.sin(t*4)*.008)+mix.coding*.10;
+    e.yaw+=mix.working*[-.07,0,.07][Math.floor(age*2)%3];
+    e.yaw+=mix.coding*(-.12+(age*.6%1)*.24);
+    e.yaw+=mix.checking*[-.17,.17,0][Math.floor(age/1.1)%3];
+    e.lift+=mix.checking*.04;
+    e.pitch-=(mix['needs-input']+mix['awaiting-approval'])*invitation*.08;
+    e.lift+=(mix['needs-input']+mix['awaiting-approval'])*(.045+invitation*.04);
+    e.energy*=1-(mix['needs-input']+mix['awaiting-approval'])*.45;
+    e.yaw+=mix.reconnecting*Math.sin(age*1.6)*.12;
+    e.smile-=(mix['permission-denied']+mix.partial)*.07;
+    e.brow-=(mix['permission-denied']+mix.partial)*.07;
+    e.tilt+=mix.partial*.045-mix['permission-denied']*.035;
+    e.pitch+=mix.offline*.075;
     e.wink=mood.wink*Math.pow(Math.max(0,Math.sin(t*1.4)),12);
-    e.smile+=mix.success*.15-mix.error*.09;
+    e.smile+=mix.success*.15*ack-mix.error*.09;
     e.brow-=mix.error*.06;
     e.lift+=mix.remembering*.065+mix.waking*.04;
     e.eyes*=1-mix.sleeping*.97;
     e.energy*=1-mix.sleeping*.94;
     e.pitch+=mix.sleeping*.13-mix.remembering*.06;
     e.yaw+=mix.searching*Math.sin(t*1.5)*.24;
-    e.yaw+=mix.error*Math.sin(t*10)*Math.pow(Math.max(0,Math.sin(t*1.1)),8)*.10;
-    e.celebrate=mix.success*(.18+.25*Math.max(0,Math.sin(t*2.1)));
+    e.yaw+=mix.error*Math.sin(age*10)*Math.max(0,Math.sin(Math.min(1,age/1.8)*Math.PI))*.10;
+    e.celebrate=mix.success*(.18+.25*Math.max(0,Math.sin(age*2.1)))*ack;
     if(reaction){
       const age=Math.max(0,t-reactionAt),u=clamp(age/durations[reaction]);
       const w=smooth(0,.12,u)*(1-smooth(.70,1,u)),bell=Math.sin(u*Math.PI);
@@ -244,7 +269,8 @@ const characters = Object.freeze([
     }
     sync();persist();draw();request();
   }
-  function setMode(value){mode=value;sync();}
+  const aliases={starting:'waking',researching:'searching',answering:'speaking',complete:'success',approval:'awaiting-approval'};
+  function setMode(value){value=aliases[value]||value;if(!modes.includes(value))return;mode=value;stateSince=time;reaction=null;sync();}
   characterSelect.addEventListener('change',()=>{
     activeCharacter=characterSelect.value;
     pointer.active=false;pointer.x=pointer.y=pointer.tx=pointer.ty=0;
@@ -258,7 +284,7 @@ const characters = Object.freeze([
     });
   }
   function triggerReaction(value,persistChoice=true){
-    reaction=value;reactionAt=time;playing=true;sync();
+    if(!Object.hasOwn(durations,value))return;reaction=value;reactionAt=time;playing=true;sync();
     if(persistChoice)persist();request();
   }
   function startConversation(){
@@ -270,7 +296,7 @@ const characters = Object.freeze([
     if(demoSaved){mode=demoSaved.mode;emotion=demoSaved.emotion;}else mode='idle';
     demoSaved=null;sync();persist();draw();
   }
-  stateSelect.addEventListener('change',()=>{demoStart=null;demoSaved=null;reaction=null;mode=stateSelect.value;previewSelection();});
+  stateSelect.addEventListener('change',()=>{demoStart=null;demoSaved=null;reaction=null;setMode(stateSelect.value);previewSelection();});
   emotionSelect.addEventListener('change',()=>{demoStart=null;demoSaved=null;reaction=null;emotion=emotionSelect.value;previewSelection();});
   reactionSelect.addEventListener('change',persist);
   reactionButton.addEventListener('click',()=>{demoStart=null;demoSaved=null;triggerReaction(reactionSelect.value);});
@@ -671,8 +697,10 @@ const characters = Object.freeze([
       renderers[characters.find(c=>c.id===v.face).renderer](v,time);
     }
   }
+  let previousReduce=reduce.matches;
   function frame(now){
     raf=0;
+    if(reduce.matches!==previousReduce){previousReduce=reduce.matches;if(previousReduce){playing=false;demoStart=null;reaction=null;sync();persist();}}
     const step=previous?(now-previous)/1000:.016;
     const dt=Math.min(step,.1);previous=now;
     if(playing&&visible){
@@ -709,6 +737,15 @@ const characters = Object.freeze([
   Object.assign(mood,emotions[emotion]);
   for(const s of modes)mix[s]=s===mode?1:0;
   for(let i=0;i<24;i++)flockStep(.025,time);
+  window.cinematicPreview={
+    setMode(value){demoStart=null;demoSaved=null;setMode(value);previewSelection();},
+    setEmotion(value){value=({neutral:'calm',concerned:'worried'})[value]||value;if(Object.hasOwn(emotions,value)){emotion=value;previewSelection();}},
+    setPaused(value){playing=!value;previous=0;sync();persist();request();},
+    react:triggerReaction,
+    seek(seconds){time=seconds;stateSince=0;if(reaction&&time-reactionAt>=durations[reaction])reaction=null;for(const s of modes)mix[s]=Number(s===mode);Object.assign(mood,emotions[emotion]);for(let i=0;i<24;i++)flockStep(.025,time);sync();draw();},
+    getState(){return{mode,emotion,reaction,playing,time,character:activeCharacter,pose:expression(time)};},
+    capture(){return views.find(v=>v.face===activeCharacter).canvas.toDataURL('image/png');}
+  };
   sync();draw();request();
 })();
 
