@@ -47,7 +47,7 @@
     return p;
   }
   function mount({root,variants,render,extraControls=''}) {
-    let selected=0, state='idle', emotion='neutral', condition='normal', age=0,time=0, frame=0, previous=0, raf=0, transition=1, from=null, reactionAge=2, demo=false,demoAge=0;
+    let selected=0, state='idle', emotion='neutral', condition='normal', age=0,time=0,materialTime=0, frame=0, previous=0, raf=0, transition=1, from=null, reactionAge=2, demo=false,demoAge=0;
     const media=matchMedia('(prefers-reduced-motion: reduce)'); let paused=media.matches;
     let extra={shell:false,showTime:false,palette:'violet'};
     const key='abstract-performance:'+root.id;
@@ -60,31 +60,32 @@
     function sync(){q('[data-character]').value=variants[selected].id;q('[data-activity]').value=state;q('[data-emotion]').value=emotion;q('[data-condition]').value=condition;q('[data-play]').textContent=paused?'Play motion':'Pause motion';q('[data-play]').setAttribute('aria-pressed',String(paused));q('[data-demo]').textContent=demo?'Stop demo':'Play demo';q('[data-react]').disabled=protectedStates.has(state);q('[data-status]').textContent=`${variants[selected].name} · ${activities[state]} · ${emotions[emotion]}. ${descriptions[state]}.${condition!=='normal'?' '+conditions[condition].label+'.':''}${media.matches?' Reduced motion: still pose.':paused?' Motion paused.':''}`;if(q('[data-shell]'))q('[data-shell]').checked=extra.shell;if(q('[data-time]'))q('[data-time]').checked=extra.showTime;if(q('[data-palette]'))q('[data-palette]').value=extra.palette;}
     function draw(){
       const target=poseFor(state,emotion,media.matches?Math.max(age,2.4):age,selected);
-      const blend=smooth(transition);pose={};for(const k of Object.keys(target))pose[k]=from?mix(from[k],target[k],blend):target[k];
+      const blend=smooth(transition);pose={};for(const k of Object.keys(target))if(k!=='clock')pose[k]=from?mix(from[k],target[k],blend):target[k];pose.clock=materialTime;
       if(reactionAge<1&&!protectedStates.has(state)){pose.y+=Math.sin(reactionAge*Math.PI*2)*.06*(1-reactionAge);pose.aperture*=1-.3*Math.sin(reactionAge*Math.PI);}
       render({variant:variants[selected],index:selected,state,emotion,pose,time:pose.clock,age:settledStates.has(state)?Math.min(media.matches?2.4:age,2.4):age,extra});
       const canvas=root.querySelector('canvas:not([hidden])');if(canvas){canvas.dataset.ready='true';canvas.dataset.state=state;canvas.dataset.renderedEmotion=emotion;canvas.dataset.frame=String(frame);canvas.setAttribute('aria-label',`${variants[selected].name}. ${activities[state]}. ${emotions[emotion]}. ${descriptions[state]}.`);}
     }
     function setState(value,keepDemo=false){if(!activities[value])return;from={...pose};state=value;age=paused||media.matches?2.4:0;transition=paused||media.matches?1:0;reactionAge=2;if(!keepDemo){demo=false;condition='normal';}sync();draw();persist();}
-    function advance(dt){if(paused||document.hidden)return;time+=dt;age+=dt;frame++;transition=Math.min(1,transition+dt/.45);reactionAge+=dt;
+    function advance(dt){if(paused||document.hidden)return;const oldAge=age;time+=dt;age+=dt;materialTime+=settledStates.has(state)?Math.max(0,Math.min(age,2.4)-Math.min(oldAge,2.4)):dt;frame++;transition=Math.min(1,transition+dt/.45);reactionAge+=dt;
       if(demo){demoAge+=dt;if(demoAge>=3){demoAge=0;const order=['starting','listening','thinking','researching','working','answering','waiting','needs-input','complete','idle'];const at=order.indexOf(state);if(at===order.length-1)demo=false;else setState(order[at+1]||'starting',true);sync();}}
       draw();
     }
     function tick(now){raf=0;if(media.matches&&!paused){from=null;transition=1;reactionAge=2;setPaused(true);return;}if(!paused&&!document.hidden){const dt=previous?Math.min((now-previous)/1000,.08):0;previous=now;advance(dt);raf=requestAnimationFrame(tick);}else previous=0;}
     function run(){if(!raf&&!paused&&!document.hidden)raf=requestAnimationFrame(tick);}
     function setPaused(value){paused=Boolean(value)||media.matches;previous=0;if(paused){cancelAnimationFrame(raf);raf=0;demo=false;}sync();draw();run();}
-    q('[data-character]').addEventListener('change',e=>{selected=variants.findIndex(v=>v.id===e.target.value);from=null;age=0;transition=1;sync();draw();persist();});
+    q('[data-character]').addEventListener('change',e=>{selected=variants.findIndex(v=>v.id===e.target.value);from=null;age=paused||media.matches?2.4:0;transition=1;reactionAge=2;sync();draw();persist();});
     q('[data-activity]').addEventListener('change',e=>setState(e.target.value));
     function setEmotion(value){if(!emotions[value])return;from={...pose};emotion=value;transition=paused||media.matches?1:0;sync();draw();persist();}
     q('[data-emotion]').addEventListener('change',e=>setEmotion(e.target.value));
     q('[data-condition]').addEventListener('change',e=>{const value=e.target.value;setState(conditions[value].state||'idle');condition=value;sync();});
     q('[data-play]').addEventListener('click',()=>setPaused(!paused));
-    q('[data-demo]').addEventListener('click',()=>{if(demo){demo=false;sync();}else if(!media.matches){paused=false;demo=true;demoAge=0;setState('starting',true);run();}});
+    q('[data-demo]').addEventListener('click',()=>{if(demo){demo=false;sync();}else if(!media.matches){paused=false;demo=true;demoAge=0;condition='normal';setState('starting',true);run();}});
     q('[data-react]').addEventListener('click',()=>{if(!protectedStates.has(state)){reactionAge=media.matches||paused?2:0;draw();}});
     q('[data-recover]').addEventListener('click',()=>setState('idle'));
     for(const [selector,key] of [['[data-shell]','shell'],['[data-time]','showTime'],['[data-palette]','palette']])q(selector)?.addEventListener('change',e=>{extra[key]=e.target.type==='checkbox'?e.target.checked:e.target.value;draw();persist();});
     media.addEventListener('change',()=>{if(media.matches){from=null;transition=1;reactionAge=2;setPaused(true);}else{sync();draw();}});
     document.addEventListener('visibilitychange',()=>{previous=0;if(document.hidden){cancelAnimationFrame(raf);raf=0;}else run();});
+    if(q('[data-time]')){const minuteTick=()=>{if(extra.showTime)draw();setTimeout(minuteTick,60025-Date.now()%60000);};setTimeout(minuteTick,60025-Date.now()%60000);}
     const api={getState:()=>({character:variants[selected].id,state,emotion,condition,paused,reducedMotion:media.matches,age,time,frame,transition,reaction:reactionAge<1,demo,pose:{...pose},extra:{...extra}}),setState,setEmotion,setPaused,advance,redraw:draw};
     window.abstractPreview=api;sync();draw();run();return api;
   }
