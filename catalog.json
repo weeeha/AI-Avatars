@@ -49,5 +49,13 @@
         "name": "Third Eye"
       }
     ]
+  },
+  {
+    "id": "open-skeleton",
+    "title": "Open Skeleton \u2014 emotions and activities",
+    "source": "studies/open-skeleton.fragment.html",
+    "output": "characters/open-skeleton/preview",
+    "rootId": "open-skeleton",
+    "manifest": "characters/open-skeleton/manifest.json"
   }
 ]

@@ -12,6 +12,7 @@ Open **http://127.0.0.1:4173**. Node.js 20 or newer is required. The gallery has
 
 ## Included studies
 
+- **Open Skeleton:** a round ivory mechanical face with nine emotional reactions plus idle, thinking, and answering. Includes 12 silent MP4/GIF clips, generated source artwork, and prompts. [Character pack](characters/open-skeleton/README.md).
 - **Fragment & Third Eye:** photographic eyes with detailed iris texture, separate pupil targets, coordinated or independent gaze, ten emotions, ten statuses, and six reactions. Includes real synthetic demo speech and local browser voices for custom text. [Behavior guide](docs/fragment-faces.md).
 - **Dot flock:** a round sculpture of individually shaded blue dots, with clear gaps, curved eyelids, rounded irises, and dark pupils. Supports expressive motion, pointer disturbance, and scatter/reform.
 - **Red eye:** a red glass lens with blue reflections and an expressive luminous aperture. Both cinematic faces combine 10 activities, 10 emotions, and 6 temporary reactions. [Behavior guide](docs/cinematic-faces.md).
@@ -19,7 +20,7 @@ Open **http://127.0.0.1:4173**. Node.js 20 or newer is required. The gallery has
 - **Ten motion ideas:** liquid core, twin moons, ribbon knot, hourglass, fireflies, radar sweep, helix, tide, bloom, and curious eyes.
 - **Six palettes:** prismatic, pink, cyan, lilac, amber, and mint, shared across both studies.
 
-These are original browser-rendered concepts based on supplied visual references. Fragment and Third Eye include synthetic voice playback; their demo mouth motion follows audio amplitude and custom phrases use approximate speech timing. Other studies simulate talking. The studies are not connected to a microphone, an agent, or physical hardware. Reduced-motion settings start the previews paused.
+The procedural studies are original browser-rendered concepts based on supplied visual references. Open Skeleton uses locally assembled, generated keyframes with a stop-motion character. Fragment and Third Eye include synthetic voice playback; their demo mouth motion follows audio amplitude and custom phrases use approximate speech timing. Other studies simulate talking. The studies are not connected to a microphone, an agent, or physical hardware. Reduced-motion settings start the previews paused.
 
 ## Edit
 
