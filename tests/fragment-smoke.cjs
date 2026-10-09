@@ -92,7 +92,7 @@ module.exports=async function verifyFragmentFaces(page,origin){
     const captures = await page.evaluate(() => avatarPreview.capture());
     expressionHashes.push(captures.map(image => createHash('sha256').update(image).digest('hex')));
   }
-  for (let i = 0; i < 2; i++) assert.equal(new Set(expressionHashes.map(h => h[i])).size, 10, 'Each character must have ten distinct expressions');
+  for (let i = 0; i < 2; i++) assert.equal(new Set(expressionHashes.map(h => h[i])).size, 11, 'Each character must have eleven distinct expressions');
 
   await page.selectOption('#fragment-emotion', 'auto');
   const statuses = await page.locator('#fragment-mode option').evaluateAll(nodes => nodes.map(n => n.value));
@@ -176,7 +176,7 @@ module.exports=async function verifyFragmentFaces(page,origin){
   assert.equal(await page.locator('#fragment-error').textContent(), '');
   assert.deepEqual(errors, []); assert.deepEqual(networkErrors, []);
 
-  const report = { passed: true, gaze, gazeModes, distinctExpressions: 10, statuses: statuses.length - 1, reactions: 6, speech: { demoPlayback: true, mouthTracksAudio: true, pauseResume: true, stopAndEndRestoreState: true, customVoice }, mobileWidths: [360, 320], reducedMotion: true, preferenceRestoration: true, errors, networkErrors };
+  const report = { passed: true, gaze, gazeModes, distinctExpressions: 11, statuses: statuses.length - 1, reactions: 6, speech: { demoPlayback: true, mouthTracksAudio: true, pauseResume: true, stopAndEndRestoreState: true, customVoice }, mobileWidths: [360, 320], reducedMotion: true, preferenceRestoration: true, errors, networkErrors };
   await writeFile(new URL('verification.json', output), JSON.stringify(report, null, 2) + '\n');
   console.log(JSON.stringify(report, null, 2));
 };

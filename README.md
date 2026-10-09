@@ -13,7 +13,7 @@ Open **http://127.0.0.1:4173**. Node.js 20 or newer is required. The gallery has
 ## Included studies
 
 - **Open Skeleton:** a round ivory mechanical face with nine emotional reactions plus idle, thinking, and answering. Includes 12 silent MP4/GIF clips, generated source artwork, and prompts. [Character pack](characters/open-skeleton/README.md).
-- **Fragment & Third Eye:** photographic eyes with detailed iris texture, separate pupil targets, coordinated or independent gaze, ten emotions, ten statuses, and six reactions. Includes real synthetic demo speech and local browser voices for custom text. [Behavior guide](docs/fragment-faces.md).
+- **Fragment & Third Eye:** photographic eyes with detailed iris texture, separate pupil targets, coordinated or independent gaze, eleven emotions, twenty-two statuses, and six reactions. Includes real synthetic demo speech and local browser voices for custom text. [Behavior guide](docs/fragment-faces.md).
 - **Dot flock:** a round sculpture of individually shaded blue dots, with clear gaps, curved eyelids, rounded irises, and dark pupils. Supports expressive motion, pointer disturbance, and scatter/reform.
 - **Red eye:** a red glass lens with blue reflections and an expressive luminous aperture. Both cinematic faces combine 10 activities, 10 emotions, and 6 temporary reactions. [Behavior guide](docs/cinematic-faces.md).
 - **Prismatic lenses — character states:** idle, listening, talking, thinking, writing code, and complete. Includes a demo sequence, playback speed, pause, and round/square display views.

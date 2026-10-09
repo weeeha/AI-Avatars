@@ -297,7 +297,11 @@ function eyeTarget({ time, character, eye, mode, status, emotion, pointer, base 
   const statusInfo={
     idle:['Idle','neutral'],listening:['Listening','curious'],thinking:['Thinking','focused'],
     searching:['Searching','curious'],speaking:['Speaking','neutral'],done:['Done','happy'],
-    alert:['Reminder','surprised'],error:['Error','confused'],offline:['Offline','sad'],sleeping:['Sleeping','sleepy']
+    alert:['Reminder','surprised'],error:['Error','confused'],offline:['Offline','sad'],sleeping:['Sleeping','sleepy'],
+    starting:['Waking up','neutral'],working:['Working','focused'],coding:['Writing code','focused'],checking:['Checking','focused'],
+    waiting:['Waiting','neutral'],'needs-input':['Needs your input','curious'],reconnecting:['Reconnecting','neutral'],
+    'awaiting-approval':['Waiting for your approval','curious'],'permission-denied':['Access needed · change permission or choose another method','concerned'],
+    paused:['Task paused · resume when ready','neutral'],cancelled:['Cancelled · ready for another task','neutral'],partial:['Partly done · review results or retry the rest','concerned']
   };
   const expressions={
     neutral:{l:0,r:0,f:0,smile:0,width:1,asym:0,open:0,gx:0,gy:0,roll:0},
@@ -306,11 +310,15 @@ function eyeTarget({ time, character, eye, mode, status, emotion, pointer, base 
     playful:{l:.2,r:.4,f:.05,smile:1,width:1.04,asym:.75,open:3,gx:4,gy:-1,roll:-.03},
     skeptical:{l:.66,r:-.2,f:.32,smile:-.1,width:.92,asym:-.95,open:0,gx:7,gy:0,roll:.025},
     confused:{l:-.12,r:.47,f:.2,smile:-.35,width:.92,asym:.5,open:1,gx:0,gy:0,roll:-.035},
+    concerned:{l:.16,r:.19,f:.08,smile:-.7,width:.95,asym:.1,open:0,gx:0,gy:2,roll:-.015},
     sad:{l:.47,r:.5,f:.48,smile:-1.25,width:.96,asym:0,open:0,gx:0,gy:4,roll:0},
     surprised:{l:-.27,r:-.27,f:-.3,smile:0,width:.73,asym:0,open:28,gx:0,gy:0,roll:0},
     sleepy:{l:.78,r:.82,f:.72,smile:-.15,width:.96,asym:0,open:0,gx:0,gy:4,roll:.02},
     focused:{l:.36,r:.36,f:.08,smile:-.1,width:.93,asym:0,open:0,gx:0,gy:0,roll:0}
   };
+  const aliases={waking:'starting',researching:'searching',answering:'speaking',complete:'done',success:'done',approval:'awaiting-approval'};
+  for(const [key,info] of Object.entries(statusInfo))if(![...modeSelect.options].some(o=>o.value===key))modeSelect.add(new Option(info[0],key));
+  emotionSelect.add(new Option('Concerned','concerned'));
   const allowed=['demo',...Object.keys(statusInfo)];
   const emotionNames=['auto',...Object.keys(expressions)];
   const reactionInfo={wink:['Wink',1.7],'got-it':['Got it',2],no:['No',1.8],startled:['Surprise',2.2],laugh:['Laugh',2.8],blink:['Blink',.7]};
@@ -340,7 +348,8 @@ function eyeTarget({ time, character, eye, mode, status, emotion, pointer, base 
     window.openai?.setWidgetState?.({modelContent:{mode,emotion,gazeMode,faces:['Fragment','Third Eye']},privateContent:{paused}})?.catch(()=>{});
   }
   function sync(){gazeSelect.value=gazeMode;modeSelect.value=mode;emotionSelect.value=emotion;pauseButton.textContent=paused?'Play':'Pause';pauseButton.setAttribute('aria-pressed',String(paused));stopButton.disabled=!voiceSession;talkButton.textContent=voiceSession?'Restart speech':'Talk';}
-  modeSelect.onchange=()=>{const next=modeSelect.value;stopTalking();mode=next;stateSince=time;draw(paused?1:.04);save();};
+  function setMode(next){next=aliases[next]||next;if(!allowed.includes(next))return;stopTalking();mode=next;stateSince=time;reaction=null;sync();draw(paused?1:.04);save();}
+  modeSelect.onchange=()=>setMode(modeSelect.value);
   emotionSelect.onchange=()=>{emotion=emotionSelect.value;draw(paused?1:.04);save();};
   gazeSelect.onchange=()=>{gazeMode=gazeSelect.value;draw(paused?1:.04);save();};
   function setPaused(value){
@@ -459,7 +468,14 @@ function eyeTarget({ time, character, eye, mode, status, emotion, pointer, base 
     displayEmotion=emotion==='auto'?(mode==='demo'?demoState[1]:statusInfo[active][1]):emotion;
     if(reaction && time-reaction.start>reactionInfo[reaction.kind][1])reaction=null;
     const age=time-stateSince;
-    const target={...expressions[displayEmotion],dim:1};
+    const target={...expressions[active==='done'&&age>2&&emotion==='auto'?'neutral':displayEmotion],dim:1};
+    if(active==='starting'){const wake=Math.min(1,Math.max(0,age)/1.5);target.l=1-wake;target.r=1-Math.min(1,wake*1.2);target.f=1-Math.max(0,wake-.2)/.8;target.open=0;target.dim=.65+.35*wake;}
+    if(active==='working'){target.gy+=3;target.l+=.09;target.r+=.06;target.asym+=.12*Math.sin(age*3);}
+    if(active==='coding'){target.gy+=4;target.l+=.14;target.r+=.16;target.smile+=.12*Math.sin(age*5);}
+    if(active==='checking'){target.l-=.12;target.r-=.12;target.f-=.2;}
+    if(['needs-input','awaiting-approval'].includes(active)){const invitation=Math.max(0,Math.sin(Math.min(1,age/1.8)*Math.PI));target.l-=.18*invitation;target.r-=.28*invitation;target.f-=.16*invitation;target.roll*=invitation;target.smile+=.15*invitation;}
+    if(active==='waiting'){target.l+=.1;target.r+=.1;target.open=0;}
+    if(active==='reconnecting'){target.asym+=Math.sin(age*2)*.2;target.dim=.85;}
     if(active==='listening'){target.l-=.1;target.r-=.1;target.f-=.12;}
     if(active==='offline'){target.dim=.73;target.gy+=3;}
     if(active==='sleeping'){target.l=1;target.r=1;target.f=1;target.open=0;target.smile=0;target.dim=.57;}
@@ -500,6 +516,13 @@ function eyeTarget({ time, character, eye, mode, status, emotion, pointer, base 
     let gy=Math.sin(time*.63+1.2)*1.6;
     if(active==='thinking'){gx=-5+Math.sin(time*1.7)*1.8;gy=-4;}
     if(active==='searching'){gx=Math.tanh(Math.sin(time*1.5)*5)*8;gy=Math.sin(time*.8)*2;}
+    if(active==='starting'){gx=0;gy=5*(1-Math.min(1,age/1.5));}
+    if(active==='working'){const step=Math.floor(age*2)%3;gx=[-4,0,4][step];gy=2+Math.sin(age*5)*.5;}
+    if(active==='coding'){const line=(age*.55)%1;gx=-6+12*line;gy=1+Math.floor(age*.55)%3;}
+    if(active==='checking'){const step=Math.floor(age/1.1)%3;gx=[-7,7,0][step];gy=step===2?-1:0;}
+    if(['waiting','paused','cancelled'].includes(active)){gx=(age%8>6?Math.sin((age%8-6)*Math.PI)*3:0);gy=1;}
+    if(['needs-input','awaiting-approval'].includes(active)){gx=0;gy=-1;ry+=age<1.8?-Math.sin(age/1.8*Math.PI)*3:0;}
+    if(active==='reconnecting'){gx=Math.sin(age*1.7)*6;gy=0;}
     if(active==='offline'){gx=0;gy=3;}
     if(active==='sleeping'){gx=0;gy=0;ry+=Math.sin(time*1.25)*1.4;}
     if(active==='done' && age<2){ry+=Math.sin(age*6)*4*Math.sin(age/2*Math.PI);}
@@ -544,13 +567,14 @@ function eyeTarget({ time, character, eye, mode, status, emotion, pointer, base 
     const label=[statusInfo[active][0],emotionLabel,reaction?reactionInfo[reaction.kind][0]:voiceSession?(paused?'Voice paused':voiceSession.started?'With voice':'Starting voice'):active==='speaking'?'Motion only · press Talk for voice':null].filter(Boolean).join(' · ');
     if(status.textContent!==label)status.textContent=label;
   }
-  function frame(now){const dt=Math.min((now-last)/1000||0,.05);last=now;if(!paused&&!document.hidden)time+=dt*motion.speed;draw(paused?0:dt);requestAnimationFrame(frame);}
+  let previousReduce=reduce.matches;
+  function frame(now){if(reduce.matches!==previousReduce){previousReduce=reduce.matches;if(previousReduce)setPaused(true);}const dt=Math.min((now-last)/1000||0,.05);last=now;if(!paused&&!document.hidden)time+=dt*motion.speed;draw(paused?0:dt);requestAnimationFrame(frame);}
   function loadArtwork(){if(loaded||!textureImage.naturalWidth||!irisImage.naturalWidth)return;try{root.querySelectorAll('canvas').forEach((canvas,index)=>renderers.push(setup(canvas,index)));loaded=true;draw(1);requestAnimationFrame(frame);}catch(e){fail(e.message);}}
   textureImage.onload=loadArtwork;irisImage.onload=loadArtwork;
   textureImage.onerror=irisImage.onerror=()=>fail('The eye or face artwork could not load.');
   irisImage.src='../../assets/fragment-faces/iris-detail-v1.jpg';
   textureImage.src='../../assets/fragment-faces/face-atlas.jpg';
-  window.avatarPreview={seek(seconds){time=seconds;draw(1);},setMode(next){if(allowed.includes(next)){stopTalking();mode=next;stateSince=time;sync();draw(1);}},setEmotion(next){if(emotionNames.includes(next)){emotion=next;sync();draw(1);}},setGazeMode(next){if(gazeModes.includes(next)){gazeMode=next;sync();draw(1);save();}},react,setPaused,startTalking,stopTalking,getState(){return {ready:loaded,mode,emotion,gazeMode,eyeGazes:eyeAims.map(eyes=>eyes.map(eye=>({...eye}))),displayEmotion,paused,time,active,speech,attention,reaction:reaction?.kind||null,expression:{...current},voice:voiceSession?{source:voiceSession.source,started:voiceSession.started,playing:voiceSession.source==='demo'?!demoAudio.paused&&!demoAudio.ended:synth.speaking&&!synth.paused,level:voiceLevel,mouth:lastMouth,audioTime:demoAudio.currentTime,duration:demoAudio.duration}:null,localVoices:localVoices().length};},capture(){return renderers.map(r=>r.canvas.toDataURL('image/png'));}};
+  window.avatarPreview={seek(seconds){time=seconds;stateSince=0;if(mode!=='demo')active=mode;draw(1);},setMode,setEmotion(next){if(emotionNames.includes(next)){emotion=next;sync();draw(1);}},setGazeMode(next){if(gazeModes.includes(next)){gazeMode=next;sync();draw(1);save();}},react,setPaused,startTalking,stopTalking,getState(){return {ready:loaded,mode,emotion,gazeMode,eyeGazes:eyeAims.map(eyes=>eyes.map(eye=>({...eye}))),displayEmotion,paused,time,active,speech,attention,reaction:reaction?.kind||null,expression:{...current},voice:voiceSession?{source:voiceSession.source,started:voiceSession.started,playing:voiceSession.source==='demo'?!demoAudio.paused&&!demoAudio.ended:synth.speaking&&!synth.paused,level:voiceLevel,mouth:lastMouth,audioTime:demoAudio.currentTime,duration:demoAudio.duration}:null,localVoices:localVoices().length};},capture(){return renderers.map(r=>r.canvas.toDataURL('image/png'));}};
   window.fragmentPreview=window.avatarPreview;
   addEventListener('openai:set_globals',event=>{const state=event.detail?.globals?.widgetState;if(allowed.includes(state?.modelContent?.mode))mode=state.modelContent.mode;if(emotionNames.includes(state?.modelContent?.emotion))emotion=state.modelContent.emotion;if(gazeModes.includes(state?.modelContent?.gazeMode))gazeMode=state.modelContent.gazeMode;if(typeof state?.privateContent?.paused==='boolean')paused=state.privateContent.paused;sync();draw(.25);});
   reduce.addEventListener('change',event=>{if(event.matches)setPaused(true);});

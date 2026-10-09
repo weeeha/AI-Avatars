@@ -11,7 +11,7 @@ Both characters share the selected status, emotion, and spoken phrase. Blinks ar
 
 Statuses: idle, listening, thinking, searching, speaking, done, reminder, error, offline, and sleeping. Auto cycle demonstrates a sequence of these states.
 
-Emotions: neutral, happy, curious, playful, skeptical, confused, sad, surprised, sleepy, and focused. Match status selects the corresponding emotion automatically.
+Emotions: neutral, happy, curious, playful, skeptical, confused, sad, surprised, sleepy, focused, and concerned. Match status selects the corresponding emotion automatically.
 
 Reactions: wink, got it (nod), no (head shake), surprise, laugh, and blink. Reactions finish and return to the selected status and emotion.
 
@@ -48,3 +48,13 @@ avatarPreview.stopTalking();
 ## Accessibility and persistence
 
 Controls use native form elements. Canvases have accessible descriptions, and status and voice messages are announced. Reduced-motion preference pauses animation on load and when enabled. The selected status, emotion, and pause state are stored locally in the browser. Typed speech is not saved.
+
+## Completed assistant lifecycle
+
+The status menu adds starting, working, coding, checking, waiting, needs-input, reconnecting, awaiting-approval, permission-denied, paused, cancelled, and partial. These are preview states, not live agent or permission signals. Researching maps to searching, answering to speaking, and complete/success to done.
+
+Starting opens the eyes in a short stagger; working uses downward stepped fixations, coding reads across short lines, and checking compares left/right before centering. Waiting uses a quiet hold with an occasional glance. Needs-input and approval use one eyebrow invitation, then hold attention. Done acknowledges briefly and settles; error gives a brief shake then holds a recoverable expression. Sleep closes all eyes regardless of emotion.
+
+A new activity interrupts a temporary reaction. A finished reaction restores the selected activity and emotion. Voice playback continues to use explicit Talk/Stop controls, and stop/end restores the previous activity. Reduced motion also stops active playback when enabled during the session; explicit Play or Talk can resume.
+
+Validation: `npm run build`, `npm run check`, and `npm test` cover the lifecycle, both faces' changing pixels, all eleven expressions, pupil confinement, reactions, speech, persistence, mobile widths, and live reduced motion.
