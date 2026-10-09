@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><title>Shape companions · AI Avatars</title><link rel="stylesheet" href="../../assets/preview.css"><link rel="stylesheet" href="index.css"></head>
+<body><main class="page"><nav class="page-nav" aria-label="Gallery navigation"><a href="../../index.html">← AI Avatars</a><span class="page-title">Shape companions</span></nav>
+<section id="shape-cast" aria-label="Shape companion studio">
+  <header class="shape-intro"><p class="eyebrow">Meet the shape companions</p><h1>Little shapes. Big personality.</h1><p class="lead">Eight colorful companions with attentive gestures, expressive reactions, and a character of their own.</p></header>
+  <div id="shape-picker" class="shape-cast-picker" role="group" aria-label="Choose a character"></div>
+  <div class="shape-layout">
+    <div>
+      <div class="shape-stage" id="shape-stage">
+        <canvas id="shape-canvas" width="512" height="512" role="img" aria-label="Triangle, idle"></canvas>
+        <video hidden id="shape-video" muted loop playsinline preload="metadata" aria-label="Triangle idle animation"></video>
+        <div id="shape-crop" class="shape-crop" hidden><img id="shape-pose" alt=""></div>
+      </div>
+      <div class="shape-caption"><span id="shape-media-label">Idle pet loop · 4 seconds</span><span>White gloves · Black boots</span></div>
+      <label class="form-check text-small"><input id="shape-round" class="form-check-input" type="checkbox"> Round display preview</label>
+      <p id="shape-error" class="shape-error" role="status" hidden></p>
+    </div>
+    <div class="shape-about">
+      <h2 id="shape-name">Triangle</h2><p class="shape-color"><span class="shape-swatch" aria-hidden="true"></span><span id="shape-color"></span></p>
+      <p id="shape-personality" class="shape-description"></p>
+      <div class="shape-modes" role="group" aria-label="Preview mode"><button class="btn" id="shape-animation-mode" aria-pressed="true">Performances</button><button class="btn" id="shape-video-mode" aria-pressed="false">Original idle</button><button class="btn" id="shape-concept-mode" aria-pressed="false">State concepts</button></div>
+      <div id="shape-animation-controls">
+        <div id="shape-performance-controls"><label class="form-label">Activity<select id="shape-activity" aria-label="Activity" class="form-select"></select></label><div id="shape-reactions" class="shape-reactions" role="group" aria-label="Emotional reactions"></div></div>
+        <span class="shape-format" id="shape-performance-label">Idle · Local performance</span>
+        <div class="shape-status-info"><h3 id="shape-status">Idle</h3><p id="shape-status-description"></p><p id="shape-recovery"></p></div>
+        <p id="shape-result" class="shape-result" hidden></p>
+        <div class="shape-playback"><button class="btn" id="shape-play">Play animation</button><button class="btn" id="shape-restart">Restart</button></div>
+        <p class="shape-note" id="shape-motion-note">A quiet blink and a small hello, returning to rest.</p>
+        <div class="shape-downloads" aria-label="Download idle animation"><a id="shape-mp4" download>MP4</a><a id="shape-webp" download>Animated WebP</a><a id="shape-gif" download>GIF</a></div>
+        <p class="shape-note">Performances animate the existing artwork locally: eyes, gloves and posture have separate motion. Original four-second idle exports are below; new states are browser performances, not video exports.</p>
+      </div>
+      <div id="shape-concept-controls" hidden>
+        <label class="form-label">Expression or activity<select class="form-select" id="shape-state"></select></label>
+        <span class="shape-format">Still pose · Animation direction</span>
+        <div class="shape-status-info"><h3>When it appears</h3><p id="shape-trigger"></p><h3>Suggested motion</h3><p id="shape-motion"></p></div>
+        <a id="shape-sheet" target="_blank" rel="noopener">Open all 16 poses ↗</a>
+        <p class="shape-note">Original emotion and activity drawings. Switch to Performances to review the animated interpretation.</p>
+      </div>
+    </div>
+  </div>
+  <p id="shape-announcement" class="sr-only" aria-live="polite"></p>
+  <script src="../../assets/shape-performance.js"></script>
+  <footer class="shape-footer"><a href="all-idle.mp4">Play the whole cast</a><a href="concepts/cast.png">Full cast artwork</a><a href="../../docs/shape-cast.md">Behavior guide</a><span class="text-muted">Character studies · No live assistant connected</span></footer>
+</section>
+</main><script src="../../assets/preview-state.js"></script><script src="index.js"></script></body></html>

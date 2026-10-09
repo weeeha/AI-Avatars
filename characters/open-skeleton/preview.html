@@ -4,7 +4,9 @@
 <body><main class="page"><nav class="page-nav" aria-label="Gallery navigation"><a href="../../index.html">← AI Avatars</a><span class="page-title">Open Skeleton — emotions and activities</span></nav>
 <div id="open-skeleton">
 
-<header><div><div class="eyebrow">AI Avatars / Open Skeleton / Round display</div><h1>A face for every feeling.</h1></div><span class="badge">9 reactions · 3 activities</span></header><nav class="filters" aria-label="Animation groups"><button data-filter="emotion" aria-pressed="true">Emotions · 9</button><button data-filter="activity" aria-pressed="false">Activities · 3</button><button data-filter="all" aria-pressed="false">All · 12</button><button id="back" hidden>Back to grid</button></nav><div class="controls"><button id="toggle" class="primary" type="button">Pause all</button><button id="restart" type="button">Restart</button><label for="speed" class="sr-only">Playback speed</label><select id="speed"><option value="1">1× speed</option><option value="0.75">0.75× speed</option><option value="0.5">0.5× speed</option></select><label class="loop"><input id="loop" type="checkbox" checked>Loop previews</label><span class="spacer"></span><span class="status" id="status" aria-live="polite">Loading loops…</span></div>
+<header><div><div class="eyebrow">AI Avatars / Open Skeleton / Round display</div><h1>A face for every feeling.</h1></div><span class="badge">9 reactions · 12 activities</span></header>
+<section class="simulator" aria-label="Assistant state simulator"><div class="live-display display"><video id="live-face" muted playsinline preload="auto" aria-label="Live Open Skeleton state"></video><img id="live-still" alt="Current Open Skeleton pose" hidden></div><div class="live-controls"><div class="eyebrow">Local preview · simulated events</div><h2 id="live-label" aria-live="polite">Idle</h2><p id="live-description">Choose an activity, then trigger a reaction or interrupt it with another activity.</p><label for="activity">Activity or condition</label><select id="activity"></select><label for="reaction">Emotion reaction</label><select id="reaction"></select><div class="live-buttons"><button id="live-toggle">Pause character</button><button id="live-restart">Replay state</button><button id="clear-reaction">Return to activity</button></div><p id="live-status" aria-live="polite"></p></div></section>
+<nav class="filters" aria-label="Animation groups"><button data-filter="emotion" aria-pressed="true">Emotions · 9</button><button data-filter="activity" aria-pressed="false">Activities · 12</button><button data-filter="all" aria-pressed="false">All · 21</button><button id="back" hidden>Back to grid</button></nav><div class="controls"><button id="toggle" class="primary" type="button">Pause all</button><button id="restart" type="button">Restart</button><label for="speed" class="sr-only">Playback speed</label><select id="speed"><option value="1">1× speed</option><option value="0.75">0.75× speed</option><option value="0.5">0.5× speed</option></select><label class="loop"><input id="loop" type="checkbox" checked>Loop previews</label><span class="spacer"></span><span class="status" id="status" aria-live="polite">Loading loops…</span></div>
 <section class="grid" aria-label="Animated face previews">
 <article class="card" data-group="emotion">
 <div class="display"><video id="happy" src="emotions/happy.mp4" poster="emotions/frames/happy/00.png" loop muted playsinline preload="auto" aria-label="Happy animation"></video></div>
@@ -54,9 +56,44 @@
 <div class="display"><video id="answering" src="answering.mp4" poster="frames/answering/00.png" loop muted playsinline preload="auto" aria-label="Answering animation"></video></div>
 <div class="card-top"><h2>Answering</h2><span class="index">3.0 s</span></div><p>Short speech-like phrases, with pauses between.</p>
 <div class="card-links"><button data-replay="answering" aria-label="Replay Answering">Replay</button><button data-focus="answering" aria-label="Focus Answering">Focus</button><a href="answering.mp4" download>MP4 ↓</a><a href="answering.gif" download>GIF ↓</a></div></article>
-</section>
+<article class="card" data-group="activity" hidden>
+<div class="display"><video id="starting" src="activities/starting.mp4" poster="activities/starting.png" muted playsinline preload="metadata" aria-label="Starting animation"></video></div>
+<div class="card-top"><h2>Starting</h2><span class="index">4.0 s</span></div><p>Eyelids lift in two stages; eyes focus forward; small ready nod.</p>
+<div class="card-links"><button data-replay="starting" aria-label="Replay Starting">Replay</button><button data-focus="starting" aria-label="Focus Starting">Focus</button><a href="activities/starting.mp4" download>MP4 ↓</a><a href="activities/starting.gif" download>GIF ↓</a></div></article>
+<article class="card" data-group="activity" hidden>
+<div class="display"><video id="listening" src="activities/listening.mp4" poster="activities/listening.png" muted playsinline preload="metadata" aria-label="Listening animation"></video></div>
+<div class="card-top"><h2>Listening</h2><span class="index">4.8 s</span></div><p>Wider attentive eyes, small forward inclination and acknowledgment nod.</p>
+<div class="card-links"><button data-replay="listening" aria-label="Replay Listening">Replay</button><button data-focus="listening" aria-label="Focus Listening">Focus</button><a href="activities/listening.mp4" download>MP4 ↓</a><a href="activities/listening.gif" download>GIF ↓</a></div></article>
+<article class="card" data-group="activity" hidden>
+<div class="display"><video id="researching" src="activities/researching.mp4" poster="activities/researching.png" muted playsinline preload="metadata" aria-label="Researching animation"></video></div>
+<div class="card-top"><h2>Researching</h2><span class="index">5.6 s</span></div><p>Measured horizontal reading sweeps with short pauses and downward resets.</p>
+<div class="card-links"><button data-replay="researching" aria-label="Replay Researching">Replay</button><button data-focus="researching" aria-label="Focus Researching">Focus</button><a href="activities/researching.mp4" download>MP4 ↓</a><a href="activities/researching.gif" download>GIF ↓</a></div></article>
+<article class="card" data-group="activity" hidden>
+<div class="display"><video id="coding" src="activities/coding.mp4" poster="activities/coding.png" muted playsinline preload="metadata" aria-label="Coding animation"></video></div>
+<div class="card-top"><h2>Coding</h2><span class="index">4.8 s</span></div><p>Downward focus, short rapid eye movements, checking pauses and tiny decisive nod.</p>
+<div class="card-links"><button data-replay="coding" aria-label="Replay Coding">Replay</button><button data-focus="coding" aria-label="Focus Coding">Focus</button><a href="activities/coding.mp4" download>MP4 ↓</a><a href="activities/coding.gif" download>GIF ↓</a></div></article>
+<article class="card" data-group="activity" hidden>
+<div class="display"><video id="waiting" src="activities/waiting.mp4" poster="activities/waiting.png" muted playsinline preload="metadata" aria-label="Waiting animation"></video></div>
+<div class="card-top"><h2>Waiting</h2><span class="index">4.8 s</span></div><p>Patient side glance, slow blink and return to center.</p>
+<div class="card-links"><button data-replay="waiting" aria-label="Replay Waiting">Replay</button><button data-focus="waiting" aria-label="Focus Waiting">Focus</button><a href="activities/waiting.mp4" download>MP4 ↓</a><a href="activities/waiting.gif" download>GIF ↓</a></div></article>
+<article class="card" data-group="activity" hidden>
+<div class="display"><video id="needs-input" src="activities/needs-input.mp4" poster="activities/needs-input.png" muted playsinline preload="metadata" aria-label="Needs input animation"></video></div>
+<div class="card-top"><h2>Needs input</h2><span class="index">4.4 s</span></div><p>Direct questioning gaze, one raised lid and a small tilted-head hold.</p>
+<div class="card-links"><button data-replay="needs-input" aria-label="Replay Needs input">Replay</button><button data-focus="needs-input" aria-label="Focus Needs input">Focus</button><a href="activities/needs-input.mp4" download>MP4 ↓</a><a href="activities/needs-input.gif" download>GIF ↓</a></div></article>
+<article class="card" data-group="activity" hidden>
+<div class="display"><video id="complete" src="activities/complete.mp4" poster="activities/complete.png" muted playsinline preload="metadata" aria-label="Complete animation"></video></div>
+<div class="card-top"><h2>Complete</h2><span class="index">4.0 s</span></div><p>A brief pleased expression and affirmative nod, then return to idle.</p>
+<div class="card-links"><button data-replay="complete" aria-label="Replay Complete">Replay</button><button data-focus="complete" aria-label="Focus Complete">Focus</button><a href="activities/complete.mp4" download>MP4 ↓</a><a href="activities/complete.gif" download>GIF ↓</a></div></article>
+<article class="card" data-group="activity" hidden>
+<div class="display"><video id="error" src="activities/error.mp4" poster="activities/error.png" muted playsinline preload="metadata" aria-label="Error animation"></video></div>
+<div class="card-top"><h2>Error</h2><span class="index">4.4 s</span></div><p>Short concerned surprise, brief hold, then attentive recovery pose.</p>
+<div class="card-links"><button data-replay="error" aria-label="Replay Error">Replay</button><button data-focus="error" aria-label="Focus Error">Focus</button><a href="activities/error.mp4" download>MP4 ↓</a><a href="activities/error.gif" download>GIF ↓</a></div></article>
+<article class="card" data-group="activity" hidden>
+<div class="display"><video id="sleeping" src="activities/sleeping.mp4" poster="activities/sleeping.png" muted playsinline preload="metadata" aria-label="Sleeping animation"></video></div>
+<div class="card-top"><h2>Sleeping</h2><span class="index">4.8 s</span></div><p>Slowly close both eyelids and incline head; hold still until waking.</p>
+<div class="card-links"><button data-replay="sleeping" aria-label="Replay Sleeping">Replay</button><button data-focus="sleeping" aria-label="Focus Sleeping">Focus</button><a href="activities/sleeping.mp4" download>MP4 ↓</a><a href="activities/sleeping.gif" download>GIF ↓</a></div></article></section>
 
-<footer><span>Silent keyframe animation studies.<br>Each reaction settles back to neutral.</span><nav><a href="../../index.html">Characters ↗</a><a href="emotions/all-emotions.mp4" download>Emotion montage ↓</a><a href="emotions/README.md">Clips & prompts ↗</a></nav></footer><p id="error" class="error" role="alert"></p>
+<footer><span>Silent animation studies · 21 playable clips.<br>Reactions return to the selected activity in the simulator.</span><nav><a href="../../index.html">Characters ↗</a><a href="emotions/all-emotions.mp4" download>Emotion montage ↓</a><a href="emotions/README.md">Clips & prompts ↗</a></nav></footer><p id="media-error" class="error" role="alert"></p>
 
 </div>
 </main><script src="../../assets/preview-state.js"></script><script src="preview.js"></script></body></html>

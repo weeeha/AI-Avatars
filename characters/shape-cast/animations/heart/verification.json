@@ -1,0 +1,82 @@
+{
+  "character": "heart",
+  "status": "assembled",
+  "format": "generated-keyframe-animation",
+  "duration": 4,
+  "fps": 24,
+  "width": 512,
+  "height": 512,
+  "decodedFrames": 96,
+  "sourceFrames": 16,
+  "uniqueSourceFrames": 16,
+  "loopEndpointMeanPixelDifference": 0.8206342061360677,
+  "middleFrameMeanPixelDifference": 19.04282506306966,
+  "registrationOffsets": [
+    {
+      "x": 0,
+      "y": -8
+    },
+    {
+      "x": 2,
+      "y": -8
+    },
+    {
+      "x": -1,
+      "y": -8
+    },
+    {
+      "x": 2,
+      "y": -8
+    },
+    {
+      "x": 1,
+      "y": -8
+    },
+    {
+      "x": 1,
+      "y": -8
+    },
+    {
+      "x": 9,
+      "y": -8
+    },
+    {
+      "x": 1,
+      "y": -8
+    },
+    {
+      "x": 0,
+      "y": -8
+    },
+    {
+      "x": 0,
+      "y": -8
+    },
+    {
+      "x": 0,
+      "y": -9
+    },
+    {
+      "x": 0,
+      "y": -8
+    },
+    {
+      "x": 2,
+      "y": -8
+    },
+    {
+      "x": 1,
+      "y": -8
+    },
+    {
+      "x": -1,
+      "y": -8
+    },
+    {
+      "x": 0,
+      "y": -8
+    }
+  ],
+  "blinkFrames": "Original eyelid poses preserved for output frames 20-30 to avoid optical-flow ghosting",
+  "note": "Local pose-sequence animation with optical-flow interpolation; not a rigged 3D model."
+}

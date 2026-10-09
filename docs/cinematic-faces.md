@@ -20,13 +20,13 @@ The two renderers share the same activity, emotion, and transient reaction state
 | `speaking` | Simulated syllable rhythm drives mouth or light |
 | `searching` | Scanning gaze and traveling particle release |
 | `remembering` | Upward gaze and reflective expression |
-| `success` | Smile and celebratory particles |
-| `error` | Concerned expression and intermittent head movement |
+| `success` | Brief smile and celebratory particles, then settle |
+| `error` | Brief head shake, then a concerned recoverable hold |
 | `sleeping` | Lower energy, closed eyes, and dimmed lens |
 
 ## Emotions
 
-`calm`, `happy`, `curious`, `focused`, `surprised`, `worried`, `sad`, `annoyed`, `playful`, `sleepy`.
+`calm`, `happy`, `curious`, `focused`, `surprised`, `worried`, `sad`, `annoyed`, `playful`, `sleepy`, `confused`.
 
 Emotion blends into the active behavior. Focused and annoyed expressions preserve eye volume; blinking, winking, and sleeping can intentionally close the lids. Iris particles are occluded by eyelids instead of being flattened into a line.
 
@@ -52,3 +52,13 @@ Keep individual dots visible and the head round. Skin samples have a minimum gap
 Edit `studies/cinematic-faces.fragment.html`, then run `npm run build` and `npm run check`. Open `characters/cinematic-faces/index.html` after starting the gallery with `npm start`. The character links support `?character=eidolon` and `?character=lens`.
 
 Both characters use Canvas 2D with projected 3D particle positions and CPU flocking. Speech and AI activity are simulated. These are browser-rendered animations, not prerecorded clips. Browser preferences are stored locally and no network service is used.
+
+## Completed lifecycle
+
+Working uses short downward fixations, coding reads across short lines, and checking alternates between two comparison targets and center. Waiting becomes quiet; needs-input and awaiting-approval give one upward invitation before holding attention. Waking opens the eyes over 1.5 seconds. Success settles after 2.8 seconds; error shakes once instead of repeating indefinitely.
+
+Offline, reconnecting, permission-denied, paused, cancelled, and partial have explicit captions. These conditions are manually previewed, never inferred from a decorative loop. Concerned is an alias for worried, and neutral for calm. The activity aliases starting/waking, researching/searching, answering/speaking, and complete/success support the shared vocabulary.
+
+`window.cinematicPreview` exposes `setMode`, `setEmotion`, `setPaused`, `react`, `seek`, `getState`, and `capture`. Stopping the conversation demo preserves the prior activity age, so settled outcomes stay settled. Selecting a new activity interrupts a reaction; finishing a reaction returns to the selected activity. Reduced-motion changes pause ongoing animation, with explicit Play available.
+
+`tests/cinematic-state-smoke.cjs` verifies both renderers' full lifecycle, changing frames, emotion overlays, interruption/return, settled completion, condition captions, live reduced motion, and mobile layout.

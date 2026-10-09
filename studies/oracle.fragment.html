@@ -1,0 +1,384 @@
+<div id="oracle-alive">
+  <div class="viz-controls">
+    <label class="form-label">Preview
+      <select class="form-select" id="oracle-mode" aria-label="Preview">
+        <option value="demo">Auto demo</option>
+        <optgroup label="Emotions">
+          <option value="resting">Resting</option>
+          <option value="curious">Curious</option>
+          <option value="happy">Happy</option>
+          <option value="delighted">Delighted</option>
+          <option value="surprised">Surprised</option>
+          <option value="sleepy">Sleepy</option>
+          <option value="annoyed">Annoyed</option>
+          <option value="sad">Sad</option>
+        </optgroup>
+        <optgroup label="Clock states">
+          <option value="listening">Listening</option>
+          <option value="thinking">Thinking</option>
+          <option value="speaking">Speaking</option>
+          <option value="focus">Focus</option>
+          <option value="time">Time</option>
+          <option value="alarm">Alarm</option>
+        </optgroup>
+      </select>
+    </label>
+    <label class="form-label">Emotion<select class="form-select" id="oracle-emotion" aria-label="Emotion"></select></label>
+    <button class="btn" id="oracle-react" type="button">Play expression</button>
+    <button class="btn" id="oracle-pause" type="button">Pause</button>
+    <button class="btn" id="oracle-next" type="button">Next state</button>
+    <button class="btn" id="oracle-blink" type="button">Blink</button>
+  </div>
+  <div class="oracle-stage">
+    <div class="oracle-face">
+      <canvas id="oracle-canvas" width="768" height="768" role="img" aria-label="An expressive white statue clock with three shimmering black eyes. Choose an emotion or clock state to change its eyelids, lips and luminous eye symbols."></canvas>
+      <div class="oracle-clock" aria-hidden="true"></div>
+    </div>
+  </div>
+  <div class="text-small text-muted text-center" id="oracle-status" aria-live="polite">Resting · stars and slow blinks</div>
+  <div id="oracle-error" role="alert" hidden></div>
+</div>
+<style>
+#oracle-alive .viz-controls{margin-bottom:14px}
+#oracle-alive .oracle-stage{display:grid;place-items:center;padding:4px 0 16px}
+#oracle-alive .oracle-face{position:relative;width:min(100%,540px);aspect-ratio:1;container-type:inline-size}
+#oracle-alive canvas{display:block;width:100%;height:100%;border-radius:50%}
+#oracle-alive .oracle-clock{position:absolute;left:50.64%;top:29.75%;transform:translate(-50%,-50%);color:#fff;font:400 5.7cqw/1.1 ui-sans-serif,system-ui,sans-serif;letter-spacing:-.045em;font-variant-numeric:tabular-nums;opacity:0;pointer-events:none;text-shadow:0 0 8px #ffffff24}
+</style>
+<script>
+(()=>{
+  const root=document.getElementById('oracle-alive');
+  const canvas=root.querySelector('#oracle-canvas');
+  const modeControl=root.querySelector('#oracle-mode');
+  const pauseButton=root.querySelector('#oracle-pause');
+  const blinkButton=root.querySelector('#oracle-blink');
+  const nextButton=root.querySelector('#oracle-next');
+  const status=root.querySelector('#oracle-status');
+  const clock=root.querySelector('.oracle-clock');
+  const error=root.querySelector('#oracle-error');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)');
+  const presets={
+    resting:{label:'Resting · softly shimmering stars',open:[1,1,1],lid:[0,0,0],tilt:[0,0,0],smile:0,asym:0,width:1,gap:0,glyph:0,size:.34,shimmer:.52,speed:1,brightness:1,gaze:[0,0]},
+    curious:{label:'Curious · one eye opens wider, stars glance sideways',open:[1.16,1.23,.87],lid:[0,0,.13],tilt:[-.04,-.11,.10],smile:10,asym:12,width:.97,gap:1,glyph:0,size:.41,shimmer:.58,speed:1.15,brightness:1,gaze:[.14,-.06]},
+    happy:{label:'Happy · soft smile and luminous hearts',open:[1.04,.91,.91],lid:[0,.21,.21],tilt:[0,-.09,.09],smile:38,asym:0,width:1.04,gap:2,glyph:1,size:.45,shimmer:.43,speed:.9,brightness:1.02,gaze:[0,0]},
+    delighted:{label:'Delighted · a bigger smile and dancing starbursts',open:[1.1,.90,.90],lid:[0,.31,.31],tilt:[0,-.12,.12],smile:48,asym:0,width:1.08,gap:17,glyph:6,size:.60,shimmer:.75,speed:1.6,brightness:1.05,gaze:[0,-.03]},
+    surprised:{label:'Surprised · wide eyes, oversized stars, open lips',open:[1.30,1.36,1.36],lid:[0,0,0],tilt:[0,0,0],smile:0,asym:0,width:.72,gap:64,glyph:0,size:.69,shimmer:.55,speed:1.25,brightness:1.1,gaze:[0,0]},
+    sleepy:{label:'Sleepy · heavy eyelids and slow crescent moons',open:[.93,.94,.94],lid:[.57,.73,.73],tilt:[0,.02,-.02],smile:-4,asym:0,width:.97,gap:0,glyph:2,size:.49,shimmer:.20,speed:.38,brightness:.66,gaze:[0,.08]},
+    annoyed:{label:'Annoyed · narrowed eyes and sharp diamonds',open:[.96,.88,.88],lid:[.23,.44,.44],tilt:[0,.24,-.24],smile:-30,asym:4,width:.97,gap:0,glyph:4,size:.33,shimmer:.24,speed:.72,brightness:.86,gaze:[0,.03]},
+    sad:{label:'Sad · downturned lips and low, faint stars',open:[.95,1.03,1.03],lid:[.22,.28,.28],tilt:[0,-.19,.19],smile:-39,asym:0,width:.96,gap:0,glyph:0,size:.24,shimmer:.20,speed:.48,brightness:.63,gaze:[0,.20]},
+    listening:{label:'Listening · attentive eyes and a soft star pulse',open:[1.15,1.10,1.10],lid:[0,0,0],tilt:[0,-.04,.04],smile:9,asym:0,width:1,gap:0,glyph:5,size:.43,shimmer:.60,speed:1.1,brightness:1.05,gaze:[0,-.05]},
+    thinking:{label:'Thinking · orbiting lights and an uneven gaze',open:[1.12,.90,1.10],lid:[0,.32,.04],tilt:[.02,.08,-.03],smile:1,asym:17,width:.96,gap:0,glyph:3,size:.55,shimmer:.43,speed:1,brightness:.92,gaze:[.05,-.03]},
+    speaking:{label:'Speaking · shifting stars and a silent lip-motion loop',open:[1.02,1.04,1.04],lid:[0,.03,.03],tilt:[0,0,0],smile:8,asym:0,width:1,gap:0,glyph:0,size:.39,shimmer:.63,speed:1.3,brightness:1,gaze:[0,0]},
+    focus:{label:'Focus · steady diamonds and a concentrated gaze',open:[1.04,.94,.94],lid:[0,.24,.24],tilt:[0,.06,-.06],smile:0,asym:0,width:.97,gap:0,glyph:4,size:.39,shimmer:.18,speed:.55,brightness:.86,gaze:[0,0]},
+    time:{label:'Time · live clock in the forehead eye',open:[1,1,1],lid:[0,0,0],tilt:[0,0,0],smile:0,asym:0,width:1,gap:0,glyph:0,size:.34,shimmer:.45,speed:.85,brightness:.95,gaze:[0,0]},
+    alarm:{label:'Alarm · bright starbursts and an alert expression',open:[1.22,1.23,1.23],lid:[0,0,0],tilt:[0,.04,-.04],smile:-4,asym:0,width:.84,gap:30,glyph:6,size:.67,shimmer:.75,speed:1.35,brightness:1.08,gaze:[0,0]}
+  };
+  const make=(base,label,values={})=>({...presets[base],...values,label});
+  Object.assign(presets,{
+    confused:make('curious','Confused · questioning eyes and reconsidering lips',{lid:[.12,.35,.02],tilt:[.12,.13,-.06],smile:-10,asym:19,glyph:4,size:.3}),
+    concerned:make('sad','Concerned · soft eye contact and reassurance',{open:[1.1,1.08,1.08],lid:[.08,.13,.13],smile:-14,gaze:[0,0],brightness:.93}),
+    playful:make('happy','Playful · a crooked smile and a deliberate wink',{asym:16,tilt:[.04,-.10,.08],size:.4})
+  });
+  Object.assign(presets,{
+    starting:make('resting','Starting · eyelids open, then find you',{size:.28,shimmer:.3}),
+    researching:make('thinking','Researching · reading sweeps and line resets',{lid:[0,.12,.12],asym:4,glyph:3,size:.43}),
+    working:make('focus','Working · precise downward focus',{gaze:[0,.14],lid:[.1,.23,.23],asym:6}),
+    coding:make('focus','Writing code · short fixations and checking pauses',{gaze:[0,.15],lid:[.04,.3,.3],size:.3}),
+    checking:make('focus','Checking · compare left, compare right, then center',{open:[1.06,1.12,1.12],lid:[0,.07,.07],glyph:5,size:.33}),
+    waiting:make('resting','Waiting for a result · available and patient',{shimmer:.16,speed:.35,smile:3,size:.28}),
+    'needs-input':make('curious','Needs your input · one invitation, then an attentive hold',{shimmer:.18,speed:.45,smile:5,asym:9,glyph:5,size:.35}),
+    complete:make('happy','Complete · brief acknowledgement, then rest',{glyph:6,size:.57,shimmer:.62}),
+    error:make('concerned','Something went wrong · ready for a retry',{tilt:[0,.12,-.12],asym:0,glyph:4,size:.28,smile:-19}),
+    sleeping:make('sleepy','Sleeping · closed eyes and quiet stars',{lid:[1,1,1],shimmer:0,brightness:.3,speed:0,gap:0}),
+    offline:make('concerned','Offline · reconnect or continue locally',{lid:[.18,.28,.28],gaze:[0,.08],brightness:.7,shimmer:.1,size:.25}),
+    reconnecting:make('listening','Reconnecting · checking the connection',{glyph:3,size:.32,shimmer:.3,speed:.7}),
+    'awaiting-approval':make('curious','Approval needed · waiting for your decision',{gaze:[0,0],smile:1,asym:8,shimmer:.15,size:.32}),
+    'permission-denied':make('concerned','Access needed · change permission or choose another method',{glyph:4,smile:-8,shimmer:.12,size:.29}),
+    paused:make('resting','Paused · ready when you resume',{shimmer:0,speed:0,smile:2,size:.31}),
+    cancelled:make('resting','Stopped · completed work is kept',{shimmer:.08,speed:.2,smile:0,gaze:[0,.04],size:.25}),
+    partial:make('concerned','Partly done · review results or retry the rest',{smile:2,asym:7,glyph:5,size:.32,shimmer:.16})
+  });
+  const emotionIds=['resting','happy','curious','surprised','confused','concerned','playful','delighted','sleepy','annoyed','sad'];
+  const emotionControl=root.querySelector('#oracle-emotion');
+  emotionControl.innerHTML='<option value="auto">Match activity</option><option value="neutral">Neutral</option>'+emotionIds.filter(id=>id!=='resting').map(id=>`<option value="${id}">${id[0].toUpperCase()+id.slice(1)}</option>`).join('');
+  const extraGroup=document.createElement('optgroup');extraGroup.label='Assistant activities and conditions';
+  Object.keys(presets).filter(id=>!modeControl.querySelector(`option[value="${id}"]`)).forEach(id=>{const option=document.createElement('option');option.value=id;option.textContent=presets[id].label.split(' · ')[0];extraGroup.append(option);});modeControl.append(extraGroup);
+  const aliases={idle:'resting',waking:'starting',searching:'researching',answering:'speaking',success:'complete',approval:'awaiting-approval'};
+  const order=Object.keys(presets);
+  const allowed=['demo',...order];
+  const saved=window.openai?.widgetState?.modelContent;
+  const savedUI=window.openai?.widgetState?.privateContent;
+  let mode=allowed.includes(saved?.mode)?saved.mode:'demo';
+  let paused=reduce.matches||savedUI?.paused===true,ready=false,time=0,last=0,blinkStart=-100,timeFade=0,speechFade=0;
+  let renderedState='',dirty=true,active='resting',demoOffset=0,stateSince=0,reaction=null,lastReduced=reduce.matches;
+  let emotion=['auto','neutral',...emotionIds].includes(saved?.emotion)?saved.emotion:'auto';
+  emotionControl.value=emotion;
+  const pose=JSON.parse(JSON.stringify(presets.resting));
+  let glyphFrom=0,glyphTo=0,glyphBlend=1;
+  modeControl.value=mode;
+  pauseButton.textContent=paused?'Play':'Pause';
+  const save=()=>{const result=window.openai?.setWidgetState?.({modelContent:{mode,emotion,version:3},privateContent:{paused}});result?.catch?.(()=>{});};
+  let draw=()=>{};
+  function setMode(next){next=Object.hasOwn(aliases,next)?aliases[next]:next;if(!allowed.includes(next))return;mode=next;modeControl.value=mode;time=0;stateSince=0;reaction=null;renderedState='';dirty=true;save();if(ready)draw(1);}
+  function setEmotion(next){if(!['auto','neutral',...emotionIds].includes(next))return;emotion=next;emotionControl.value=next;dirty=true;save();if(ready)draw(1);}
+  function setPaused(value){paused=!!value;pauseButton.textContent=paused?'Play':'Pause';save();}
+  function react(next){const id=next==='neutral'?'resting':next;if(!emotionIds.includes(id))return;reaction={id,at:time};dirty=true;if(ready)draw(1);}
+  modeControl.onchange=()=>setMode(modeControl.value);
+  emotionControl.onchange=()=>setEmotion(emotionControl.value);
+  root.querySelector('#oracle-react').onclick=()=>{react(emotion==='auto'?'happy':emotion);setPaused(false);};
+  nextButton.onclick=()=>setMode(order[(order.indexOf(active)+1)%order.length]);
+  pauseButton.onclick=()=>setPaused(!paused);
+  blinkButton.onclick=()=>{blinkStart=performance.now()/1000;};
+  let gl;
+  function fail(message){error.hidden=false;error.textContent=message;}
+  try{
+    gl=canvas.getContext('webgl',{alpha:true,antialias:false,premultipliedAlpha:false,preserveDrawingBuffer:true});
+    if(!gl)throw Error('This preview needs graphics support in your browser.');
+    const vertex=`attribute vec2 position;varying vec2 uv;void main(){uv=vec2(position.x*.5+.5,.5-position.y*.5);gl_Position=vec4(position,0.,1.);}`;
+    const fragment=`precision highp float;
+      varying vec2 uv;
+      uniform sampler2D face;
+      uniform float t;
+      uniform vec3 blink;
+      uniform float mouth;
+      uniform float showingTime;
+      uniform vec3 openness;
+      uniform vec3 tilts;
+      uniform vec3 lips;
+      uniform vec4 stars;
+      uniform vec3 glyphs;
+      uniform vec2 gaze;
+      vec2 poseEye(vec2 p,vec2 c,vec2 r,float opened,float tilt){
+        vec2 q=p-c;
+        float influence=exp(-pow(length(q/(r*1.65)),4.)*1.6);
+        float a=-tilt*influence;
+        vec2 moved=vec2(cos(a)*q.x-sin(a)*q.y,sin(a)*q.x+cos(a)*q.y);
+        moved.y/=1.+(opened-1.)*influence;
+        return p+(moved-q)*influence;
+      }
+      vec2 eyeWarp(vec2 p,vec2 c,vec2 r,float b){
+        vec2 q=p-c;float nx=abs(q.x)/r.x;
+        if(nx>=1.8||b<.0001)return p;
+        float seam=c.y+8.*min(nx*nx,1.);
+        q.y=p.y-seam;
+        float h=r.y*1.65;
+        float ay=abs(q.y);if(ay>h*2.)return p;
+        float weight=exp(-pow(nx,8.)*1.4);
+        float lo=ay;float hi=ay+h;
+        for(int i=0;i<12;i++){
+          float mid=(lo+hi)*.5;
+          float mapped=mid*(1.-.998*b*weight*exp(-pow(mid/h,4.)));
+          if(mapped<ay)lo=mid;else hi=mid;
+        }
+        return vec2(p.x,seam+sign(q.y)*(lo+hi)*.5);
+      }
+      vec3 readFace(vec2 p){return texture2D(face,p/vec2(1536.,1024.)).rgb;}
+      float lipSeam(float x){
+        return 714.-2.*smoothstep(370.,390.,x)-4.*smoothstep(390.,410.,x)
+        -4.*smoothstep(410.,430.,x)-3.*smoothstep(430.,450.,x)-smoothstep(450.,470.,x)
+        +3.*smoothstep(470.,490.,x)+5.*smoothstep(490.,510.,x)+3.*smoothstep(510.,530.,x)
+        -4.*smoothstep(530.,550.,x)-5.*smoothstep(550.,570.,x)-smoothstep(570.,590.,x)
+        +2.*smoothstep(590.,610.,x)+3.*smoothstep(610.,630.,x)+4.*smoothstep(630.,650.,x)
+        +3.*smoothstep(650.,670.,x)+smoothstep(670.,690.,x)-3.*smoothstep(690.,710.,x);
+      }
+      float sparkle(vec2 q,float size){
+        vec2 a=abs(q)/max(size,.025);
+        float contour=pow(a.x,.55)+pow(a.y,.55);
+        return 1.-smoothstep(.93,1.07,contour);
+      }
+      float circle(vec2 p,vec2 c,float r){return 1.-smoothstep(r-.012,r+.012,length(p-c));}
+      float symbol(vec2 q,float type,float size,float seed){
+        float phase=t*stars.z;
+        float breath=1.+stars.y*.085*sin(phase*2.1+seed);
+        q/=size*breath;
+        if(type<.5)return sparkle(q,1.);
+        if(type<1.5){
+          float left=length(q-vec2(-.31,-.20))-.42;
+          float right=length(q-vec2(.31,-.20))-.42;
+          float point=max(-.15-q.y,(.95*abs(q.x)+.70*q.y-.56)/1.18);
+          float heart=min(min(left,right),point);
+          return 1.-smoothstep(-.018,.018,heart);
+        }
+        if(type<2.5){
+          float outer=circle(q,vec2(0.),1.);
+          float cut=circle(q,vec2(.48,-.32),.94);
+          return outer*(1.-cut);
+        }
+        if(type<3.5){
+          float orbit=exp(-pow((length(q)-.85)*44.,2.))*.16;
+          for(int i=0;i<3;i++){
+            float a=phase*1.05+float(i)*2.094+seed*.35;
+            vec2 center=vec2(cos(a),sin(a))*.85;
+            orbit+=circle(q,center,.12+float(i)*.012);
+          }
+          return orbit+sparkle(q,.31)*.85;
+        }
+        if(type<4.5){
+          float diamond=abs(q.x)*1.25+abs(q.y);
+          return (1.-smoothstep(.94,1.06,diamond))*(.7+.3*smoothstep(.2,.9,diamond));
+        }
+        if(type<5.5){
+          float radius=.45+.9*fract(phase*.40);
+          float ring=exp(-pow((length(q)-radius)*24.,2.))*(1.-fract(phase*.40))*.36;
+          return sparkle(q,.85)+ring;
+        }
+        vec2 rotated=vec2(q.x-q.y,q.x+q.y)*.7071;
+        return max(sparkle(q,1.2),sparkle(rotated,.72));
+      }
+      vec3 eyeInk(vec2 q,float id){
+        vec2 physical=q*vec2(1.,.68);
+        float sheen=exp(-dot((physical-vec2(-.38,-.34))/vec2(.25,.10),(physical-vec2(-.38,-.34))/vec2(.25,.10)));
+        vec3 ink=vec3(.009,.012,.018)+vec3(.035)*max(0.,1.-length(physical)) + vec3(.15)*sheen;
+        vec2 drift=gaze+vec2(sin(t*.47+id*.3),cos(t*.39+id*.2))*.023;
+        vec2 qstar=physical-drift;
+        float shimmer=1.-stars.y*.30+stars.y*.30*sin(t*stars.z*2.35+id*1.7);
+        float main=mix(symbol(qstar,glyphs.x,stars.x,id),symbol(qstar,glyphs.y,stars.x,id),glyphs.z);
+        float luminosity=main*shimmer;
+        for(int i=0;i<9;i++){
+          float j=float(i);
+          float a=j*2.39996+id*.43;
+          float r=.27+.040*j;
+          vec2 center=vec2(cos(a),sin(a)*.73)*r;
+          center+=vec2(sin(t*.20+j),cos(t*.16+j))*.016;
+          float twinkle=.18+.82*pow(.5+.5*sin(t*(1.2+j*.14)*stars.z+j*2.7+id),2.);
+          float s=.017+.012*mod(j,3.);
+          luminosity+=sparkle(physical-center,s*(.7+.5*twinkle))*twinkle*.70;
+        }
+        float halo=exp(-dot(qstar,qstar)/(.020+stars.x*.075))*.08*shimmer;
+        return ink+vec3(luminosity+halo)*stars.w;
+      }
+      void main(){
+        vec2 original=vec2(58.,10.)+uv*940.;
+        vec2 p=original;
+        p=poseEye(p,vec2(534.,297.),vec2(120.,73.),openness.x,tilts.x);
+        p=poseEye(p,vec2(333.,462.),vec2(126.,77.),openness.y,tilts.y);
+        p=poseEye(p,vec2(733.,463.),vec2(127.,77.),openness.z,tilts.z);
+        p=eyeWarp(p,vec2(534.,297.),vec2(120.,73.),blink.x);
+        p=eyeWarp(p,vec2(333.,462.),vec2(126.,77.),blink.y);
+        p=eyeWarp(p,vec2(733.,463.),vec2(127.,77.),blink.z);
+        vec2 lipLocal=p-vec2(529.,710.);
+        float lipInfluence=exp(-pow(abs(lipLocal.y)/145.,4.)-pow(abs(lipLocal.x)/225.,8.));
+        lipInfluence*=smoothstep(550.,610.,p.y)*(1.-smoothstep(800.,865.,p.y));
+        p.x=529.+lipLocal.x*(1.+(1./lips.z-1.)*lipInfluence);
+        float smileX=(p.x-529.)/184.;
+        p.y+=(lips.x*pow(min(abs(smileX),1.),1.3)+lips.y*smileX)*lipInfluence;
+        float cavity=0.;float dx=(p.x-529.)/184.;
+        if(abs(dx)<1.&&mouth>0.){
+          float shape=pow(max(0.,1.-dx*dx),1.7);
+          float seam=lipSeam(p.x);
+          float dy=p.y-seam;float gap=mouth*shape;
+          float up=gap*.32;float down=gap*.68;
+          float range=135.;
+          if(abs(dy)<range){
+            if(dy>down)p.y=seam+(dy-down)*range/(range-down);
+            else if(dy< -up)p.y=seam+(dy+up)*range/(range-up);
+            else{p.y=seam;}
+            cavity=smoothstep(-up-.7,-up+.7,dy)*(1.-smoothstep(down-.7,down+.7,dy));
+          }
+        }
+        vec3 color=readFace(p);
+        if(cavity>0.){
+          float v=abs((original.y-704.)/max(1.,mouth));
+          color=mix(color,vec3(.012,.012,.014)+vec3(.012)*v,cavity);
+        }
+        vec2 f=(p-vec2(534.,297.))/vec2(97.,56.);
+        vec2 l=(p-vec2(333.,462.))/vec2(91.,55.);
+        vec2 r=(p-vec2(733.,463.))/vec2(94.,53.);
+        float fm=1.-smoothstep(.68,1.,dot(f,f));
+        float lm=1.-smoothstep(.68,1.,dot(l,l));
+        float rm=1.-smoothstep(.68,1.,dot(r,r));
+        if(fm>.001)color=mix(color,eyeInk(f,0.),fm);
+        if(lm>.001)color=mix(color,eyeInk(l,1.),lm);
+        if(rm>.001)color=mix(color,eyeInk(r,2.),rm);
+        color=mix(color,vec3(.015,.018,.023),showingTime*fm*.98);
+        float radius=length((original-vec2(529.,476.))/vec2(461.,461.));
+        float alpha=1.-smoothstep(.996,1.,radius);
+        gl_FragColor=vec4(color,alpha);
+      }`;
+    function shader(type,source){const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;}
+    const program=gl.createProgram();gl.attachShader(program,shader(gl.VERTEX_SHADER,vertex));gl.attachShader(program,shader(gl.FRAGMENT_SHADER,fragment));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));gl.useProgram(program);
+    const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+    const pos=gl.getAttribLocation(program,'position');gl.enableVertexAttribArray(pos);gl.vertexAttribPointer(pos,2,gl.FLOAT,false,0,0);
+    const uniforms={};for(const name of ['t','blink','mouth','showingTime','openness','tilts','lips','stars','glyphs','gaze'])uniforms[name]=gl.getUniformLocation(program,name);
+    const texture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,texture);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+    const photo=new Image();photo.src='assets/oracle-source.jpg';
+    photo.onload=()=>{gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,photo);ready=true;};
+    photo.onerror=()=>fail('The statue image could not load.');
+    const pulse=(elapsed,duration)=>elapsed>=0&&elapsed<duration?Math.pow(Math.sin(Math.PI*elapsed/duration),1.45):0;
+    draw=(dt)=>{
+      active=mode==='demo'?order[(Math.floor(time/4.8)+demoOffset)%order.length]:mode;
+      if(active!==renderedState)stateSince=time;
+      const age=Math.max(0,time-stateSince);
+      let target=JSON.parse(JSON.stringify(presets[active]));
+      const entry=Math.max(0,Math.sin(Math.min(1,age/2)*Math.PI));
+      if(active==='starting'){target.lid=[Math.max(0,1-age/1.1),Math.max(0,1-(age-.18)/1.2),Math.max(0,1-(age-.3)/1.2)];target.gaze=[0,.18*Math.max(0,1-age/1.5)];}
+      if(active==='researching'){const row=(age%3)/3;target.gaze=[-.24+.48*(row*3%1),-.08+.10*Math.floor(row*3)];target.asym=8*Math.sin(age*2);}
+      if(active==='working'||active==='coding'){const coding=active==='coding',step=Math.floor(age*(coding?3.2:1.4));target.gaze=[Math.sin(step*2.1)*.13,.16+.025*Math.sin(age*2)];target.lid[0]+=.10*Math.pow(Math.max(0,Math.sin(age*2.5)),5);target.asym+=Math.sin(age*(coding?5:2))*(coding?5:2);}
+      if(active==='checking'){target.gaze=[Math.sin(Math.floor(age*1.3)*Math.PI/2)*.22,-.035];target.open[1]+=.06*Math.sin(age*3);target.open[2]-=.06*Math.sin(age*3);}
+      if(active==='waiting'){target.gaze=[.12*entry,0];target.lid=target.lid.map(v=>v+.12*entry);}
+      if(['needs-input','awaiting-approval'].includes(active)){target.tilt[0]+=.10*entry;target.gaze=[.1*entry,-.03];target.open[0]+=.13*entry;}
+      if(active==='complete'){target.size+=.14*entry;target.smile+=10*entry;if(age>2.8)target={...JSON.parse(JSON.stringify(presets.resting)),label:presets.complete.label};}
+      if(active==='error'){target.gaze=[Math.sin(age*10)*.14*entry,0];target.open=target.open.map(v=>v+.10*entry);}
+      if(active==='reconnecting'){target.gaze=[Math.sin(age*1.8)*.14,Math.cos(age*1.8)*.04];}
+      if(reaction&&time-reaction.at>2.8)reaction=null;
+      const selected=reaction?.id||(emotion==='auto'?null:emotion==='neutral'?'resting':emotion);
+      if(selected&&active!=='sleeping'){
+        const expression=presets[selected];const weight=reaction?Math.sin(Math.min(1,(time-reaction.at)/2.8)*Math.PI):.72;
+        for(const key of ['smile','asym','width','gap'])target[key]+=(expression[key]-target[key])*weight;
+        for(const key of ['open','lid','tilt'])target[key]=target[key].map((v,i)=>v+(expression[key][i]-v)*weight);
+        if(weight>.35&&active!=='alarm'&&active!=='time'){target.glyph=expression.glyph;target.size+=(expression.size-target.size)*weight;}
+      }
+      if((selected==='playful'||active==='playful')&&active!=='sleeping')target.lid[2]=Math.max(target.lid[2],pulse(time%4-.5,.8));
+      if(active==='sleeping'){target.lid=[1,1,1];target.gap=0;}
+      const targetLabel=presets[active].label+(selected?' · '+selected:'');
+      const easing=dirty&&paused?1:1.-Math.exp(-dt*5.5);
+      if(dirty||active!==renderedState||status.textContent!==targetLabel){
+        status.textContent=targetLabel;
+        renderedState=active;
+      }
+      for(const key of ['smile','asym','width','gap','size','shimmer','speed','brightness'])pose[key]+=(target[key]-pose[key])*easing;
+      for(const key of ['open','lid','tilt','gaze'])for(let i=0;i<pose[key].length;i++)pose[key][i]+=(target[key][i]-pose[key][i])*easing;
+      if(target.glyph!==glyphTo){glyphFrom=glyphBlend<.5?glyphFrom:glyphTo;glyphTo=target.glyph;glyphBlend=0;}
+      glyphBlend+=(1-glyphBlend)*easing;
+      timeFade+=(Number(active==='time')-timeFade)*easing;
+      speechFade+=(Number(active==='speaking')-speechFade)*easing;
+      const manual=pulse(performance.now()/1000-blinkStart,.46);
+      const slow=time%9.1;
+      const b1=pose.lid[0]+(1-pose.lid[0])*Math.max(manual,pulse(slow-5.4,.57));
+      const b2=pose.lid[1]+(1-pose.lid[1])*Math.max(manual,pulse(slow-2.6,.42),pulse(slow-7.35,.4));
+      const b3=pose.lid[2]+(1-pose.lid[2])*Math.max(manual,pulse(slow-2.67,.44),pulse(slow-7.44,.41));
+      const phrase=Math.pow(.5+.5*Math.sin(time*1.13),.8);
+      const syllable=.18+.47*Math.pow(.5+.5*Math.sin(time*8.4),2)+.35*Math.pow(.5+.5*Math.sin(time*13.1+.8),3);
+      const opening=pose.gap*(.94+.06*Math.sin(time*1.8))+speechFade*(2.+26.*phrase*syllable);
+      gl.viewport(0,0,canvas.width,canvas.height);
+      gl.uniform1f(uniforms.t,time);
+      gl.uniform3f(uniforms.blink,b1,b2,b3);
+      gl.uniform1f(uniforms.mouth,opening);
+      gl.uniform1f(uniforms.showingTime,timeFade);
+      gl.uniform3fv(uniforms.openness,pose.open);
+      gl.uniform3fv(uniforms.tilts,pose.tilt);
+      gl.uniform3f(uniforms.lips,pose.smile,pose.asym,pose.width);
+      gl.uniform4f(uniforms.stars,pose.size,pose.shimmer,pose.speed,pose.brightness);
+      gl.uniform3f(uniforms.glyphs,glyphFrom,glyphTo,glyphBlend);
+      gl.uniform2fv(uniforms.gaze,pose.gaze);
+      gl.drawArrays(gl.TRIANGLES,0,6);
+      clock.textContent=new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',hour12:false});
+      clock.style.opacity=timeFade*(1-b1);
+      clock.style.transform='translate(-50%,-50%) scaleY('+(1-b1*.9)+')';
+      canvas.dataset.state=active;canvas.dataset.ready='true';canvas.dataset.time=time.toFixed(3);
+      dirty=false;
+    }
+    function frame(now){
+      const dt=Math.min((now-last)/1000||0,.1);last=now;
+      if(reduce.matches!==lastReduced){lastReduced=reduce.matches;if(lastReduced)setPaused(true);}
+      if(!paused&&!document.hidden)time+=dt;
+      if(ready&&!document.hidden&&(!paused||dirty||now/1000-blinkStart<.6))draw(paused?0:dt);
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+    window.oraclePreview={setMode,setEmotion,setPaused,react,seek:(seconds)=>{time=seconds;stateSince=0;renderedState=mode==='demo'?renderedState:mode;dirty=true;draw(1);},getState:()=>({mode,active,emotion,reaction:reaction?.id||null,paused,time,ready,timeFade,speechFade,glyphFrom,glyphTo,glyphBlend,pose}),capture:()=>canvas.toDataURL('image/png')};
+    addEventListener('openai:set_globals',event=>{const next=event.detail?.globals?.widgetState?.modelContent?.mode;if(allowed.includes(next)){mode=next;modeControl.value=mode;dirty=true;}});
+    reduce.addEventListener('change',event=>{lastReduced=event.matches;if(event.matches)setPaused(true);});
+  }catch(e){fail(e.message);}
+})();
+</script>

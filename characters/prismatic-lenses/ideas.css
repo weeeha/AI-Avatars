@@ -9,3 +9,5 @@
   #lens-motion-ideas figcaption { display:flex; flex-direction:column; gap:2px; margin-top:8px; min-height:44px; }
   #lens-motion-ideas strong { font-weight:500; }
   @media(max-width:620px){#lens-motion-ideas .mi-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 12px;}}
+
+#lens-motion-ideas .mi-art{border:0;background:transparent;padding:0;border-radius:50%;display:block}#lens-motion-ideas figure[data-selected="true"] .mi-art{outline:2px solid var(--primary);outline-offset:3px}#lens-motion-ideas .lens-controls{margin:0 0 24px}#lens-motion-ideas canvas{pointer-events:none}

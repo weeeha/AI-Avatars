@@ -10,21 +10,34 @@ npm start
 
 Open **http://127.0.0.1:4173**. Node.js 20 or newer is required. The gallery has no runtime package dependencies, CDN requests, account requirements, or API keys. You can also open `index.html` directly.
 
+[Coverage for all 50 designs](docs/animation-coverage.md) lists the delivered states, expressions, family PRs, and validation commands.
+
 ## Included studies
 
-- **Open Skeleton:** a round ivory mechanical face with nine emotional reactions plus idle, thinking, and answering. Includes 12 silent MP4/GIF clips, generated source artwork, and prompts. [Character pack](characters/open-skeleton/README.md).
-
+- **Shape companions:** eight soft 3D-look characters, one main color each, white gloves and black boots. Each has 16 playable emotion/activity performances using local artwork deformation, plus the original four-second idle exports (MP4, GIF and WebP) and source concepts. [Animation and behavior guide](docs/shape-cast.md).
+- **Open Skeleton:** a round ivory mechanical face with 12 activities and nine emotional reactions. Includes 21 silent MP4/GIF clips, a local event simulator with interruption and reaction return, labelled system-condition fallbacks, original artwork, and local motion sources. [Character pack](characters/open-skeleton/README.md).
+- **Fragment & Third Eye:** photographic eyes with detailed iris texture, separate pupil targets, coordinated or independent gaze, eleven emotions, twenty-two statuses, and six reactions. Includes real synthetic demo speech and local browser voices for custom text. [Behavior guide](docs/fragment-faces.md).
 - **Dot flock:** a round sculpture of individually shaded blue dots, with clear gaps, curved eyelids, rounded irises, and dark pupils. Supports expressive motion, pointer disturbance, and scatter/reform.
-- **Red eye:** a red glass lens with blue reflections and an expressive luminous aperture. Both cinematic faces combine 10 activities, 10 emotions, and 6 temporary reactions. [Behavior guide](docs/cinematic-faces.md).
-- **Prismatic lenses — character states:** idle, listening, talking, thinking, writing code, and complete. Includes a demo sequence, playback speed, pause, and round/square display views.
-- **Ten motion ideas:** liquid core, twin moons, ribbon knot, hourglass, fireflies, radar sweep, helix, tide, bloom, and curious eyes.
+- **Red eye:** a red glass lens with blue reflections and an expressive luminous aperture. Both cinematic faces combine 22 activity and condition states, 11 emotions, and 6 temporary reactions. [Behavior guide](docs/cinematic-faces.md).
+- **Prismatic lenses — character states:** twelve activities and seven independent expressions, with a simulated demo, exact-pose pause, playback speed, and round/square display views.
+- **Ten motion ideas:** liquid core, twin moons, ribbon knot, hourglass, fireflies, radar sweep, helix, tide, bloom, and curious eyes. Every design supports the same twelve activities and seven expressions in the parallel comparison view. [Lens behavior guide](docs/lens-states.md).
 - **Six palettes:** prismatic, pink, cyan, lilac, amber, and mint, shared across both studies.
+- **[Oracle](characters/oracle/README.md):** a three-eyed white statue with 34 expression, assistant, and clock modes with a separate emotion layer. Shimmering stars change into hearts, crescents, diamonds, pulses, and orbiting lights. Includes artwork, a character manifest, and generation provenance.
 
-The procedural studies are original browser-rendered concepts based on supplied visual references. Open Skeleton uses locally assembled, generated keyframes with a stop-motion character. Talking uses simulated timing; the studies are not connected to live speech, a microphone, an agent, or physical hardware. Reduced-motion settings start the previews paused.
+The procedural studies are original browser-rendered concepts based on supplied visual references. Open Skeleton preserves its generated keyframe clips and adds nine locally articulated activities using the original face artwork. Fragment and Third Eye include synthetic voice playback; their demo mouth motion follows audio amplitude and custom phrases use approximate speech timing. Shape companions animate their original artwork locally and preserve the original idle exports. Other studies simulate talking. The studies are not connected to a microphone, an agent, or physical hardware. Reduced-motion settings start the previews paused.
+
+## Abstract character families
+
+- **Seven luminous faces:** Constellation, Halo, Prism, Knot, Portal, Sun, and Pulse.
+- **Sixteen core eyes:** Wheatley through Aperture, with their original iris motifs, optional housing, and clock time.
+- **Assistant iris ring:** detailed branching fibres, dark pupil, and seven palettes.
+- **Procedural fractal presence:** dense recursive red, blue, and white plumes.
+
+Every one of these 25 designs combines 12 activities with seven independent expressions. Waiting, input, error, completion, waking and sleep have entry/hold/exit behavior. Controls include a simulated demo, interruption, recovery, temporary acknowledgment, live reduced-motion support, and labeled operational fallbacks. [Behavior and individual design guide](docs/abstract-characters.md).
 
 ## Edit
 
-The editable sources are listed in `catalog.json` under `studies/`. Each includes its markup, styling, and animation logic. `studies/cinematic-faces.fragment.html` contains Dot flock and Red eye; the lens studies include their WebGL shaders.
+The editable sources are listed in `catalog.json` under `studies/`. Each includes its markup, styling, and animation logic. `studies/cinematic-faces.fragment.html` contains Dot flock and Red eye; the lens studies include their WebGL shaders. Oracle's editable source is `studies/oracle.fragment.html`, with character assets and documentation in `characters/oracle/`.
 
 ```sh
 npm run build
@@ -41,7 +54,7 @@ npx playwright install chromium
 npm test
 ```
 
-The smoke check loads both standalone studies, checks graphics initialization, state/palette switching, animation playback, local preference persistence, reduced motion, and narrow-screen layout. `npm run check` also confirms that generated files are current and have no machine-specific paths or conversation-host API calls.
+The smoke checks exercise gallery links, graphics initialization, state and emotion performances, animation playback, interruption and return, local preferences, reduced motion, narrow-screen layout, photographic pupil confinement, and explicit voice playback. `npm run check` verifies current portable generated previews.
 
 ## Add characters
 

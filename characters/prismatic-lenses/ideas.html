@@ -2,28 +2,22 @@
 <html lang="en">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><title>Ten motion ideas · AI Avatars</title><link rel="stylesheet" href="../../assets/preview.css"><link rel="stylesheet" href="ideas.css"></head>
 <body><main class="page"><nav class="page-nav" aria-label="Gallery navigation"><a href="../../index.html">← AI Avatars</a><span class="page-title">Ten motion ideas</span></nav>
-<div id="lens-motion-ideas" aria-label="Ten animated ideas inside the SuperClock lens grid">
-  <div class="mi-controls viz-controls">
-    <label class="form-label" for="mi-palette">Palette<select id="mi-palette" class="form-select" aria-label="Palette"><option value="0">Prismatic</option><option value="1">Pink</option><option value="2">Cyan</option><option value="3">Lilac</option><option value="4">Amber</option><option value="5">Mint</option></select></label>
-    <label class="form-label" for="mi-speed"><span class="mi-speed-label">Motion <output class="tabular-nums" for="mi-speed">1.75×</output></span><input id="mi-speed" class="form-range" type="range" min="0.25" max="2" step="0.05" value="1.75"></label>
-    <button type="button" class="btn" data-play aria-label="Pause all animations">Pause all</button>
-  </div>
-  <div class="mi-gallery">
+<link rel="stylesheet" href="../../assets/lens-performance.css">
+<div id="lens-motion-ideas">  <div class="mi-gallery">
     <canvas role="img" aria-label="Ten animated circular displays: liquid core, twin moons, ribbon knot, hourglass, fireflies, radar sweep, helix, tide, bloom and curious eyes.">Ten motion concepts rendered through a fixed circular lens grid.</canvas>
     <div class="mi-grid">
-      <figure><div class="mi-art" data-idea="0"></div><figcaption><strong>01 · Liquid core</strong><span class="text-small text-muted">Merge, stretch, separate</span></figcaption></figure>
-      <figure><div class="mi-art" data-idea="1"></div><figcaption><strong>02 · Twin moons</strong><span class="text-small text-muted">Passing eclipses</span></figcaption></figure>
-      <figure><div class="mi-art" data-idea="2"></div><figcaption><strong>03 · Ribbon knot</strong><span class="text-small text-muted">Weaving light</span></figcaption></figure>
-      <figure><div class="mi-art" data-idea="3"></div><figcaption><strong>04 · Hourglass</strong><span class="text-small text-muted">Pour, fill, turn</span></figcaption></figure>
-      <figure><div class="mi-art" data-idea="4"></div><figcaption><strong>05 · Fireflies</strong><span class="text-small text-muted">Gather and scatter</span></figcaption></figure>
-      <figure><div class="mi-art" data-idea="5"></div><figcaption><strong>06 · Radar sweep</strong><span class="text-small text-muted">Search and discover</span></figcaption></figure>
-      <figure><div class="mi-art" data-idea="6"></div><figcaption><strong>07 · Helix</strong><span class="text-small text-muted">Two climbing strands</span></figcaption></figure>
-      <figure><div class="mi-art" data-idea="7"></div><figcaption><strong>08 · Tide</strong><span class="text-small text-muted">A shifting liquid horizon</span></figcaption></figure>
-      <figure><div class="mi-art" data-idea="8"></div><figcaption><strong>09 · Bloom</strong><span class="text-small text-muted">Open and fold</span></figcaption></figure>
-      <figure><div class="mi-art" data-idea="9"></div><figcaption><strong>10 · Curious eyes</strong><span class="text-small text-muted">Look, follow, blink</span></figcaption></figure>
+      <figure><button type="button" class="mi-art" data-idea="0" aria-label="Highlight Liquid core"></button><figcaption><strong>01 · Liquid core</strong><span class="text-small text-muted">Merge, stretch, separate</span></figcaption></figure>
+      <figure><button type="button" class="mi-art" data-idea="1" aria-label="Highlight Twin moons"></button><figcaption><strong>02 · Twin moons</strong><span class="text-small text-muted">Passing eclipses</span></figcaption></figure>
+      <figure><button type="button" class="mi-art" data-idea="2" aria-label="Highlight Ribbon knot"></button><figcaption><strong>03 · Ribbon knot</strong><span class="text-small text-muted">Weaving light</span></figcaption></figure>
+      <figure><button type="button" class="mi-art" data-idea="3" aria-label="Highlight Hourglass"></button><figcaption><strong>04 · Hourglass</strong><span class="text-small text-muted">Pour, fill, turn</span></figcaption></figure>
+      <figure><button type="button" class="mi-art" data-idea="4" aria-label="Highlight Fireflies"></button><figcaption><strong>05 · Fireflies</strong><span class="text-small text-muted">Gather and scatter</span></figcaption></figure>
+      <figure><button type="button" class="mi-art" data-idea="5" aria-label="Highlight Radar sweep"></button><figcaption><strong>06 · Radar sweep</strong><span class="text-small text-muted">Search and discover</span></figcaption></figure>
+      <figure><button type="button" class="mi-art" data-idea="6" aria-label="Highlight Helix"></button><figcaption><strong>07 · Helix</strong><span class="text-small text-muted">Two climbing strands</span></figcaption></figure>
+      <figure><button type="button" class="mi-art" data-idea="7" aria-label="Highlight Tide"></button><figcaption><strong>08 · Tide</strong><span class="text-small text-muted">A shifting liquid horizon</span></figcaption></figure>
+      <figure><button type="button" class="mi-art" data-idea="8" aria-label="Highlight Bloom"></button><figcaption><strong>09 · Bloom</strong><span class="text-small text-muted">Open and fold</span></figcaption></figure>
+      <figure><button type="button" class="mi-art" data-idea="9" aria-label="Highlight Curious eyes"></button><figcaption><strong>10 · Curious eyes</strong><span class="text-small text-muted">Look, follow, blink</span></figcaption></figure>
     </div>
   </div>
-  <p class="text-destructive" role="alert" hidden data-error></p>
-  <span class="sr-only" aria-live="polite" data-status></span>
-</div>
+<p data-error role="alert" hidden></p></div>
+<script src="../../assets/lens-performance.js"></script>
 </main><script src="../../assets/preview-state.js"></script><script src="ideas.js"></script></body></html>
