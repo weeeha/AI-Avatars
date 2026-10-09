@@ -1,7 +1,7 @@
 [
   {
     "id": "prismatic-lenses",
-    "title": "Prismatic lenses — character states",
+    "title": "Prismatic lenses \u2014 character states",
     "source": "studies/prismatic-lenses.fragment.html",
     "output": "characters/prismatic-lenses/index",
     "rootId": "prismatic-dots",
@@ -14,5 +14,22 @@
     "output": "characters/prismatic-lenses/ideas",
     "rootId": "lens-motion-ideas",
     "api": "motionIdeasPreview"
+  },
+  {
+    "id": "cinematic-faces",
+    "title": "Dot flock & Red eye",
+    "source": "studies/cinematic-faces.fragment.html",
+    "output": "characters/cinematic-faces/index",
+    "rootId": "superclock-cinematic-faces",
+    "characters": [
+      {
+        "id": "eidolon",
+        "name": "Dot flock"
+      },
+      {
+        "id": "lens",
+        "name": "Red eye"
+      }
+    ]
   }
 ]

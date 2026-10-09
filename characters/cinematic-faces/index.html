@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><title>Dot flock &amp; Red eye · AI Avatars</title><link rel="stylesheet" href="../../assets/preview.css"><link rel="stylesheet" href="index.css"></head>
+<body><main class="page"><nav class="page-nav" aria-label="Gallery navigation"><a href="../../index.html">← AI Avatars</a><span class="page-title">Dot flock &amp; Red eye</span></nav>
+<div id="superclock-cinematic-faces">
+  <div class="viz-controls">
+    <label class="form-label" for="cinema-character">Character<select class="form-select" id="cinema-character"></select></label>
+    <label class="form-label" for="cinema-state">Activity
+      <select class="form-select" id="cinema-state">
+        <option value="idle">Idle</option>
+        <option value="waking">Waking up</option>
+        <option value="listening">Listening</option>
+        <option value="thinking">Thinking</option>
+        <option value="speaking">Speaking · simulated voice</option>
+        <option value="searching">Searching</option>
+        <option value="remembering">Remembering</option>
+        <option value="success">Got it!</option>
+        <option value="error">Something went wrong</option>
+        <option value="sleeping">Sleeping</option>
+      </select>
+    </label>
+    <label class="form-label" for="cinema-emotion">Emotion
+      <select class="form-select" id="cinema-emotion">
+        <option value="calm">Calm</option>
+        <option value="happy" selected>Happy</option>
+        <option value="curious">Curious</option>
+        <option value="focused">Focused</option>
+        <option value="surprised">Surprised</option>
+        <option value="worried">Worried</option>
+        <option value="sad">Sad</option>
+        <option value="annoyed">Annoyed</option>
+        <option value="playful">Playful</option>
+        <option value="sleepy">Sleepy</option>
+      </select>
+    </label>
+  </div>
+  <div class="viz-controls" style="margin-bottom:12px">
+    <label class="form-label" for="cinema-reaction">Reaction
+      <select class="form-select" id="cinema-reaction">
+        <option value="nod">Nod yes</option>
+        <option value="shake">Shake no</option>
+        <option value="wink">Wink</option>
+        <option value="laugh">Laugh</option>
+        <option value="surprise">Startled</option>
+        <option value="celebrate">Celebrate</option>
+      </select>
+    </label>
+    <button type="button" class="btn" id="cinema-react">Play reaction</button>
+  </div>
+  <div class="viz-controls" style="margin-bottom:16px">
+    <button type="button" class="btn btn-primary" id="cinema-demo">Play conversation</button>
+    <span id="cinema-scatter-slot"><button type="button" class="btn" id="cinema-scatter">Scatter &amp; reform</button></span>
+    <button type="button" class="btn" id="cinema-pause" aria-pressed="false">Pause motion</button>
+  </div>
+  <div class="character-stage" aria-label="Animated character preview">
+    <section data-variant="01 · Dot flock" aria-label="Dot flock · a face of moving blue dots">
+      <div class="cinema-stage"><button type="button" class="cinema-display cursor-interaction" aria-label="Wake Eidolon">
+        <canvas width="900" height="900" data-face="eidolon" role="img" aria-label="Glowing blue dots flock through a three-dimensional face, separate around the pointer, scatter, and reform while the face speaks"></canvas>
+      </button></div>
+    </section>
+    <section data-variant="02 · Red eye" aria-label="Red eye · glowing glass lens" hidden>
+      <div class="cinema-stage"><button type="button" class="cinema-display cursor-interaction" aria-label="Wake Red eye">
+        <canvas width="900" height="900" data-face="lens" role="img" aria-label="A deep red glass lens with cold blue reflections, a bright amber core, and speech-driven light pulses"></canvas>
+      </button></div>
+    </section>
+  </div>
+  <div class="viz-controls tuning"><label class="form-label" for="cinema-glow">Glow<input class="form-range" id="cinema-glow" type="range" min="0.4" max="1.6" step="0.05" value="1"></label><label class="form-label" for="cinema-motion">Motion strength<input class="form-range" id="cinema-motion" type="range" min="0.4" max="1.6" step="0.05" value="1"></label></div>
+  <div class="text-small" id="cinema-caption" aria-live="polite" style="text-align:center;margin-top:12px">Idle · tap the face to wake</div>
+</div>
+</main><script src="../../assets/preview-state.js"></script><script src="index.js"></script></body></html>

@@ -1,0 +1,38 @@
+:root {
+  color-scheme: dark;
+  font: 15px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #e6e8ee;
+  background: #101114;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+
+header { margin-bottom: 26px; }
+h1 { font-size: 28px; line-height: 1.2; font-weight: 500; margin: 8px 0 0; }
+.eyebrow { font-size: 11px; letter-spacing: .13em; color: #a2a6b2; margin: 0; }
+.viz-controls { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; margin-bottom: 16px; }
+.form-label { flex: 1 1 180px; display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #b9beca; }
+.form-select, .btn { font: inherit; font-size: 14px; color: #e6e8ee; border: 1px solid #3c414d; border-radius: 8px; background: #22252d; min-height: 44px; padding: 10px 12px; }
+.form-select { width: 100%; }
+.btn { cursor: pointer; }
+.btn:hover { background: #30343e; }
+.btn-primary { background: #e6e8ee; border-color: #e6e8ee; color: #14161c; }
+.btn-primary:hover { background: #fff; }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid #96bcff; outline-offset: 4px; }
+.form-range { width: 100%; min-height: 24px; accent-color: #a3caff; }
+.tuning { margin: 18px auto 12px; max-width: 480px; }
+.character-stage { background-image: radial-gradient(#ffffff15 1px, transparent 1px); background-size: 16px 16px; }
+.cinema-stage { display: flex; align-items: center; justify-content: center; padding: 24px 12px; }
+.cinema-display { display: block; padding: 0; border: 0; width: min(100%, 480px); aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: #000; box-shadow: 0 0 0 1px #273038; cursor: pointer; }
+canvas { display: block; width: 100%; height: 100%; background: #000; }
+[hidden] { display: none !important; }
+.text-small, footer { font-size: 12px; color: #a2a6b2; }
+footer { text-align: center; margin-top: 26px; line-height: 1.7; }
+@media (max-width: 520px) {
+  main { padding: 24px 16px; }
+  .form-label { flex-basis: 100%; }
+  .form-select { font-size: 16px; }
+  .cinema-stage { padding: 18px 6px; }
+  .tuning .form-label { flex-basis: 120px; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }

@@ -1,6 +1,6 @@
 # AI Avatars
 
-A home for interactive character and animation studies. The first collection explores light and movement beneath a fixed grid of circular glass lenses, designed to read on a round display.
+A home for interactive character and animation studies designed to read on a round display.
 
 ## Run the gallery
 
@@ -12,6 +12,8 @@ Open **http://127.0.0.1:4173**. Node.js 20 or newer is required. The gallery has
 
 ## Included studies
 
+- **Dot flock:** a round blue particle face with curved eyelids, spherical eye surfaces, rounded irises, dark pupils, and independent flocking dots. Supports pointer disturbance and scatter/reform.
+- **Red eye:** a red glass lens with blue reflections and an expressive luminous aperture. Both cinematic faces combine 10 activities, 10 emotions, and 6 temporary reactions. [Behavior guide](docs/cinematic-faces.md).
 - **Prismatic lenses — character states:** idle, listening, talking, thinking, writing code, and complete. Includes a demo sequence, playback speed, pause, and round/square display views.
 - **Ten motion ideas:** liquid core, twin moons, ribbon knot, hourglass, fireflies, radar sweep, helix, tide, bloom, and curious eyes.
 - **Six palettes:** prismatic, pink, cyan, lilac, amber, and mint, shared across both studies.
@@ -20,14 +22,14 @@ These are original browser-rendered concepts based on supplied visual references
 
 ## Edit
 
-The editable sources are `studies/prismatic-lenses.fragment.html` and `studies/lens-motion-ideas.fragment.html`. Each includes its markup, styling, animation logic, and shaders.
+The editable sources are listed in `catalog.json` under `studies/`. Each includes its markup, styling, and animation logic. `studies/cinematic-faces.fragment.html` contains Dot flock and Red eye; the lens studies include their WebGL shaders.
 
 ```sh
 npm run build
 npm run check
 ```
 
-The build writes ordinary HTML, CSS, and JavaScript to `characters/prismatic-lenses/`. These generated files are committed so the gallery can run immediately. The small local-state adapter in `assets/preview-state.js` replaces the conversation host's state bridge; palette and playback choices are saved in the browser when storage is available.
+The build writes ordinary HTML, CSS, and JavaScript to each family's folder under `characters/`. These generated files are committed so the gallery can run immediately. Preferences are saved locally when browser storage is available. Dot flock and Red eye share their own character, activity, emotion, reaction, and tuning settings.
 
 ## Browser verification
 
