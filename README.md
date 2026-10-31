@@ -1,5 +1,13 @@
 # AI Avatars
 
+**Problem.** An assistant shown on a round display has to read at a glance: what it is doing (listening, thinking, working, waiting, error) and how it feels.
+
+**Idea.** One contract for every design: 12 activities and seven independent expressions, so any of the 50 characters can be compared on the same states.
+
+**Built.** A gallery of 50 interactive character studies, built to plain HTML, CSS and JavaScript with no runtime dependencies, CDN requests or API keys. They are standalone previews, not connected to a microphone, an agent or a physical round display. 38 commits on 1 day, Oct 9, 2026.
+
+**Decision.** Activity is shown by changing geometry, pupil opening, gaze or field deformation, and colour alone never represents an activity. That keeps a state readable across the six shared palettes.
+
 A home for interactive character and animation studies designed to read on a round display.
 
 ![The AI Avatars gallery listing Open Skeleton, Fragment, Third Eye and Dot flock](docs/screenshots/gallery.webp)
